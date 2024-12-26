@@ -2,46 +2,51 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
+# Programación 2024 - 2025
 
-## Getting Started
+En este repositorio encontraréis todo el material que iremos viendo durante el curso 2024 - 2025. 
 
-Get started by **creating a new site**.
+El repo servirá básicamente de guía y de enlaces a ejercicios en este mismo repositorio u otros repositorios con proyectos y ejercicios que iremos viendo en clase, o pequeños tutoriales y cursos para ir aprendiendo diferentes conceptos.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Comenzaremos programando en Python para aprender las bases mientras vamos introduciendo alguna diferencia y similutud con Java, lenguaje con el que terminaremos el curso y al que nos pasaremos en cuanto introduzcamos la programación orientada a objetos o POO.
 
-### What you'll need
+## Temario
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+1. [Algoritmos y tipos de datos](/tema1/)
+2. [Técnicas de diseño de programas](/tema2)
+3. [Tipos de datos estructurados](/tema3)
+4. [Introducción a la Programación Orientada a Objetos (POO)](/tema4)
+5. [Composición, Herencia y Polimorfismo (POO II)](/tema5)
+6. [Flujos de datos y Control de Excepciones](/tema6)
+7. [Conexión con Bases de Datos](/tema7)
 
-## Generate a new site
+## Apuntes y material extra
 
-Generate a new Docusaurus site using the **classic template**.
+### Python
 
-The classic template will automatically be added to your project after you run the command:
+- [Hello World en Python](hello-world.py)
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+### Java
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+- [Hello World en Java](HelloWorld.java)
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+## Enlaces externos de interés y contenido offtopic
 
-## Start your site
+- [Retos de programación para practicar](https://github.com/mouredev/retos-programacion-2023)
 
-Run the development server:
+### Python
 
-```bash
-cd my-website
-npm run start
-```
+- [Documentación oficial de Python](https://docs.python.org/3/)
+- [Curso Python Edube.org](https://edube.org/study/pe1)
+- [Test en Python](./offtopic/tests_en_Python/)
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+### Java
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+- [Curso Java para principiantes en Codecademy](https://www.codecademy.com/learn/learn-java)
+- [Documentación oficial de Java](https://docs.oracle.com/en/java/javase/22/docs/api/index.html)
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+### Offtopic
+
+- [Memes de coders](./offtopic/memes/)
+- [Artículos interesantes](./offtopic/articles)

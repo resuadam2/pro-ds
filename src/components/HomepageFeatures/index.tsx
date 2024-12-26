@@ -10,32 +10,30 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Apuntes y ejemplos',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Apuntes de teoría y ejemplos prácticos para entender los conceptos.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Ejercicios prácticos',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Todos los ejercicios que vamos planteando y realizando en clase resueltos paso a paso.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Vídeos explicativos',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Encontrarás vídeos explicativos en mi canal de YouTube.<br />
+        <a href="https://www.youtube.com/@resuadam2">¡Suscríbete!</a>
       </>
     ),
   },
