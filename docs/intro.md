@@ -13,23 +13,36 @@ Comenzaremos programando en Python para aprender las bases mientras vamos introd
 
 ## Temario
 
-1. [Algoritmos y tipos de datos](/tema1/)
-2. [Técnicas de diseño de programas](/tema2)
-3. [Tipos de datos estructurados](/tema3)
-4. [Introducción a la Programación Orientada a Objetos (POO)](/tema4)
-5. [Composición, Herencia y Polimorfismo (POO II)](/tema5)
-6. [Flujos de datos y Control de Excepciones](/tema6)
-7. [Conexión con Bases de Datos](/tema7)
+1. [Algoritmos y tipos de datos](./tema1/)
+2. [Técnicas de diseño de programas](./tema2/)
+3. [Tipos de datos estructurados](./tema3/)
+4. [Introducción a la Programación Orientada a Objetos (POO)](./tema4/)
+5. [Composición, Herencia y Polimorfismo (POO II)]
+6. [Flujos de datos y Control de Excepciones]
+7. [Conexión con Bases de Datos]
 
 ## Apuntes y material extra
 
 ### Python
 
-- [Hello World en Python](hello-world.py)
+Hello World en Python:
+
+```python
+print("Hello world")
+```
 
 ### Java
 
-- [Hello World en Java](HelloWorld.java)
+Hello World en Java:
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+```
+
 
 ## Enlaces externos de interés y contenido offtopic
 
