@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Programación',
   tagline: 'Página del módulo con la documentación y los ejemplos del curso',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon_io/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
@@ -74,7 +74,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/resuadam2/pro-ds',
+          href: 'https://github.com/resuadam2',
           label: 'GitHub',
           position: 'right',
         },
@@ -101,7 +101,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/resuadam2/pro-ds',
+              href: 'https://github.com/resuadam2',
             },
             {
               label: 'YouTube',
@@ -110,7 +110,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} resuadam2. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} resuadam2 by Daniel Resúa.<br>Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
