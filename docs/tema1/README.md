@@ -15,10 +15,10 @@ Veremos también típicas soluciones a ejercicios básicos, problemas de convers
 
 - [Estructuras básicas de programación](./apuntes_y_ejemplos/estructuras_basicas.py)
 - [Operadores básicos de Python](./apuntes_y_ejemplos/operadores_basicos.py)
-- [Las sentencias break y continue](./apuntes_y_ejemplos/ejemplo_break_continue.py)
+- [Las sentencias break y continue](./apuntes_y_ejemplos/ejemplo_break_continue.md)
 - [Funciones básicas con cadenas](./apuntes_y_ejemplos/funciones_basicas_con_cadenas.py)
-- [Comprobando tipos de datos](./apuntes_y_ejemplos/comprobadores_tipos.py)
-- [Ejercicio bucles y letras grandes - ejemplo "U"](apuntes_y_ejemplos/ercicio_tipo_examen.py)
+- [Comprobando tipos de datos](./apuntes_y_ejemplos/comprobadores_tipos.md)
+- [Ejercicio bucles y letras grandes - ejemplo "U"](apuntes_y_ejemplos/ercicio_tipo_examen.mdx)
 - [Ejemplo de una posible solución del examen](./solucionario/sol_examen_ud1.py)
 
 ## Enunciados ejercicios
