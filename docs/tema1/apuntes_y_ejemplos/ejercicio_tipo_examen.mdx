@@ -1,17 +1,21 @@
-# Realizar un algoritmo que pinte la letra U por pantalla hecha con asteriscos.
-# El programa pedirá la altura. 
-# Fíjate que el programa inserta un espacio y pinta dos asteriscos menos en la base
-# para simular la curvatura de la letra.
-# Es importante indicar al usuario que la altura mínima debe ser de 4.
-# 
+# Ejercicio tipo examen
+
+Realizar un algoritmo que pinte la letra U por pantalla hecha con asteriscos.
+El programa pedirá la altura. 
+Fíjate que el programa inserta un espacio y pinta dos asteriscos menos en la base
+para simular la curvatura de la letra.
+Es importante indicar al usuario que la altura mínima debe ser de 4.
+
+```plaintext
 # Ejemplo 1:
 # Introduzca la altura de la U: 5
-# 
+ 
 # *     *
 # *     *
 # *     *
 # *     *
 #   *** 
+
 # Ejemplo 2:
 
 # Introduzca la altura de la U: 4
@@ -20,9 +24,11 @@
 # *    *
 # *    *
 #   **
+```
 
-# Solución:
-
+<details>
+  <summary>Solución</summary>
+```python
 altura = int(input("Introduzca la altura de la U: "))
 
 if altura < 4:
@@ -34,9 +40,14 @@ else:
         else: # Si estamos en el resto de la letra
             print(" *" + " " * (altura) + "*")
 print("Fin del programa") # Mostramos el mensaje de fin de programa
+```
 
-# Solución usando else sin el if:
+</details>
 
+<details>
+  <summary>Solución usando else sin el if</summary>
+  
+```python
 altura = int(input("Introduzca la altura de la U: "))
 
 if altura < 4:
@@ -48,3 +59,5 @@ else:
     else: # Si estamos en la base
         print("   " + "*" * (altura - 2))
 print("Fin del programa") # Mostramos el mensaje de fin de programa
+```
+</details>
