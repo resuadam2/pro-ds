@@ -1,3 +1,5 @@
+# Funciones básicas con cadenas de caracteres (string)
+
 ## Funciones *isdigit*(), *isalpha*(), *isalnum*()
 
 Las funciones *isdigit*(), *isalpha*() e *isalnum*() se utilizan para comprobar si una cadena contiene solo dígitos, letras o caracteres alfanuméricos.
