@@ -125,7 +125,12 @@ const config: Config = {
        hashed: true,
      }),
   ],
+
+  
 ],
+
+
 };
+
 
 export default config;
