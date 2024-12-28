@@ -63,7 +63,7 @@ const config: Config = {
       title: 'Programación',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/main/logo.svg',
       },
       items: [
         {

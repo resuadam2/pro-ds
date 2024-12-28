@@ -11,7 +11,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Apuntes y ejemplos',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/main/left.svg').default,
     description: (
       <>
         Apuntes de teoría y ejemplos prácticos para entender los conceptos.
@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Ejercicios prácticos',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/main/center.svg').default,
     description: (
       <>
         Todos los ejercicios que vamos planteando y realizando en clase resueltos paso a paso.
@@ -29,7 +29,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Vídeos explicativos',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img//main/right.svg').default,
     description: (
       <>
         Encontrarás vídeos explicativos en mi canal de YouTube.<br />
