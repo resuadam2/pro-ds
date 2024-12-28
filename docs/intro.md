@@ -61,5 +61,4 @@ public class HelloWorld {
 
 ### Offtopic
 
-- [Memes de coders](./offtopic/memes/)
-- [Artículos interesantes](./offtopic/articles)
+- [Contenido Offtopic](./offtopic/README.md)

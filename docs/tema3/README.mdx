@@ -6,17 +6,19 @@ También vemos otras 3 nuevas estructuras de datos básicas de Python pero exist
 
 ## Apuntes y ejemplos
 
-- [Captura de excepciones en Python (bloques try-except y derivados)](./apuntes_y_ejemplos/try_except.py)
-- [Tuplas en Python](./apuntes_y_ejemplos/tuplas.py)
-- [Diccionarios en Python](./apuntes_y_ejemplos/diccionarios.py)
-- [Conjuntos en Python](./apuntes_y_ejemplos/conjuntos.py)
-- [Ejemplo usos de random en Python](./apuntes_y_ejemplos/uso_random.py)
-- [Ejemplo de una posible solución del examen](./solucionario/sol_examen_ud3.py)
+- [Captura de excepciones en Python (bloques try-except y derivados)](./apuntes_y_ejemplos/try_except.mdx)
+- [Tuplas en Python](./apuntes_y_ejemplos/tuplas.mdx)
+- [Diccionarios en Python](./apuntes_y_ejemplos/diccionarios.mdx)
+- [Conjuntos en Python](./apuntes_y_ejemplos/conjuntos.mdx)
+- [Ejemplo usos de random en Python](./apuntes_y_ejemplos/uso_random.mdx)
+- [Ejemplo de una posible solución del examen - descarga directa](./solucionario/sol_examen_ud3.py)
 
 
 ## Enunciados ejercicios
 
-*Nota*: En todos los ejercicios debe hacerse una captura de las posibles excepciones.
+:::note*Nota*:
+En todos los ejercicios debe hacerse una captura de las posibles excepciones.
+:::
 
 ### Ejercicios de control de excepciones
 
@@ -28,6 +30,13 @@ También vemos otras 3 nuevas estructuras de datos básicas de Python pero exist
 6. Escribir una función que reciba un diccionario y una clave y devuelva el valor asociado a la clave. Si la clave no existe debe devolver un mensaje de error.  
 7. Escribir una función que reciba una lista de números y devuelva el número más grande. Si la lista está vacía debe devolver un mensaje de error.   
 
+<details>
+  <summary>Ver soluciones del bloque de Control de Excepciones</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ejersExcepciones').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicios de uso de Conjuntos (set)
 
 1. Escribir una función que reciba dos conjuntos y devuelva un conjunto con los elementos que están en ambos conjuntos.
@@ -37,6 +46,13 @@ También vemos otras 3 nuevas estructuras de datos básicas de Python pero exist
 5. Escribir una función que reciba una lista de palabras y devuelva un conjunto con las palabras que tienen más de n caracteres. 
 6. Escribir una función que dadas dos palabras devuelva un conjunto con las letras que tienen en común.
 7. Escribir una función que reciba dos listas y nos diga si la primera lista está contenida en la segunda o no, utiliza operadores de conjuntos para ello.
+
+<details>
+  <summary>Ver soluciones del bloque de Conjuntos</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ejersConjuntos.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicios de uso de Tuplas
 
@@ -48,6 +64,13 @@ También vemos otras 3 nuevas estructuras de datos básicas de Python pero exist
 6. Escribir una función que reciba una tupla de números y devuelva su máximo y su mínimo.  
 7. Escribir una función que reciba una tupla de números y devuelva su media y su varianza. 
 8. Escribir una función que reciba una tupla de números y devuelva la tupla con sus elementos ordenados de menor a mayor.
+
+<details>
+  <summary>Ver solucions del bloque de Tuplas</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ejersTuplas.py').default}
+   </CodeBlock>
+</details>
   
 ### Ejercicios de uso de Diccionarios
 
@@ -68,7 +91,14 @@ También vemos otras 3 nuevas estructuras de datos básicas de Python pero exist
 6. Escribir una función que reciba una lista de palabras y devuelva un diccionario con las palabras como claves y su longitud como valor.
 7. Escribir una función que reciba una lista de palabras y devuelva un diccionario con las palabras como claves y el número de veces que aparecen como valor.
 
-## Solucionario
+<details>
+  <summary>Ver soluciones del bloque de Diccionarios</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ejersDiccionarios.py').default}
+   </CodeBlock>
+</details>
+
+## Solucionario - Enlaces de descarga directa
 
 1. [Ejercicios control de excepciones](./solucionario/ejersExcepciones.py)
 2. [Ejercicios con Conjuntos](./solucionario/ejersConjuntos.py)

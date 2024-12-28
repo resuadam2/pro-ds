@@ -1,20 +1,26 @@
 # Tuplas en Python
 
-# Las tuplas son una estructura de datos similar a las listas, pero con la diferencia de que son inmutables, 
-# es decir, no se pueden modificar una vez creadas. 
-# Se crean con paréntesis y los elementos se separan por comas.
-# Las tuplas son más rápidas que las listas y ocupan menos espacio en memoria.
-# Se pueden acceder a los elementos de una tupla mediante su índice, igual que en las listas.
-# Las tuplas pueden contener elementos de diferentes tipos.
-# Las tuplas pueden contener otras tuplas.
-# Las tuplas pueden contener listas.
-# Las tuplas pueden contener diccionarios.
-# Las tuplas pueden contener conjuntos.
-# Las tuplas pueden contener cualquier combinación de los tipos de datos anteriores.
-# Las tuplas pueden contener elementos duplicados.
-# Las tuplas pueden contener elementos nulos.
-# Las tuplas pueden contener elementos vacíos.
+:::info[Video explicativo en YT]
+[![Tuplas en Python](https://www.youtube.com/watch?v=FyjFKUR8ZzI&list=PLgqNF1r2jtYxuVoBoXA6AuzmXZHpC17UO&index=10)](https://www.youtube.com/watch?v=FyjFKUR8ZzI&list=PLgqNF1r2jtYxuVoBoXA6AuzmXZHpC17UO&index=10)
+:::
 
+Las tuplas son una estructura de datos similar a las listas, pero con la diferencia de que son inmutables, es decir, no se pueden modificar una vez creadas. 
+
+Se crean con paréntesis y los elementos se separan por comas.
+- Las tuplas son más rápidas que las listas y ocupan menos espacio en memoria.
+- Se pueden acceder a los elementos de una tupla mediante su índice, igual que en las listas.
+- Las tuplas pueden contener elementos de diferentes tipos.
+- Las tuplas pueden contener otras tuplas.
+- Las tuplas pueden contener listas.
+- Las tuplas pueden contener diccionarios.
+- Las tuplas pueden contener conjuntos.
+- Las tuplas pueden contener cualquier combinación de los tipos de datos anteriores.
+- Las tuplas pueden contener elementos duplicados.
+- Las tuplas pueden contener elementos nulos.
+- Las tuplas pueden contener elementos vacíos.
+
+## Creación de tuplas
+```python
 # Crear una tupla vacía
 tupla_vacia = ()
 print(tupla_vacia)
@@ -50,7 +56,9 @@ print(tupla_diccionarios)
 # Crear una tupla con conjuntos
 tupla_conjuntos = ({1, 2}, {3, 4}, {5, 6})
 print(tupla_conjuntos)
-
+```
+## Acceso a los elementos de una tupla
+```python
 # Acceso a los elementos de una tupla
 tupla = (1, 2, 3, 4, 5)
 
@@ -68,7 +76,9 @@ print(tupla[0:5:2])
 
 # Acceder a un rango de elementos con saltos negativos
 print(tupla[5:0:-2])
-
+```
+## Operaciones con tuplas
+```python
 # Las tuplas son inmutables, no se pueden modificar
 tupla = (1, 2, 3, 4, 5)
 
@@ -121,7 +131,9 @@ print(1 in tupla1)
 
 # Comprobar si un elemento no está en la tupla
 print(1 not in tupla1)
-
+```
+## Iterar sobre una tupla
+```python
 # Iterar sobre una tupla
 for elemento in tupla1:
     print(elemento)
@@ -135,7 +147,10 @@ print(a, b, c)
 tupla = (1, 2, 3, 4, 5)
 a, b, *c = tupla
 print(a, b, c) # c es una lista
+```
 
+## Conversiones entre listas, tuplas y cadenas
+```python
 # Convertir una lista en una tupla usando la función tuple()
 lista = [1, 2, 3, 4, 5]
 tupla = tuple(lista)
@@ -155,3 +170,4 @@ print(tupla)
 tupla = ('h', 'o', 'l', 'a')
 cadena = ''.join(tupla)
 print(cadena)
+```
