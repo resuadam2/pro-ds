@@ -1,21 +1,26 @@
 # Diccionarios en Python
 
-# Los diccionarios son una estructura de datos que permite almacenar pares clave-valor.
-# Se crean con llaves y los elementos se separan por comas.
-# Los diccionarios son mutables, es decir, se pueden modificar una vez creados.
-# Los diccionarios no permiten claves duplicadas.
-# Los diccionarios no permiten claves nulas.
-# Los diccionarios no permiten claves vacías.
-# Los diccionarios permiten valores duplicados.
-# Los diccionarios permiten valores nulos.
-# Los diccionarios permiten valores vacíos.
-# Los diccionarios pueden contener cualquier tipo de dato.
-# Los diccionarios pueden contener diccionarios.
-# Los diccionarios pueden contener listas.
-# Los diccionarios pueden contener tuplas.
-# Los diccionarios pueden contener conjuntos.
-# Los diccionarios pueden contener cualquier combinación de los tipos de datos anteriores.
+Los diccionarios son una estructura de datos que permite almacenar pares clave-valor.
 
+Se crean con llaves y los elementos se separan por comas.
+
+- Los diccionarios son mutables, es decir, se pueden modificar una vez creados.
+- Los diccionarios no permiten claves duplicadas.
+- Los diccionarios no permiten claves nulas.
+- Los diccionarios no permiten claves vacías.
+- Los diccionarios permiten valores duplicados.
+- Los diccionarios permiten valores nulos.
+- Los diccionarios permiten valores vacíos.
+- Los diccionarios pueden contener cualquier tipo de dato.
+- Los diccionarios pueden contener diccionarios.
+- Los diccionarios pueden contener listas.
+- Los diccionarios pueden contener tuplas.
+- Los diccionarios pueden contener conjuntos.
+- Los diccionarios pueden contener cualquier combinación de los tipos de datos anteriores.
+
+## Creación de diccionarios
+
+```python
 # Crear un diccionario vacío
 diccionario_vacio = {}
 print(diccionario_vacio)
@@ -47,13 +52,21 @@ print(diccionario_tuplas)
 # Crear un diccionario con conjuntos
 diccionario_conjuntos = {'a': {1, 2}, 'b': {3, 4}, 'c': {5, 6}}
 print(diccionario_conjuntos)
+```
 
+## Acceso a los elementos de un diccionario
+
+```python
 # Acceso a los elementos de un diccionario
 diccionario = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 
 # Acceder al valor de una clave
 print(diccionario['a'])
+```
 
+## Modificar un diccionario
+
+```python
 # Modificar el valor de una clave
 diccionario['a'] = 10
 print(diccionario)
@@ -65,7 +78,11 @@ print(diccionario)
 # Eliminar un elemento del diccionario
 del diccionario['f']
 print(diccionario)
+```
 
+## Operaciones con diccionarios y métodos
+
+```python
 # Comprobar si una clave existe en el diccionario
 print('a' in diccionario)
 print('f' in diccionario)
@@ -127,7 +144,11 @@ print(diccionario)
 # El método fromkeys permite crear un diccionario a partir de una lista de claves con un valor por defecto
 diccionario = dict.fromkeys(claves, 0)
 print(diccionario)
+```
 
+## Recorrer un diccionario
+
+```python
 # Recorrer un diccionario con un bucle for
 diccionario = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 for clave in diccionario:
@@ -153,4 +174,4 @@ while i < len(claves):
     clave = claves[i]
     print(clave, diccionario[clave])
     i += 1
-
+```
