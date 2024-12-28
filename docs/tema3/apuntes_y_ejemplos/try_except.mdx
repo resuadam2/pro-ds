@@ -1,7 +1,7 @@
 # Control de excepciones en Python
 
 :::info[Video explicativo en YT]
-[![Control de excepciones en Python](https://youtu.be/81QtD-mX7y4?si=xyPLfsZ4ddlO_dmo)](https://youtu.be/81QtD-mX7y4?si=xyPLfsZ4ddlO_dmo)
+[Control de excepciones en Python](https://youtu.be/81QtD-mX7y4?si=xyPLfsZ4ddlO_dmo)
 :::
 
 Las excepciones son errores que ocurren durante la ejecución de un programa. 
@@ -89,9 +89,12 @@ La excepción ZeroDivisionError se produce al intentar dividir un número por ce
 La excepción Exception es la clase base de todas las excepciones en Python.
 :::
 :::tip[IMPORTANTE]
-Cuándo se capturan varias excepciones, se deben capturar primero las excepciones más específicas y luego las excepciones más generales. 
+Cuándo se capturan varias excepciones, se deben capturar primero las excepciones más específicas y luego las excepciones más generales.
+
 Si se captura primero una excepción más general, las excepciones más específicas no se capturan.
+
 Por ejemplo, si se captura primero la excepción Exception, no se captura la excepción ZeroDivisionError.
+
 Solo se captura una excepción en un bloque try-except y se ejecuta el código correspondiente.  
 :::
 ## Bloque try-except-finally
@@ -193,7 +196,9 @@ except Exception as e:
 ```
 :::info[Resultado]
 En este ejemplo, se lanza una excepción Exception con un mensaje de error.
+
 La excepción se captura en el bloque try-except y se muestra el mensaje de error.
+
 Esto nos sirve para lanzar excepciones personalizadas en un programa o para lanzar excepciones en un código que no está dentro de un bloque try-except o en base a una condición.
 :::
 
@@ -220,8 +225,11 @@ while not numCorrecto:
 ```
 :::info[Resultado]
 En este ejemplo, se pide al usuario que introduzca un número.
+
 Si el usuario introduce un valor que no es un número, se produce una excepción ValueError.
+
 La excepción se captura en el bloque try-except y se muestra un mensaje de error.
+
 Si el usuario introduce un número, se muestra el número y se sale del bucle while.
 :::
 
@@ -243,9 +251,13 @@ while not numCorrecto:
 ```
 :::info[Resultado]
 En este ejemplo, se pide al usuario que introduzca un número positivo.
+
 Si el usuario introduce un valor que no es un número, se produce una excepción ValueError.
+
 Si el usuario introduce un número negativo o cero, se lanza una excepción Exception.
+
 La excepción se captura en el bloque try-except y se muestra un mensaje de error.
+
 Si el usuario introduce un número positivo, se muestra el número y se sale del bucle while.
 :::
 ```python
