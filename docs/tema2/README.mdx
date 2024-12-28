@@ -1,3 +1,5 @@
+import CodeBlock from '@theme/CodeBlock';
+
 # Tema 2 - Técnicas de diseño de programas
 
 En este tema dejamos de programar todo en un único bloque para empezar a distribuir el código en funciones, evitando bloques de código repetitivos y empezando a refactorizar y limpiar nuestras soluciones.
@@ -14,12 +16,12 @@ Veremos también como podemos añadir complejidad a las mismas haciendo listas d
 
 ## Apuntes y ejemplos
 
-- [Funciones en python](./apuntes_y_ejemplos/funciones.py)
-- [Alcance de las variables](./apuntes_y_ejemplos/alcance_variables.py)
-- [La función main](./apuntes_y_ejemplos/funcion_main.py)
-- [Listas en Python](./apuntes_y_ejemplos/listas.py)
-- [Ejemplo de una posible solución del examen](./solucionario/sol_examen_ud2.py)
-- [Tests unitarios para probar las funciones del examen](./solucionario/tests_examen_ud2.py)
+- [Funciones en python](./Apuntes%20y%20Ejemplos/funciones.mdx)
+- [Alcance de las variables](./Apuntes%20y%20Ejemplos/alcance_variables.mdx)
+- [La función main](./Apuntes%20y%20Ejemplos/funcion_main.md)
+- [Listas en Python](./Apuntes%20y%20Ejemplos/listas.mdx)
+- [Ejemplo de una posible solución del examen - descarga directa](./solucionario/sol_examen_ud2.py)
+- [Tests unitarios para probar las funciones del examen - descarga directa](./solucionario/tests_examen_ud2.py)
 
 ## Enunciados ejercicios
 
@@ -30,10 +32,24 @@ Veremos también como podemos añadir complejidad a las mismas haciendo listas d
 Disear una función que intercambie el valor de dos variables de tipo entero. 
 Incluir el algoritmo principal que realice la llamada a dicha función.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej1.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 2
 
 Diseñar una función que tenga como entrada tres números enteros y nos devuelva el mayor de los tres.
 Incluir el algoritmo principal que realice la llamada a dicha función.
+
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej2.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 3
 
@@ -43,15 +59,43 @@ para una precisión dada por el usuario, la precisión indicará las vueltas que
 serie infinita. Incluir el algoritmo principal que realice la llamada a dicha función.
 Como paso previo, se puede diseñar una función que calcule el factorial de un número entero.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej3.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 4
 
 Diseñar una función que admita, como parámetro de entrada, un caracter y que devuelva, como salida, 
 el número de veces que aparece dicho carácter en una secuencia de caracteres leída de teclado.
 La secuencia de caracteres finalizará cuando el usuario introduzca un punto.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej4.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 5
 
 Diseñar una función que invierta los dígitos de un número entero positivo (debe comprobarse que el número es positivo).
+
+<details>
+  <summary>Ver solución usando strings</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej5.py').default}
+   </CodeBlock>
+</details>
+
+<details>
+  <summary>Ver solución usando operaciones matemáticas</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej5b.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 6
 
@@ -61,6 +105,13 @@ Por ejemplo, los divisores propios de 220 son 1, 2, 4, 5, 10, 11, 20, 22, 44, 55
 Los divisores propios de 284 son 1, 2, 4, 71 y 142, que suman 220.
 Incluir el algoritmo principal que realice la llamada a dicha función.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej6.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 7
 
 Diseñar una función que dado un número entero positivo, diga si es o no un número perfecto.
@@ -68,12 +119,26 @@ Un número perfecto es aquel que es igual a la suma de sus divisores propios pos
 Por ejemplo, 6 es perfecto porque sus divisores propios son 1, 2 y 3, que suman 6.
 Incluir el algoritmo principal que realice la llamada a dicha función.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej7.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 8
 
 Implementar un programa de registro y login de usuarios. En primer lugar se ejecutará el código de registro, que solicitará un nombre de usuario y una  contraseña. A continuación, se ejecutará el código de login, que solicitará
 el nombre de usuario y la contraseña. Si el nombre de usuario y la contraseña coinciden con los introducidos en el registro, se mostrará un mensaje de bienvenida. En caso contrario, se mostrará un mensaje de error.
 Necesitaremos una función para el registro y otra para el login.
 Y las llamadas a las funciones de registro y login se realizarán en el algoritmo principal.
+
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej8.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 9
 
@@ -88,21 +153,63 @@ La función debe convertir a entero los números introducidos como cadenas.
 - Un algoritmo principal que realice la llamada a las funciones.
 El programa debe controlar los posibles errores del usuario al introducir datos y volver a pedir los datos si es necesario.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej9.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 10
 
 Realiza un programa que tenga varias funciones para calcular el área y el perímetro de circunferencias, rectángulos, 
 cuadrados y triángulos equiláteros.
 El cuerpo del programa debe probar todas las funciones.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej10.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 11
 
 Diseñar una función que determine la posición del valor máximo de una lista de enteros y otra para indicar cuál es ese valor máximo.
 Incluir un programa que pruebe ambas funciones.
 
+<details>
+  <summary>Ver solución usando max</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej11.py').default}
+   </CodeBlock>
+</details>
+
+<details>
+  <summary>Ver solución usando bucles</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej11b.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 12
 
 Diseñar una función que devuelva una lista invertida a partir de otra.
 Incluir un programa que pruebe la función.
+
+<details>
+  <summary>Ver solución usando slicing</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej12.py').default}
+   </CodeBlock>
+</details>
+
+<details>
+  <summary>Ver solución usando bucles</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej12b.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 13
 
@@ -110,10 +217,24 @@ Diseñar una función para sumar dos matrices bidimensionales de enteros.
 Las matrices se representarán como listas de listas y deben pasarse como argumentos a las funciones.    
 Incluir un programa que pruebe ambas funciones.
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej13.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 14
 
 En el ejercicio anterior ya viste que visualizar las listas como matrices simplemente imprimiendolas con print no es suficiente. Diseña una función que imprima una matriz bidimensional de enteros de manera que se vea como una matriz (no es necesario incluir los paréntesis grandes, tan solo separar los números con tabulaciones y saltos de línea). 
 Incluir un programa que pruebe la función.
+
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej14.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 15
 
@@ -125,6 +246,13 @@ Incluir un programa que pruebe la función.
 
 Nota: Puedes usar la función del ejercicio 14 para visualizar mejor las matrices
 
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej15.py').default}
+   </CodeBlock>
+</details>
+
 ### Ejercicio 16
 
 Diseñar una función que nos compruebe si una matriz bidimensional de enteros es simétrica.
@@ -133,6 +261,13 @@ Una matriz es simétrica si es cuadrada y es igual a su traspuesta.
 La traspuesta de una matriz se obtiene intercambiando filas por columnas.
 Incluir más funciones si es necesario.
 Incluir un programa que pruebe la función.
+
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej16.py').default}
+   </CodeBlock>
+</details>
 
 ### Ejercicio 17
 
@@ -150,7 +285,14 @@ Diseñar varias funciones para cumplir con los siguientes requisitos:
 11. Función que reciba una lista de enteros y devuelva si cada elemento es un número capicúa o no.  
 Incluir un programa que pruebe todas las funciones.
 
-## Solucionario
+<details>
+  <summary>Ver solución</summary>
+   <CodeBlock language="python" title="Solución">
+   {require('!!raw-loader!./solucionario/ej17.py').default}
+   </CodeBlock>
+</details>
+
+## Solucionario - Enlaces de descarga directa
 
 1. [Intercambio de valores](./solucionario/ej1.py)
 2. [Mayor de tres](./solucionario/ej2.py)
@@ -176,7 +318,7 @@ Incluir un programa que pruebe todas las funciones.
 16. [Matrices simétricas](./solucionario/ej16.py)
 17. [Popurrí de funciones para trabajar con listas de enteros](./solucionario/ej17.py)
 
-## Laboratorios del curso resueltos
+## Laboratorios del curso resueltos - Enlaces de descarga directa
 
 - [Laboratorio ](./labs/)
 
