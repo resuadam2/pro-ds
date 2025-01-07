@@ -1,0 +1,853 @@
+import CodeBlock from '@theme/CodeBlock';
+
+# Programación Orientada a Objetos
+
+## Introducción
+
+**Definición**: 
+ > Paradigma de programación que se basa en el uso de clases y objetos para modelar entidades del mundo real.
+
+ La POO se basa en los siguientes conceptos:
+
+    - **Clase**: Plantilla que define un objeto.
+    - **Objeto**: Instancia de una clase.
+    - **Atributos**: Características de un objeto.
+    - **Métodos**: Acciones que puede realizar un objeto.
+    - **Encapsulamiento**: Ocultar la implementación de un objeto.
+    - **Herencia**: Relación entre clases que permite compartir atributos y métodos.
+    - **Polimorfismo**: Capacidad de un objeto de comportarse de diferentes maneras según el contexto.
+    - **Abstracción**: Simplificación de un objeto para centrarse en los aspectos más relevantes.
+    - **Interfaz**: Conjunto de métodos que una clase debe implementar.
+    - **Paquete**: Agrupación de clases relacionadas.
+    - **Modularidad**: División de un programa en módulos independientes.
+    - **Reutilización**: Uso de clases y métodos ya existentes en un nuevo programa.
+    - **Mensajes**: Comunicación entre objetos.
+    - **Estado**: Valores de los atributos de un objeto en un momento dado.
+
+Todos estos conceptos permiten modelar de forma más eficiente y sencilla el mundo real en un programa. 
+
+Iremos viendo cada uno de estos conceptos en detalle a lo largo de este tema y el siguiente.
+
+## Ejemplo
+
+```java
+public class Coche {
+    // Atributos
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    // Constructor
+    public Coche(String marca, String modelo, int año, double precio) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+        this.precio = precio;
+    }
+
+    // Métodos
+    public void mostrarDatos() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Año: " + año);
+        System.out.println("Precio: " + precio);
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+}
+```
+
+En este ejemplo, la clase `Coche` tiene los atributos `marca`, `modelo`, `año` y `precio`, un constructor que inicializa estos atributos y dos métodos: `mostrarDatos` y `setPrecio`.
+
+## Clases y Objetos
+
+- **Clase**: Plantilla que define un objeto.
+
+Una clase es un modelo que define los atributos y métodos que tendrán los objetos de esa clase. Por ejemplo, la clase `Coche` define los atributos `marca`, `modelo`, `año` y `precio`, y los métodos `mostrarDatos` y `setPrecio`. 
+
+- **Objeto**: Instancia de una clase.
+
+Un objeto es una instancia de una clase. Por ejemplo, si creamos un objeto `coche1` de la clase `Coche`, este objeto tendrá sus propios valores para los atributos `marca`, `modelo`, `año` y `precio`. 
+
+Podemos crear múltiples objetos de una misma clase, cada uno con sus propios valores para los atributos.
+
+```java	
+Coche coche1 = new Coche("Ford", "Focus", 2020, 15000);
+Coche coche2 = new Coche("Renault", "Clio", 2019, 12000);
+```
+
+En este caso, `coche1` y `coche2` son dos objetos de la clase `Coche` con valores diferentes para los atributos.
+
+## Encapsulamiento
+
+**Definición**:
+ > Ocultar la implementación de un objeto y exponer solo los métodos públicos.
+
+El encapsulamiento es un principio de la POO que permite proteger los atributos de un objeto y controlar el acceso a ellos.
+
+En el ejemplo anterior, los atributos `marca`, `modelo`, `año` y `precio` de la clase `Coche` son privados, lo que significa que solo pueden ser accedidos desde dentro de la clase. Para acceder a estos atributos desde fuera de la clase, se utilizan métodos públicos como `mostrarDatos` y `setPrecio`.
+
+```java
+public void mostrarDatos() {
+    System.out.println("Marca: " + marca);
+    System.out.println("Modelo: " + modelo);
+    System.out.println("Año: " + año);
+    System.out.println("Precio: " + precio);
+}
+
+public void setPrecio(double precio) {
+    this.precio = precio;
+}
+```
+
+Estos métodos permiten mostrar los datos del coche y modificar el precio, respectivamente, sin necesidad de acceder directamente a los atributos.
+
+## Modificadores de acceso
+
+En Java, los atributos y métodos de una clase pueden tener diferentes modificadores de acceso que controlan su visibilidad y accesibilidad. Los principales modificadores de acceso son:
+
+- **`public`**: Accesible desde cualquier clase.
+- **`protected`**: Accesible desde la misma clase, clases del mismo paquete y subclases.
+- **`default`**: Accesible desde la misma clase y clases del mismo paquete.
+- **`private`**: Accesible solo desde la misma clase.
+
+![Modificadores de acceso](https://lh3.googleusercontent.com/proxy/WMNfP04HJX8tubIEZP6RtaFPS_8IpExAF15rGL2PpyZQhN9d0r0FjQrEyDqHplo2z0DV-xZQFmidTH7UCiCyhRHzktaNYPES6MjNgJkbSsTbJHvuZazcuxo2pAuOC_o4ibcEgGem-87L_OldwtQCWCR2BgPiGkqnllent-wu)
+
+Por defecto, si no se especifica ningún modificador de acceso, el atributo o método es de tipo `default`.
+
+:::info[¿Qué es un paquete?]
+Un paquete es una agrupación de clases relacionadas que permite organizar y estructurar un programa de forma más eficiente. Los paquetes en Java se definen mediante la palabra clave `package` al principio de un archivo de código fuente. 
+
+Por ejemplo, si queremos agrupar las clases `Coche` y `Moto` en un paquete llamado `vehiculos`, podemos hacerlo de la siguiente manera:
+
+```java
+package vehiculos;
+
+public class Coche {
+    // Atributos y métodos de la clase Coche
+}
+
+public class Moto {
+    // Atributos y métodos de la clase Moto
+}
+```
+
+De esta forma, las clases `Coche` y `Moto` pertenecen al paquete `vehiculos` y pueden ser importadas y utilizadas en otras clases que estén en el mismo paquete o en paquetes externos.
+
+![Modificadores de acceso](https://picodotdev.github.io/blog-bitix/2020/01/los-modificadores-de-acceso-de-clases-propiedades-y-metodos-en-java/images/java-access-specifier_hu4810101909116380242.jpg)
+
+:::
+
+## Atributos y Métodos Estáticos
+
+**Atributos estáticos**:
+ > Atributos que pertenecen a la clase en lugar de a los objetos individuales.
+
+**Métodos estáticos**:
+    > Métodos que pertenecen a la clase en lugar de a los objetos individuales.
+
+En Java, los atributos y métodos estáticos se definen con la palabra clave `static`. Estos atributos y métodos se pueden acceder directamente desde la clase, sin necesidad de crear un objeto.
+
+```java
+public class Coche {
+    private static int contador = 0;
+
+    public Coche() {
+        contador++;
+    }
+
+    public static int getContador() {
+        return contador;
+    }
+}
+```
+
+En este ejemplo, el atributo `contador` es estático, lo que significa que pertenece a la clase `Coche` en lugar de a los objetos individuales. El método `getContador` es estático y devuelve el valor del atributo `contador`.
+
+```java
+Coche coche1 = new Coche();
+Coche coche2 = new Coche();
+
+System.out.println(Coche.getContador()); // Imprime 2
+```
+
+En este caso, el método `getContador` se llama directamente desde la clase `Coche` para obtener el valor del atributo `contador.
+
+Fijarse que en la llamada a `getContador` no se necesita crear un objeto de la clase `Coche`, ya que el método es estático y pertenece a la clase en sí.
+
+## Atributos
+
+**Definición**:
+ > Características de un objeto.
+
+Los atributos de una clase representan las características o propiedades de los objetos de esa clase. Por ejemplo, en la clase `Coche`, los atributos son `marca`, `modelo`, `año` y `precio`.
+
+Los atributos pueden ser de diferentes tipos de datos, como `int`, `double`, `String`, etc., y pueden tener diferentes modificadores de acceso para controlar su visibilidad y accesibilidad.
+
+## Métodos
+
+**Definición**:
+ > Acciones que puede realizar un objeto.
+
+Los métodos de una clase representan las acciones que pueden realizar los objetos de esa clase. Por ejemplo, en la clase `Coche`, los métodos son `mostrarDatos` y `setPrecio`.
+
+Los métodos pueden tener diferentes modificadores de acceso y pueden devolver un valor o ser de tipo `void` si no devuelven ningún valor.
+
+### Constructores
+
+**Definición**:
+ > Método especial que se llama al crear un objeto de una clase.
+
+Los constructores son métodos especiales que se utilizan para inicializar los atributos de un objeto cuando se crea una instancia de una clase. En Java, el nombre del constructor debe ser el mismo que el nombre de la clase.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public Coche(String marca, String modelo, int año, double precio) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+        this.precio = precio;
+    }
+}
+```
+
+En este ejemplo, el constructor de la clase `Coche` recibe cuatro parámetros (`marca`, `modelo`, `año` y `precio`) y los asigna a los atributos correspondientes del objeto.
+
+Los constructores pueden ser parametrizados (como en el ejemplo anterior) o sin parámetros, y pueden tener diferentes modificadores de acceso.
+
+Veamos un ejemplo de un constructor sin parámetros:
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public Coche() {
+        marca = "Desconocida";
+        modelo = "Desconocido";
+        año = 0;
+        precio = 0.0;
+    }
+}
+```
+
+En este caso, el constructor sin parámetros inicializa los atributos del objeto con valores por defecto.
+
+### Getters y Setters
+
+**Getters**:
+ > Métodos que devuelven el valor de un atributo.
+
+**Setters**:
+    > Métodos que modifican el valor de un atributo.
+
+Los getters y setters son métodos que se utilizan para acceder y modificar los atributos de un objeto de forma segura, respetando el principio de encapsulamiento.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+}
+```
+
+En este ejemplo, los métodos `getMarca` y `getPrecio` son getters que devuelven el valor de los atributos `marca` y `precio`, respectivamente. Los métodos `setMarca` y `setPrecio` son setters que modifican el valor de los atributos `marca` y `precio`, respectivamente.
+
+Los getters y setters permiten acceder y modificar los atributos de un objeto de forma controlada, evitando el acceso directo a los atributos desde fuera de la clase.
+
+### El método `toString`
+
+**Definición**:
+ > Método que devuelve una representación en forma de cadena de un objeto.
+
+El método `toString` es un método especial que se utiliza para devolver una representación en forma de cadena de un objeto. Este método se llama automáticamente cuando se imprime un objeto utilizando la instrucción `System.out.println`.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    // Constructor y métodos de la clase
+
+    @Override
+    public String toString() {
+        return "Coche{" +
+                "marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", año=" + año +
+                ", precio=" + precio +
+                '}';
+    }
+}
+```
+
+En este ejemplo, el método `toString` de la clase `Coche` devuelve una cadena que contiene los valores de los atributos `marca`, `modelo`, `año` y `precio`. Al imprimir un objeto de la clase `Coche`, se llamará automáticamente a este método para obtener su representación en forma de cadena.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+System.out.println(coche); // Imprime Coche{marca='Ford', modelo='Focus', año=2020, precio=15000.0}
+```
+
+En este caso, al imprimir el objeto `coche`, se llama al método `toString` para obtener su representación en forma de cadena y se imprime por pantalla.
+
+:::info[¿Qué es la anotación `@Override`?]
+La anotación `@Override` se utiliza en Java para indicar que un método sobrescribe un método de la superclase. Si el método anotado con `@Override` no sobrescribe un método de la superclase, se producirá un error en tiempo de compilación.
+
+En el ejemplo anterior, el método `toString` de la clase `Coche` sobrescribe el método `toString` de la clase `Object`, que es la superclase de todas las clases en Java. Por lo tanto, se utiliza la anotación `@Override` para indicar que se está sobrescribiendo un método de la superclase.
+
+Esto lo veremos con más detalle cuándo hablemos de herencia en el siguiente tema.
+:::
+
+### Invocación de Métodos
+
+**Definición**:
+ > Llamada a un método de un objeto para realizar una acción.
+
+Los métodos de un objeto se invocan utilizando la sintaxis `objeto.metodo()`, donde `objeto` es una instancia de una clase y `metodo` es el nombre del método que se desea invocar.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+
+coche.mostrarDatos(); // Llama al método mostrarDatos
+coche.setPrecio(16000); // Llama al método setPrecio
+```
+
+En este ejemplo, se crea un objeto `coche` de la clase `Coche` y se invocan los métodos `mostrarDatos` y `setPrecio` del objeto `coche` para mostrar los datos del coche y modificar su precio, respectivamente.
+
+La invocación de métodos permite realizar acciones y operaciones en un objeto, como mostrar datos, modificar atributos, realizar cálculos, etc.
+
+Pasos para invocar un método:
+
+1. Crear un objeto de la clase.
+2. Llamar al método del objeto utilizando la sintaxis `objeto.metodo()`.
+3. El método se ejecuta y realiza la acción especificada.
+
+### Paso de Parámetros
+
+**Definición**:
+ > Valores que se pasan a un método al llamarlo.
+
+Los parámetros son valores que se pasan a un método al llamarlo para que realice una acción específica. Los parámetros se definen en la declaración del método y se utilizan para proporcionar información al método.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public Coche(String marca, String modelo, int año, double precio) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.año = año;
+        this.precio = precio;
+    }
+
+    public void setPrecio(double nuevoPrecio) {
+        precio = nuevoPrecio;
+    }
+}
+```
+
+En este ejemplo, el constructor de la clase `Coche` recibe cuatro parámetros (`marca`, `modelo`, `año` y `precio`) y los asigna a los atributos correspondientes del objeto. El método `setPrecio` recibe un parámetro `nuevoPrecio` y modifica el precio del coche con ese valor.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+coche.setPrecio(16000);
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` con los valores `Ford`, `Focus`, `2020` y `15000`, y se llama al método `setPrecio` para modificar el precio del coche a `16000`.
+
+Los parámetros permiten proporcionar información adicional a un método y personalizar su comportamiento según las necesidades del programa.
+
+### Retorno de Valores
+
+**Definición**:
+ > Valor que devuelve un método al finalizar
+
+El retorno de valores es la capacidad de un método de devolver un valor al finalizar su ejecución. Los métodos que devuelven un valor tienen un tipo de dato de retorno que especifica el tipo de valor que se devuelve.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public double getPrecio() {
+        return precio;
+    }
+}
+```
+
+En este ejemplo, el método `getPrecio` de la clase `Coche` devuelve un valor de tipo `double`, que es el precio del coche almacenado en el atributo `precio`.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+double precio = coche.getPrecio();
+System.out.println(precio); // Imprime 15000.0
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` y se llama al método `getPrecio` para obtener el precio del coche. El valor devuelto por el método se asigna a la variable `precio` y se imprime por pantalla.
+
+El retorno de valores permite obtener información o resultados de un método y utilizarlos en otras partes del programa.
+
+### Sobrecarga de Métodos
+
+**Definición**:
+ > Definir múltiples métodos con el mismo nombre pero diferentes parámetros.
+
+La sobrecarga de métodos es la capacidad de definir múltiples métodos con el mismo nombre pero diferentes parámetros. Esto permite crear métodos con el mismo nombre que realizan acciones similares pero con diferentes tipos de datos o cantidades de parámetros. 
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public void setPrecio(double precio, boolean iva) {
+        if (iva) {
+            this.precio = precio * 1.21;
+        } else {
+            this.precio = precio;
+        }
+    }
+}
+```
+
+En este ejemplo, la clase `Coche` tiene dos métodos `setPrecio` con el mismo nombre pero diferentes parámetros. El primer método recibe un precio y lo asigna directamente al atributo `precio`, mientras que el segundo método recibe un precio y un booleano `iva` que indica si se debe aplicar el IVA al precio.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+coche.setPrecio(16000);
+coche.setPrecio(16000, true);
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` y se llama a los métodos `setPrecio` con diferentes parámetros para modificar el precio del coche sin IVA y con IVA, respectivamente.
+
+La sobrecarga de métodos permite crear métodos con el mismo nombre que realizan acciones similares pero con diferentes parámetros, lo que facilita la reutilización del código y mejora la legibilidad del programa.
+
+### Paso de Parámetros por Valor y por Referencia
+
+**Definición**:
+ > Formas en las que se pasan los parámetros a los métodos.
+
+En Java, los parámetros se pasan a los métodos por valor, lo que significa que se pasa una copia del valor de la variable original al método. Esto se aplica tanto a los tipos primitivos como a los objetos.   
+
+```java
+public class Coche {
+    private String marca;
+
+    public void cambiarMarca(String nuevaMarca) {
+        marca = nuevaMarca;
+    }
+}
+```
+
+En este ejemplo, el método `cambiarMarca` de la clase `Coche` recibe un parámetro `nuevaMarca` y asigna ese valor al atributo `marca`. Al llamar al método `cambiarMarca`, se pasa una copia del valor de la variable original a la que se asigna el nuevo valor.
+
+```java
+Coche coche = new Coche("Ford");
+String marca = "Renault";
+coche.cambiarMarca(marca);
+System.out.println(coche.getMarca()); // Imprime Ford
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` con la marca `Ford` y una variable `marca` con el valor `Renault`. Al llamar al método `cambiarMarca` con la variable `marca`, se pasa una copia del valor `Renault` al método, pero el valor original de la variable `marca` no se modifica.   
+
+Para pasar un objeto por referencia y modificar sus atributos, se puede utilizar una referencia al objeto como parámetro del método.
+
+```java
+public class Coche {
+    private String marca;
+
+    public void cambiarMarca(Coche coche, String nuevaMarca) {
+        coche.marca = nuevaMarca;
+    }
+}
+```
+
+En este ejemplo, el método `cambiarMarca` de la clase `Coche` recibe un objeto `coche` y un parámetro `nuevaMarca`, y asigna ese valor al atributo `marca` del objeto `coche`. Al llamar al método `cambiarMarca`, se pasa una referencia al objeto `coche`, lo que permite modificar sus atributos.
+
+```java
+Coche coche = new Coche("Ford");
+cambiarMarca(coche, "Renault");
+System.out.println(coche.getMarca()); // Imprime Renault
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` con la marca `Ford` y se llama al método `cambiarMarca` con el objeto `coche` y la nueva marca `Renault`. Al pasar una referencia al objeto `coche`, se modifica directamente el atributo `marca` del objeto.   
+
+Los parámetros por valor se utilizan para pasar una copia del valor de la variable original al método, mientras que los parámetros por referencia se utilizan para pasar una referencia al objeto original y modificar sus atributos.   
+
+
+## Las referencias a objetos
+
+**Definición**:
+ > Una referencia a un objeto es una dirección de memoria que apunta a la ubicación del objeto en la memoria.
+
+En Java, las variables de tipo objeto almacenan referencias a los objetos en lugar de los objetos en sí. Cuando se crea un objeto, se reserva un espacio en la memoria para almacenar el objeto, y la variable de tipo objeto almacena la dirección de memoria donde se encuentra el objeto.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+```
+
+En este ejemplo, la variable `coche` es una referencia a un objeto de la clase `Coche`. La variable `coche` almacena la dirección de memoria donde se encuentra el objeto `Coche` en la memoria.
+
+Las referencias a objetos se utilizan para acceder y manipular los objetos en la memoria. Cuando se pasa una referencia a un objeto como argumento a un método, se pasa la dirección de memoria del objeto, lo que permite al método acceder y modificar el objeto.
+
+```java
+public void modificarPrecio(Coche coche, double nuevoPrecio) {
+    coche.setPrecio(nuevoPrecio);
+}
+
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+modificarPrecio(coche, 16000);
+System.out.println(coche.getPrecio()); // Imprime 16000.0
+```
+
+En este caso, el método `modificarPrecio` recibe una referencia al objeto `coche` y modifica el precio del coche utilizando el método `setPrecio`. Al imprimir el precio del coche después de llamar al método, se muestra el nuevo precio modificado.
+
+### Referencias nulas
+
+**Definición**:
+ > Una referencia nula es una referencia que no apunta a ningún objeto en la memoria.
+
+En Java, una referencia nula es una referencia que no apunta a ningún objeto en la memoria. Cuando se declara una variable de tipo objeto sin inicializarla, su valor por defecto es `null`.
+
+```java
+Coche coche = null;
+```
+
+En este ejemplo, la variable `coche` es una referencia nula, ya que no apunta a ningún objeto en la memoria. Si se intenta acceder a un objeto a través de una referencia nula, se producirá un error en tiempo de ejecución.
+
+```java
+Coche coche = null;
+System.out.println(coche.getPrecio()); // Error: NullPointerException
+```
+
+En este caso, al intentar acceder al precio del coche a través de la referencia nula `coche`, se produce un error de tipo `NullPointerException` porque la referencia no apunta a ningún objeto en la memoria.
+
+:::tip[¿Qué es una excepción `NullPointerException`?]
+Una `NullPointerException` es una excepción que se produce cuando se intenta acceder a un objeto a través de una referencia nula. Esto ocurre cuando se intenta llamar a un método o acceder a un atributo de un objeto que no ha sido inicializado o que ha sido establecido como `null`.
+
+Para evitar una `NullPointerException`, es importante comprobar si una referencia es nula antes de intentar acceder a un objeto a través de ella. Esto se puede hacer utilizando una instrucción `if` para verificar si la referencia es nula antes de acceder al objeto.
+
+```java
+if (coche != null) {
+    System.out.println(coche.getPrecio());
+}
+```
+
+En este caso, se comprueba si la referencia `coche` no es nula antes de intentar acceder al precio del coche. Si la referencia es nula, no se intenta acceder al objeto y se evita una `NullPointerException`.
+
+También se puede capturar y manejar una `NullPointerException` utilizando un bloque `try-catch` para evitar que el programa se detenga si se produce la excepción.
+
+```java
+try {
+    System.out.println(coche.getPrecio());
+} catch (NullPointerException e) {
+    System.out.println("La referencia es nula");
+}
+```
+
+En este caso, se intenta acceder al precio del coche dentro de un bloque `try`, y si se produce una `NullPointerException`, se captura la excepción en el bloque `catch` y se muestra un mensaje de error en su lugar.
+:::
+
+### Alias de objetos
+
+**Definición**:
+ > Un alias de un objeto es una referencia adicional que apunta al mismo objeto en la memoria.
+
+En Java, es posible tener múltiples referencias que apunten al mismo objeto en la memoria. Estas referencias adicionales se conocen como alias de objetos y permiten acceder y manipular el mismo objeto a través de diferentes referencias.
+
+```java
+Coche coche1 = new Coche("Ford", "Focus", 2020, 15000);
+Coche coche2 = coche1;
+```
+
+En este ejemplo, `coche1` y `coche2` son alias del mismo objeto de la clase `Coche`. Ambas referencias apuntan al mismo objeto en la memoria, por lo que cualquier modificación realizada a través de una de las referencias se reflejará en la otra.
+
+```java
+coche2.setPrecio(16000);
+System.out.println(coche1.getPrecio()); // Imprime 16000.0
+```
+
+En este caso, al modificar el precio del coche a través de la referencia `coche2`, el cambio se refleja en la referencia `coche1`, ya que ambas referencias apuntan al mismo objeto en la memoria.
+
+Los alias de objetos pueden ser útiles para compartir y manipular el mismo objeto desde diferentes partes del programa, pero es importante tener en cuenta que los cambios realizados a través de un alias afectarán a todas las referencias que apunten al mismo objeto.
+
+
+## Métodos de la clase `Object`
+
+**Definición**:
+ > La clase `Object` es la superclase de todas las clases en Java y proporciona métodos comunes que se pueden sobrescribir en las clases derivadas.
+
+La clase `Object` es la superclase de todas las clases en Java y proporciona métodos comunes que se pueden sobrescribir en las clases derivadas. Algunos de los métodos más comunes de la clase `Object` son:
+
+- **`toString`**: Devuelve una representación en forma de cadena del objeto.
+- **`equals`**: Compara dos objetos para determinar si son iguales.
+- **`hashCode`**: Devuelve un código hash del objeto.
+- **`clone`**: Crea una copia superficial del objeto.
+- **`finalize`**: Se llama antes de que el objeto sea eliminado por el recolector de basura.
+
+Estos métodos pueden ser sobrescritos en las clases derivadas para proporcionar un comportamiento específico para cada clase. Por ejemplo, el método `toString` se utiliza para devolver una representación en forma de cadena del objeto, y se puede sobrescribir en una clase derivada para personalizar la representación del objeto.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    // Constructor y métodos de la clase
+
+    @Override
+    public String toString() {
+        return "Coche{" +
+                "marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", año=" + año +
+                ", precio=" + precio +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Coche coche = (Coche) obj;
+        return año == coche.año &&
+                Double.compare(coche.precio, precio) == 0 &&
+                Objects.equals(marca, coche.marca) &&
+                Objects.equals(modelo, coche.modelo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(marca, modelo, año, precio);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+```
+
+En este ejemplo, se sobrescriben los métodos `toString`, `equals`, `hashCode` y `clone` de la clase `Object` en la clase `Coche` para proporcionar un comportamiento específico para la clase `Coche`.
+
+Estos métodos se utilizan para personalizar la representación del objeto, comparar objetos, generar códigos hash y crear copias de objetos, respectivamente.
+
+## Clases Anidadas
+
+**Definición**:
+ > Una clase anidada es una clase definida dentro de otra clase.
+
+En Java, es posible definir una clase dentro de otra clase, lo que se conoce como una clase anidada. Las clases anidadas pueden ser estáticas o no estáticas, y pueden tener diferentes modificadores de acceso.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public class Motor {
+        private int cilindrada;
+        private int potencia;
+
+        public Motor(int cilindrada, int potencia) {
+            this.cilindrada = cilindrada;
+            this.potencia = potencia;
+        }
+
+        public void mostrarDatos() {
+            System.out.println("Cilindrada: " + cilindrada);
+            System.out.println("Potencia: " + potencia);
+        }
+    }
+}
+```
+
+En este ejemplo, la clase `Motor` es una clase anidada dentro de la clase `Coche`. La clase `Motor` tiene sus propios atributos (`cilindrada` y `potencia`) y métodos (`mostrarDatos`), y puede acceder a los atributos de la clase `Coche.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+Coche.Motor motor = coche.new Motor(2000, 150);
+motor.mostrarDatos();
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` y un objeto `motor` de la clase `Motor` dentro de la clase `Coche`. Se accede al objeto `motor` a través de la referencia `coche` utilizando la sintaxis `coche.new Motor` y se llama al método `mostrarDatos` del objeto `motor`.
+
+Las clases anidadas se utilizan para organizar y estructurar el código de forma más eficiente, y pueden tener acceso a los atributos y métodos de la clase externa.
+
+## Clases Internas
+
+**Definición**:
+ > Una clase interna es una clase definida dentro de otra clase que puede acceder a los miembros de la clase externa.
+
+En Java, una clase interna es una clase definida dentro de otra clase que puede acceder a los miembros de la clase externa, incluidos los miembros privados. Las clases internas pueden ser estáticas o no estáticas, y pueden tener diferentes modificadores de acceso.
+
+```java
+public class Coche {
+    private String marca;
+    private String modelo;
+    private int año;
+    private double precio;
+
+    public class Motor {
+        private int cilindrada;
+        private int potencia;
+
+        public Motor(int cilindrada, int potencia) {
+            this.cilindrada = cilindrada;
+            this.potencia = potencia;
+        }
+
+        public void mostrarDatos() {
+            System.out.println("Cilindrada: " + cilindrada);
+            System.out.println("Potencia: " + potencia);
+            System.out.println("Marca: " + marca);
+            System.out.println("Modelo: " + modelo);
+            System.out.println("Año: " + año);
+            System.out.println("Precio: " + precio);
+        }
+    }
+}
+```
+
+En este ejemplo, la clase `Motor` es una clase interna no estática dentro de la clase `Coche`. La clase `Motor` puede acceder a los atributos privados de la clase `Coche` (`marca`, `modelo`, `año` y `precio`) y utilizarlos en sus métodos.
+
+```java
+Coche coche = new Coche("Ford", "Focus", 2020, 15000);
+Coche.Motor motor = coche.new Motor(2000, 150);
+motor.mostrarDatos();
+```
+
+En este caso, se crea un objeto `coche` de la clase `Coche` y un objeto `motor` de la clase `Motor` dentro de la clase `Coche`. El objeto `motor` puede acceder a los atributos privados de la clase `Coche` a través de la referencia `coche` y utilizarlos en su método `mostrarDatos`.
+
+Las clases internas se utilizan para encapsular la lógica relacionada en una clase y permitir el acceso a los miembros privados de la clase externa.
+
+:::info[Diferencia entre Clases Anidadas y Clases Internas]
+La diferencia entre una clase anidada y una clase interna es que una clase anidada puede ser estática o no estática, mientras que una clase interna siempre es no estática.
+
+- **Clase Anidada**: Puede ser estática o no estática y puede acceder a los miembros de la clase externa.
+- **Clase Interna**: Siempre es no estática y puede acceder a los miembros de la clase externa.
+
+Ambas clases se definen dentro de otra clase y pueden acceder a los miembros de la clase externa, pero tienen diferencias en cuanto a su tipo de anidamiento y su capacidad para ser estáticas o no estáticas.
+
+Las clases anidadas se utilizan para organizar y estructurar el código de forma más eficiente, mientras que las clases internas se utilizan para encapsular la lógica relacionada en una clase y permitir el acceso a los miembros privados de la clase externa.
+:::
+
+## Representación de Clases en UML
+
+**UML** (Unified Modeling Language):
+ > Lenguaje de modelado estándar para visualizar, especificar, construir y documentar sistemas de software.
+
+En UML, las clases se representan mediante un rectángulo dividido en tres secciones:
+
+- **Nombre de la clase**: En la parte superior del rectángulo.
+- **Atributos de la clase**: En la sección central del rectángulo.
+- **Métodos de la clase**: En la sección inferior del rectángulo.
+
+![Representación de una clase en UML](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-uml-diagram/images/class-diagram-overview.png)
+
+![Otro ejemplo de clase en UML](https://static.wikia.nocookie.net/diagramasmiclo/images/4/4a/1.png/revision/latest?cb=20180413034625&path-prefix=es)
+
+Por ejemplo, la clase `Coche` se representaría en UML de la siguiente manera:
+
+```
++-----------------+
+|     Coche       |
++-----------------+
+| - marca: String |
+| - modelo: String|
+| - año: int      |
+| - precio: double|
++-----------------+
+| + mostrarDatos()|
+| + setPrecio()    |
++-----------------+
+```
+
+En esta representación, los atributos de la clase `Coche` (`marca`, `modelo`, `año` y `precio`) se muestran en la sección central del rectángulo, y los métodos de la clase (`mostrarDatos` y `setPrecio`) se muestran en la sección inferior del rectángulo.
+
+Los modificadores de acceso de los atributos y métodos se indican mediante los siguientes símbolos:
+
+- **`+`**: Público (public).
+- **`-`**: Privado (private).
+- **`#`**: Protegido (protected).
+- **`~`**: Por defecto (default).
+
+:::info[¿Qué es UML?]
+UML (Unified Modeling Language) es un lenguaje de modelado estándar que se utiliza para visualizar, especificar, construir y documentar sistemas de software. UML proporciona una serie de diagramas que permiten representar diferentes aspectos de un sistema, como la estructura, el comportamiento, la interacción y la arquitectura.
+
+Los diagramas UML se utilizan en el proceso de desarrollo de software para comunicar ideas, analizar y diseñar sistemas, y documentar la arquitectura y el diseño de un sistema de software.
+
+Algunos de los diagramas UML más comunes son:
+
+- **Diagrama de clases**: Representa la estructura estática de un sistema, mostrando las clases, atributos, métodos y relaciones entre las clases.
+- **Diagrama de secuencia**: Representa la interacción entre objetos en una secuencia temporal, mostrando cómo los objetos se comunican entre sí a lo largo del tiempo.
+- **Diagrama de casos de uso**: Representa las interacciones entre un sistema y sus actores, mostrando los casos de uso del sistema y cómo se relacionan con los actores.
+- **Diagrama de actividades**: Representa el flujo de control de un proceso o algoritmo, mostrando las actividades, decisiones y ramificaciones del proceso.
+
+Estos son solo algunos ejemplos de los diagramas UML que se utilizan en el desarrollo de software. UML es un lenguaje estándar y ampliamente utilizado en la industria del software para modelar sistemas de software de forma visual y comprensible.
+
+Veréis mucho más en detalle los diagramas UML en el Módulo de Entornos de Desarrollo.
+:::
+
+## Resumen
+
+- La Programación Orientada a Objetos (POO) es un paradigma de programación que se basa en el uso de clases y objetos para modelar entidades del mundo real.
+- Los conceptos fundamentales de la POO son: clase, objeto, atributos, métodos, encapsulamiento, herencia, polimorfismo, abstracción, interfaz, paquete, modularidad, reutilización, mensajes y estado.
+- Las clases son plantillas que definen los objetos, y los objetos son instancias de una clase.
+- El encapsulamiento consiste en ocultar la implementación de un objeto y exponer solo los métodos públicos.
+- Los modificadores de acceso en Java controlan la visibilidad y accesibilidad de los atributos y métodos de una clase.
+- Los atributos y métodos estáticos pertenecen a la clase en lugar de a los objetos individuales.
+- Los constructores son métodos especiales que se utilizan para inicializar los atributos de un objeto cuando se crea una instancia de una clase.
+- Los getters y setters son métodos que se utilizan para acceder y modificar los atributos de un objeto de forma segura.
+- El método `toString` se utiliza para devolver una representación en forma de cadena de un objeto.
+- La sobrecarga de métodos permite definir múltiples métodos con el mismo nombre pero diferentes parámetros.
+- Los parámetros se pasan a los métodos por valor en Java, lo que significa que se pasa una copia del valor de la variable original al método.
+- Las referencias a objetos son direcciones de memoria que apuntan a la ubicación del objeto en la memoria.
+- Una referencia nula es una referencia que no apunta a ningún objeto en la memoria.
+- Un alias de un objeto es una referencia adicional que apunta al mismo objeto en la memoria.
+- Las clases anidadas y las clases internas son clases definidas dentro de otra clase en Java.
+- Las clases anidadas pueden ser estáticas o no estáticas, mientras que las clases internas siempre son no estáticas.
+- En UML, las clases se representan mediante un rectángulo dividido en tres secciones: nombre de la clase, atributos de la clase y métodos de la clase.
+
+
