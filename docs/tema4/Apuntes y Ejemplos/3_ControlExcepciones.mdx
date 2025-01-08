@@ -1,0 +1,145 @@
+# Control de excepciones en Java
+
+El control de excepciones, como ya vimos en Python con los bloques try-except es una herramienta fundamental en la programación para manejar errores y situaciones excepcionales que pueden ocurrir durante la ejecución de un programa. 
+
+En Java, el control de excepciones se realiza mediante el uso de bloques `try`, `catch` y `finally`.  
+
+Veamos un ejemplo sencillo de cómo se puede utilizar el control de excepciones en Java:
+
+```java
+public class ExceptionExample {
+    public static void main(String[] args) {
+        try {
+            // Código que puede generar una excepción
+            int result = 10 / 0; // División por cero
+            System.out.println("Resultado: " + result);
+        } catch (ArithmeticException e) {
+            // Manejo de la excepción
+            System.out.println("Error: División por cero.");
+        } finally {
+            // Código que se ejecuta siempre, independientemente de si se produjo una excepción o no
+            System.out.println("Bloque finally ejecutado.");
+        }
+    }
+}
+```
+
+En este ejemplo, se intenta realizar una división por cero, lo que generará una excepción `ArithmeticException`. El bloque `catch` captura esta excepción y muestra un mensaje de error. El bloque `finally` se ejecuta siempre, independientemente de si se produjo una excepción o no.
+
+## Bloques try, catch y finally
+
+- **try**: Contiene el código que puede generar una excepción. Si se produce una excepción, el flujo de ejecución se transfiere al bloque `catch`.
+- **catch**: Captura y maneja la excepción. Puedes tener múltiples bloques `catch` para manejar diferentes tipos de excepciones.
+- **finally**: Contiene código que se ejecuta siempre, independientemente de si se produjo una excepción o no. Es útil para liberar recursos o realizar tareas de limpieza.
+
+:::info[El bloque finally]
+El bloque `finally` es opcional y se ejecuta siempre, incluso si no se produce una excepción o si se utiliza una sentencia `return` en el bloque `try` o `catch`.
+
+Su uso es especialmente útil para liberar recursos, cerrar archivos o conexiones de base de datos, o realizar cualquier otra tarea que deba ejecutarse independientemente del resultado del bloque `try`.
+:::
+
+Al igual que ocurría en Python, es importante capturar las excepciones en un orden concreto, de más específico a más general. Esto se debe a que una excepción más específica puede ser manejada por un bloque `catch` antes de que se alcance un bloque `catch` más general. 
+
+Para asegurarnos de capturar cualquier excepción inesperada, se puede utilizar un bloque `catch` que capture la clase `Exception`, que es la superclase de todas las excepciones en Java. Sin embargo, esto debe hacerse con precaución, ya que capturar todas las excepciones puede ocultar errores importantes y dificultar la depuración del código. 
+
+Ejemplo de captura de excepciones en orden específico:
+
+```java
+public class ExceptionOrderExample {
+    public static void main(String[] args) {
+        try {
+            // Código que puede generar una excepción
+            int[] numbers = {1, 2, 3};
+            System.out.println(numbers[5]); // Acceso a un índice fuera de los límites
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // Manejo de la excepción específica
+            System.out.println("Error: Índice fuera de los límites del array.");
+        } catch (Exception e) {
+            // Manejo de cualquier otra excepción
+            System.out.println("Error: Ocurrió una excepción inesperada.");
+        }
+    }
+}
+```
+
+En este ejemplo, se captura primero la excepción `ArrayIndexOutOfBoundsException` y luego cualquier otra excepción que pueda ocurrir. Esto garantiza que las excepciones más específicas se manejen adecuadamente antes de que se alcance el bloque `catch` más general. 
+
+## Tipos de excepciones
+
+En Java, las excepciones se dividen en dos categorías principales:
+- **Excepciones comprobadas (Checked Exceptions)**: Son aquellas que el compilador obliga a manejar. Debes capturarlas o declararlas en la firma del método. Ejemplos incluyen `IOException`, `SQLException`, etc.  
+- **Excepciones no comprobadas (Unchecked Exceptions)**: Son aquellas que no es obligatorio manejar. Se dividen en `RuntimeException` y `Error`. Ejemplos incluyen `NullPointerException`, `ArrayIndexOutOfBoundsException`, etc.   
+
+- **Excepciones personalizadas**: Puedes crear tus propias excepciones extendiendo la clase `Exception` o `RuntimeException`. Pero esto lo veremos más adelante, cuándo veamos herencia en Java.    
+- **Excepciones de tiempo de ejecución (Runtime Exceptions)**: Son un tipo de excepciones no comprobadas que ocurren durante la ejecución del programa. Estas excepciones generalmente indican errores de programación, como acceso a un índice fuera de los límites de un array o división por cero. Ejemplos comunes incluyen `NullPointerException`, `ArrayIndexOutOfBoundsException` y `ArithmeticException`.   
+
+## Excepciones comunes en Java
+
+- `NullPointerException`: Ocurre cuando se intenta acceder a un objeto que es `null`.
+- `ArrayIndexOutOfBoundsException`: Ocurre cuando se intenta acceder a un índice de array que está fuera de los límites.
+- `ClassCastException`: Ocurre cuando se intenta convertir un objeto a una clase incompatible.
+- `NumberFormatException`: Ocurre cuando se intenta convertir una cadena a un número y la cadena no tiene el formato adecuado.
+- `IOException`: Ocurre cuando se produce un error de entrada/salida, como al leer o escribir en un archivo.
+- `SQLException`: Ocurre cuando se produce un error al interactuar con una base de datos.
+- `FileNotFoundException`: Ocurre cuando se intenta acceder a un archivo que no existe.
+- `ArithmeticException`: Ocurre cuando se realiza una operación aritmética ilegal, como la división por cero.
+- `IllegalArgumentException`: Ocurre cuando se pasa un argumento ilegal o inapropiado a un método.
+- `IllegalStateException`: Ocurre cuando el estado de un objeto no es adecuado para la operación solicitada.
+- `IndexOutOfBoundsException`: Ocurre cuando se intenta acceder a un índice que está fuera de los límites de una colección o array.
+- `ConcurrentModificationException`: Ocurre cuando se modifica una colección mientras se itera sobre ella.
+- `NoSuchElementException`: Ocurre cuando se intenta acceder a un elemento que no existe en una colección o iterador.
+- `UnsupportedOperationException`: Ocurre cuando se intenta realizar una operación que no está soportada por una colección o clase.
+- `StackOverflowError`: Ocurre cuando se produce un desbordamiento de pila, generalmente debido a una recursión excesiva.
+- `OutOfMemoryError`: Ocurre cuando la JVM no puede asignar más memoria para objetos.
+- `ClassNotFoundException`: Ocurre cuando se intenta cargar una clase que no se encuentra en el classpath.
+
+Existen muchas más excepciones en Java, pero estas son algunas de las más comunes que los desarrolladores suelen encontrar.
+
+Para más información sobre las excepciones en Java, puedes consultar la [documentación oficial de Oracle](https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html).
+
+## Las palabras reservadas `throw` y `throws`
+
+- `throw`: Se utiliza para lanzar una excepción de forma explícita. Puedes lanzar una excepción en cualquier parte del código, y esto puede ser útil para indicar errores o situaciones excepcionales que deben ser manejadas.
+```java
+public class ThrowExample {
+    public static void main(String[] args) {
+        try {
+            int number = -5;
+            if (number < 0) {
+                throw new IllegalArgumentException("El número no puede ser negativo.");
+            }
+            System.out.println("Número válido: " + number);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Excepción capturada: " + e.getMessage());
+        }
+    }
+}
+``` 
+
+El uso de `throw` permite lanzar excepciones personalizadas o predefinidas en situaciones específicas, lo que facilita la identificación y manejo de errores en el código.
+
+Es el equivalente en Java para `raise` en Python.
+
+- `throws`: Se utiliza en la declaración de un método para indicar que el método puede lanzar una o más excepciones. Esto permite que el método llame a otros métodos que pueden lanzar excepciones sin tener que manejarlas directamente. En su lugar, las excepciones se propagan hacia arriba en la pila de llamadas hasta que se manejan o se alcanzan los límites del programa.
+```java
+public class ThrowsExample {
+    public static void main(String[] args) {
+        try {
+            int result = divide(10, 0);
+            System.out.println("Resultado: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Excepción capturada: " + e.getMessage());
+        }
+    }
+    public static int divide(int a, int b) throws ArithmeticException {
+        return a / b;
+    }
+}
+```
+
+El uso de `throws` permite que los métodos sean más flexibles y reutilizables, ya que pueden trabajar con diferentes tipos de excepciones sin tener que preocuparse por manejarlas directamente.
+
+Se utiliza también para obligar a un método a manejar una excepción que no es de tiempo de ejecución (checked exception).
+
+
+

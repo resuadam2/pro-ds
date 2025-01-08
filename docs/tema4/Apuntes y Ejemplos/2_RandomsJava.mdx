@@ -1,0 +1,81 @@
+# Aleatoriedad en Java (Random)
+
+En Java se pueden generar números aleatorios utilizando la clase `Random` de la biblioteca estándar. Aquí hay un ejemplo de cómo hacerlo:
+
+```java
+import java.util.Random;
+
+public class RandomExample {
+    public static void main(String[] args) {
+        // Crear una instancia de la clase Random
+        Random random = new Random();
+
+        // Generar un número aleatorio entre 0 y 9
+        int randomNumber = random.nextInt(10);
+        System.out.println("Número aleatorio entre 0 y 9: " + randomNumber);
+
+        // Generar un número aleatorio entre 1 y 100
+        int randomNumberInRange = random.nextInt(100) + 1;
+        System.out.println("Número aleatorio entre 1 y 100: " + randomNumberInRange);
+    }
+}
+```
+
+En este ejemplo, se crea una instancia de la clase `Random` y se utilizan los métodos `nextInt(int bound)` para generar números aleatorios dentro de un rango específico.
+
+## Métodos comunes de Random
+
+- `nextInt()`: Genera un número entero aleatorio.
+- `nextInt(int bound)`: Genera un número entero aleatorio entre 0 (inclusive) y el valor especificado (exclusive).
+- `nextDouble()`: Genera un número decimal aleatorio entre 0.0 (inclusive) y 1.0 (exclusive).
+- `nextBoolean()`: Genera un valor booleano aleatorio (true o false).
+- `nextFloat()`: Genera un número decimal aleatorio entre 0.0 (inclusive) y 1.0 (exclusive).
+- `nextLong()`: Genera un número largo aleatorio.
+- `nextGaussian()`: Genera un número aleatorio con distribución normal (gaussiana).
+-  `setSeed(long seed)`: Establece la semilla para la generación de números aleatorios.
+- `nextBytes(byte[] bytes)`: Llena un array de bytes con valores aleatorios.
+
+:::tip[Sobre la aleatoriedad en programación]
+La aleatoriedad en programación se refiere a la generación de valores que no siguen un patrón predecible. 
+
+En Java, la clase `Random` proporciona métodos para generar números aleatorios, pero es importante tener en cuenta que estos números son **pseudoaleatorios**, lo que significa que son generados por algoritmos determinísticos y pueden ser reproducidos si se conoce la semilla utilizada para generarlos.
+
+Esto puede ser útil en aplicaciones como juegos, simulaciones, pruebas de software y criptografía. 
+
+Sin embargo, para aplicaciones que requieren una verdadera aleatoriedad, como la generación de claves criptográficas, se deben utilizar fuentes de entropía más robustas.
+:::
+
+## Ejemplo de uso práctico
+
+Sacar valores aleatorios de un ArrayList:
+```java
+import java.util.ArrayList;
+import java.util.Random;
+
+public class RandomArrayListExample {
+    public static void main(String[] args) {
+        // Crear un ArrayList de tipo String
+        ArrayList<String> nombres = new ArrayList<>();
+        nombres.add("Alice");
+        nombres.add("Bob");
+        nombres.add("Charlie");
+        nombres.add("David");
+        nombres.add("Eve");
+
+        // Crear una instancia de la clase Random
+        Random random = new Random();
+
+        // Generar un índice aleatorio para seleccionar un nombre del ArrayList
+        int randomIndex = random.nextInt(nombres.size());
+        String randomName = nombres.get(randomIndex);
+
+        // Imprimir el nombre seleccionado aleatoriamente
+        System.out.println("Nombre aleatorio seleccionado: " + randomName);
+    }
+}
+```
+
+En este ejemplo, se crea un ArrayList de nombres y se utiliza la clase `Random` para seleccionar un nombre aleatorio del ArrayList.
+
+
+

@@ -1,0 +1,202 @@
+# ArrayList en Java
+
+Los ArrayList son una estructura de datos que permite almacenar elementos de manera dinámica, es decir, su tamaño puede cambiar durante la ejecución del programa. A diferencia de los arrays tradicionales, que tienen un tamaño fijo, los ArrayList pueden crecer o reducirse según sea necesario.
+
+Para poder utilizar ArrayList en Java, es necesario importar la clase `ArrayList` del paquete `java.util`. A continuación, se muestra un ejemplo de cómo crear y utilizar un ArrayList: 
+
+```java
+import java.util.ArrayList;
+
+public class ArrayListExample {
+    public static void main(String[] args) {
+        // Crear un ArrayList de tipo String
+        ArrayList<String> nombres = new ArrayList<>();
+
+        // Agregar elementos al ArrayList
+        nombres.add("Alice");
+        nombres.add("Bob");
+        nombres.add("Charlie");
+
+        // Imprimir el contenido del ArrayList
+        System.out.println("Nombres: " + nombres);
+
+        // Obtener el tamaño del ArrayList
+        System.out.println("Tamaño del ArrayList: " + nombres.size());
+
+        // Acceder a un elemento específico
+        System.out.println("Primer nombre: " + nombres.get(0));
+
+        // Eliminar un elemento del ArrayList
+        nombres.remove("Bob");
+        System.out.println("Nombres después de eliminar a Bob: " + nombres);
+    }
+}
+```
+
+En este ejemplo, se crea un ArrayList llamado `nombres` que almacena elementos de tipo `String`. Se agregan tres nombres al ArrayList utilizando el método `add()`, se imprime el contenido del ArrayList, se obtiene su tamaño con el método `size()`, se accede a un elemento específico con el método `get()`, y finalmente, se elimina un elemento utilizando el método `remove()`. 
+
+:::info[Sobre la interfaz `List` en Java]
+
+ArrayList implementa la interfaz `List`, que es una colección ordenada que permite elementos duplicados. 
+
+La interfaz `List` proporciona métodos para manipular la lista, como agregar, eliminar y acceder a elementos en posiciones específicas. 
+
+ArrayList es una de las implementaciones más comunes de la interfaz `List` en Java. 
+
+También existen otras implementaciones de la interfaz `List`, como `LinkedList` y `Vector`. 
+
+Cada una de ellas tiene sus propias características y ventajas, por lo que la elección de una implementación sobre otra dependerá de los requisitos específicos del programa.
+
+:::
+
+
+:::tip[ArrayList vs. LinkedList]
+
+ArrayList y LinkedList son dos implementaciones de la interfaz `List` en Java, pero tienen diferencias importantes en su funcionamiento y rendimiento.
+
+- **ArrayList**: 
+  - Almacena elementos en un array dinámico.
+  - Acceso rápido a elementos mediante índices.
+  - Inserciones y eliminaciones pueden ser costosas si se realizan en posiciones intermedias, ya que requiere mover elementos.
+  - Mejor rendimiento para operaciones de acceso aleatorio.
+
+- **LinkedList**:
+    - Almacena elementos en una lista enlazada.
+    - Acceso más lento a elementos mediante índices, ya que requiere recorrer la lista.
+    - Inserciones y eliminaciones son más eficientes, especialmente en posiciones intermedias, ya que solo se actualizan los enlaces.
+    - Mejor rendimiento para operaciones de inserción y eliminación frecuentes.
+:::
+
+## Métodos comunes de ArrayList
+
+- `add(E e)`: Agrega un elemento al final del ArrayList.
+- `add(int index, E element)`: Agrega un elemento en una posición específica del ArrayList.
+- `get(int index)`: Devuelve el elemento en la posición especificada.
+- `remove(Object o)`: Elimina la primera ocurrencia del elemento especificado del ArrayList.
+- `remove(int index)`: Elimina el elemento en la posición especificada.
+- `size()`: Devuelve el número de elementos en el ArrayList.
+- `clear()`: Elimina todos los elementos del ArrayList.
+- `contains(Object o)`: Devuelve `true` si el ArrayList contiene el elemento especificado.
+- `indexOf(Object o)`: Devuelve la posición de la primera ocurrencia del elemento especificado, o -1 si no se encuentra.
+- `isEmpty()`: Devuelve `true` si el ArrayList está vacío.
+- `set(int index, E element)`: Reemplaza el elemento en la posición especificada con el elemento dado.
+- `toArray()`: Devuelve un array que contiene todos los elementos del ArrayList.
+- `subList(int fromIndex, int toIndex)`: Devuelve una vista del ArrayList entre los índices especificados.
+- `sort(Comparator<? super E> c)`: Ordena los elementos del ArrayList según el orden especificado por el comparador dado.
+
+:::info[La nomenclatura "E element"]
+La nomenclatura "E element" en los métodos de ArrayList se refiere a un tipo genérico. La letra "E" es una convención que significa "elemento".
+
+Esto significa que el método puede aceptar cualquier tipo de objeto como argumento, y el tipo específico se determina en tiempo de ejecución. 
+
+Esto permite que los métodos sean más flexibles y reutilizables para diferentes tipos de datos.
+:::
+
+## Ejemplo de uso de métodos comunes
+
+```java
+import java.util.ArrayList;
+
+public class ArrayListMethodsExample {
+    public static void main(String[] args) {
+        // Crear un ArrayList de tipo Integer
+        ArrayList<Integer> numeros = new ArrayList<>();
+
+        // Agregar elementos al ArrayList
+        numeros.add(10);
+        numeros.add(20);
+        numeros.add(30);
+
+        // Imprimir el contenido del ArrayList
+        System.out.println("Números: " + numeros);
+
+        // Obtener el tamaño del ArrayList
+        System.out.println("Tamaño del ArrayList: " + numeros.size());
+
+        // Acceder a un elemento específico
+        System.out.println("Primer número: " + numeros.get(0));
+
+        // Eliminar un elemento del ArrayList
+        numeros.remove(Integer.valueOf(20));
+        System.out.println("Números después de eliminar 20: " + numeros);
+
+        // Verificar si el ArrayList contiene un elemento
+        System.out.println("¿Contiene 30? " + numeros.contains(30));
+
+        // Obtener la posición de un elemento
+        System.out.println("Posición de 30: " + numeros.indexOf(30));
+
+        // Reemplazar un elemento en una posición específica
+        numeros.set(0, 100);
+        System.out.println("Números después de reemplazar el primer número: " + numeros);
+
+        // Convertir el ArrayList a un array
+        Integer[] arrayNumeros = numeros.toArray(new Integer[0]);
+        System.out.println("Array convertido: ");
+        for (Integer num : arrayNumeros) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un ArrayList llamado `numeros` que almacena elementos de tipo `Integer`. Se utilizan varios métodos comunes para manipular y obtener información sobre el ArrayList.
+
+## Ejemplo de uso de ArrayList con objetos personalizados
+
+```java
+import java.util.ArrayList;
+
+class Persona {
+    private String nombre;
+    private int edad;
+
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", edad=" + edad +
+                '}';
+    }
+}
+
+public class ArrayListCustomObjectExample {
+    public static void main(String[] args) {
+        // Crear un ArrayList de tipo Persona
+        ArrayList<Persona> personas = new ArrayList<>();
+
+        // Agregar elementos al ArrayList
+        personas.add(new Persona("Alice", 30));
+        personas.add(new Persona("Bob", 25));
+        personas.add(new Persona("Charlie", 35));
+
+        // Imprimir el contenido del ArrayList
+        System.out.println("Personas: " + personas);
+
+        // Obtener el tamaño del ArrayList
+        System.out.println("Tamaño del ArrayList: " + personas.size());
+
+        // Acceder a un elemento específico
+        System.out.println("Primera persona: " + personas.get(0));
+
+        // Eliminar un elemento del ArrayList
+        personas.remove(1);
+        System.out.println("Personas después de eliminar a Bob: " + personas);
+    }
+}
+```
+
+En este ejemplo, se crea un ArrayList llamado `personas` que almacena objetos de la clase `Persona`. Se agregan tres personas al ArrayList, se imprime su contenido, se obtiene su tamaño, se accede a una persona específica y se elimina una persona del ArrayList.
