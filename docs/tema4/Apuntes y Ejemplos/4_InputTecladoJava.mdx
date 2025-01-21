@@ -1,0 +1,159 @@
+# Entrada de datos por teclado en Java
+
+Para leer datos del teclado en Java existen varias posibilidades:
+
+1. **Clase `Scanner`**: es una clase que permite leer datos de diferentes tipos desde la entrada estándar.
+    - Esta es la opción más utilizada y recomendada.
+2. **Clase `BufferedReader`**: es una clase que permite leer datos de texto desde la entrada estándar.
+    - Esta clase es más eficiente que `Scanner` para leer grandes cantidades de datos.
+3. **Clase `Console`**: es una clase que permite leer datos de texto desde la entrada estándar.
+    - Esta clase tiene el problema de que no funciona en todos los entornos o IDEs.
+4. **Clase `DataInputStream`**: es una clase que permite leer datos binarios desde la entrada estándar.
+    - Esta clase está obsoleta y no se recomienda su uso.
+
+En este documento, nos centraremos en la clase `Scanner` para leer datos del teclado en Java.
+
+## Clase `Scanner`
+
+La clase `Scanner` se encuentra en el paquete `java.util` y se utiliza para leer datos de diferentes tipos desde la entrada estándar. Para utilizarla, primero debemos importarla en nuestro programa:
+
+```java
+import java.util.Scanner;
+```
+
+A continuación, creamos una instancia de la clase `Scanner` para leer datos del teclado:
+
+```java
+Scanner scanner = new Scanner(System.in);
+```
+
+Una vez que tenemos la instancia del `Scanner`, podemos utilizar sus métodos para leer diferentes tipos de datos. Algunos de los métodos más comunes son:   
+
+- `nextBoolean()`: lee un valor booleano.
+- `nextByte()`: lee un valor de tipo `byte`.
+- `nextShort()`: lee un valor de tipo `short`.
+- `nextInt()`: lee un valor de tipo `int`.
+- `nextLong()`: lee un valor de tipo `long`.
+- `nextFloat()`: lee un valor de tipo `float`.
+- `nextDouble()`: lee un valor de tipo `double`.
+- `nextLine()`: lee una línea de texto.
+- `next()`: lee una palabra.
+
+Por ejemplo, para leer un entero desde el teclado:
+
+```java
+int numero = scanner.nextInt();
+```
+
+O para leer una línea de texto:
+
+```java
+String texto = scanner.nextLine();
+```
+
+Es importante recordar que después de leer un valor, es recomendable limpiar el buffer del `Scanner` para evitar problemas con la lectura de datos. Para ello, podemos utilizar el método `nextLine()` después de leer un valor:
+
+```java
+int numero = scanner.nextInt();
+scanner.nextLine(); // Limpiar el buffer
+```
+
+Finalmente, cuando hayamos terminado de utilizar el `Scanner`, es importante cerrarlo para liberar los recursos asociados:
+
+```java
+scanner.close();
+```
+
+## Ejemplo completo
+
+A continuación, se muestra un ejemplo completo de un programa que lee un entero y una línea de texto desde el teclado:
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduce un número entero: ");
+        int numero = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+
+        System.out.print("Introduce una línea de texto: ");
+        String texto = scanner.nextLine();
+
+        System.out.println("Número: " + numero);
+        System.out.println("Texto: " + texto);
+
+        scanner.close();
+    }
+}
+```
+
+Este programa solicita al usuario que introduzca un número entero y una línea de texto, y luego muestra los valores introducidos por el usuario.    
+
+Es importante recordar que la lectura de datos del teclado puede generar excepciones, por lo que es recomendable utilizar bloques `try-catch` para manejar posibles errores.    
+
+:::warning[Importante - sobre la limpieza del buffer del Scanner]
+Es importante recordar limpiar el buffer del `Scanner` después de leer un valor de tipo primitivo (como un entero o un booleano) antes de leer una línea de texto. Si no se limpia el buffer, la llamada a `nextLine()` después de leer un valor primitivo puede devolver una cadena vacía. 
+
+Si no lo hacemos podemos tener problemas al leer datos de tipo `String` después de leer otros tipos de datos.
+
+Por ejemplo, si leemos un entero y luego una línea de texto sin limpiar el buffer:
+
+```java
+int numero = scanner.nextInt();
+String texto = scanner.nextLine(); // Devolverá una cadena vacía
+```
+
+Para evitar este problema, es recomendable limpiar el buffer después de leer un valor primitivo:
+
+```java
+int numero = scanner.nextInt();
+scanner.nextLine(); // Limpiar el buffer
+String texto = scanner.nextLine(); // Ahora se leerá correctamente la línea de texto
+```
+:::
+
+:::info[Excepciones habituales al leer datos del teclado]
+Al leer datos del teclado con la clase `Scanner`, pueden producirse las siguientes excepciones:
+
+- `InputMismatchException`: se lanza cuando el tipo de dato introducido no coincide con el tipo esperado.
+- `NoSuchElementException`: se lanza cuando no hay más elementos para leer.
+- `IllegalStateException`: se lanza cuando el `Scanner` está cerrado o no es válido.
+
+Es recomendable utilizar bloques `try-catch` para manejar estas excepciones y evitar que el programa se detenga inesperadamente.
+
+```java
+try {
+    // Código que puede lanzar excepciones
+} catch (InputMismatchException e) {
+    System.out.println("Error: el tipo de dato introducido no es válido.");
+} catch (NoSuchElementException e) {
+    System.out.println("Error: no hay más elementos para leer.");
+} catch (IllegalStateException e) {
+    System.out.println("Error: el Scanner está cerrado o no es válido.");
+}
+```
+
+Tenéis más información acerca de la captura de excepciones en la documentación oficial de Java: [Java Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html).
+
+Y también en la sección correspondiente de estos apuntes: [Excepciones en Java](./8_ControlExcepciones.mdx).
+
+:::
+
+:::danger[Importante - sobre el cierre del Scanner]
+Es importante cerrar el `Scanner` después de utilizarlo para liberar los recursos asociados. 
+
+Si no se cierra el `Scanner`, puede provocar problemas de memoria o pérdida de datos.
+
+```java
+scanner.close();
+```
+:::
+
+:::danger[Sobre el uso de Scanner en entornos concurrentes]
+La clase `Scanner` no es segura para su uso en entornos concurrentes, ya que no es thread-safe. 
+
+Si se necesita leer datos de entrada en un entorno concurrente, es recomendable utilizar otras alternativas más seguras, como `BufferedReader`.
+:::

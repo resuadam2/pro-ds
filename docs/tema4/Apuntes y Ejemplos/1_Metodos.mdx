@@ -1,0 +1,210 @@
+# Los métodos o funciones en Java
+
+A diferencia de Python, en Java no se pueden definir funciones fuera de una clase. 
+
+En Java, las funciones se definen dentro de una clase y se llaman métodos. 
+
+Un método es una función que se define dentro de una clase y que se puede llamar desde cualquier parte del programa. 
+
+En Java, los métodos se definen con la siguiente sintaxis:
+
+```java
+tipo_de_retorno nombre_del_metodo(parametros) {
+    // Cuerpo del método
+}
+```
+
+Donde:
+
+- `tipo_de_retorno` es el tipo de dato que devuelve el método. Si el método no devuelve ningún valor, se utiliza la palabra clave `void`.
+- `nombre_del_metodo` es el nombre del método.
+- `parametros` son los parámetros que recibe el método. Si el método no recibe ningún parámetro, se dejan los paréntesis vacíos.
+- `cuerpo_del_metodo` es el código que se ejecuta cuando se llama al método.
+
+Por ejemplo, el siguiente método suma dos números enteros y devuelve el resultado:
+
+```java
+int sumar(int a, int b) {
+    return a + b;
+}
+```
+
+Para llamar a un método, se utiliza la siguiente sintaxis:
+
+```java
+nombre_del_metodo(parametros);
+```
+
+Por ejemplo, para llamar al método `sumar` definido anteriormente:
+
+```java
+int resultado = sumar(3, 5);
+```
+
+Sin embargo, existe un problema con el código anterior. Si se ejecuta, se obtendrá un error de compilación, ya que el método `sumar` no está definido en ninguna clase.
+
+Para solucionar este problema, se debe definir una clase que contenga el método `sumar` y luego llamar al método.
+
+Esto puede hacerse desde la propia clase o desde otra, pero siempre se debe llamar al método desde una clase.
+
+Vamos a ver un ejemplo de clase Main que contiene el método `sumar` y cómo llamarlo desde el método main:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int resultado = sumar(3, 5);
+        System.out.println(resultado);
+    }
+
+    static int sumar(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+Es importante fijarse en que se ha añadido al método `sumar` la palabra clave `static`. Esto es necesario para poder llamar al método desde el método `main`, que también es estático.  
+
+## Métodos estáticos
+
+En el ejemplo anterior, el método `sumar` es estático.
+
+Un método estático es un método que pertenece a la clase en la que está definido y no a una instancia de la clase.
+
+Esto significa que se puede llamar al método sin necesidad de crear un objeto de la clase.
+
+Para definir un método estático, se utiliza la palabra clave `static` antes del tipo de retorno del método.
+
+Por ejemplo, el método `sumar` del ejemplo anterior es estático:
+
+```java
+static int sumar(int a, int b) {
+    return a + b;
+}
+```
+
+Para llamar a un método estático, se utiliza la siguiente sintaxis:
+
+```java
+nombre_de_la_clase.nombre_del_metodo(parametros);
+```
+
+Por ejemplo, para llamar al método `sumar` del ejemplo anterior:
+
+```java
+int resultado = Main.sumar(3, 5);
+```
+
+Sin embargo, esto no es necesario si lo estamos llamando desde la propia clase, ya que Java permite llamar a métodos estáticos sin especificar el nombre de la clase:
+
+```java
+int resultado = sumar(3, 5);
+```
+
+## Paso de parámetros
+
+En Java, los parámetros de un método se pasan por valor, lo que significa que se crea una copia del valor de los parámetros y se trabaja con esa copia dentro del método.
+
+Esto significa que si se modifica el valor de un parámetro dentro de un método, el valor original no se verá afectado.
+
+Por ejemplo, el siguiente método intenta modificar el valor de un parámetro:
+
+```java
+void modificar(int a) {
+    a = 10;
+}
+```
+
+Si se llama al método `modificar` con el valor `5`, el valor de `a` dentro del método será `10`, pero el valor original seguirá siendo `5`.
+
+```java
+int x = 5;
+
+modificar(x);
+
+System.out.println(x); // Imprime 5
+```
+
+### Paso de un número variable de parámetros
+
+En Java, es posible definir métodos que acepten un número variable de parámetros.
+
+Para ello, se utiliza la siguiente sintaxis:
+
+```java
+tipo_de_retorno nombre_del_metodo(tipo... nombre_del_parametro) {
+    // Cuerpo del método
+}
+```
+
+Por ejemplo, el siguiente método suma un número variable de enteros:
+
+```java
+int sumar(int... numeros) {
+    int suma = 0;
+
+    for (int numero : numeros) {
+        suma += numero;
+    }
+
+    return suma;
+}
+```
+
+Este método se puede llamar con cualquier número de parámetros enteros:
+
+```java
+int resultado1 = sumar(1, 2, 3); // Suma 1 + 2 + 3
+
+int resultado2 = sumar(1, 2, 3, 4, 5); // Suma 1 + 2 + 3 + 4 + 5
+```
+
+En este caso, el método `sumar` acepta un número variable de parámetros enteros y devuelve la suma de todos los parámetros.
+
+## Paso de parámetros por referencia
+
+Aunque en Java los parámetros se pasan por valor, es posible simular el paso de parámetros por referencia utilizando objetos.
+
+Por ejemplo, el siguiente método modifica el valor de un objeto:
+
+```java
+void modificarObjeto(Objeto o) {
+    o.valor = 10;
+}
+```
+
+Si se llama al método `modificarObjeto` con un objeto `o` cuyo valor es `5`, el valor del objeto `o` será `10`.
+
+```java
+Objeto o = new Objeto(5);
+
+modificarObjeto(o);
+
+System.out.println(o.valor); // Imprime 10
+```
+
+En este caso, el valor del objeto `o` se modifica dentro del método, ya que se está trabajando con una referencia al objeto y no con una copia del objeto.  
+
+## Sobrecarga de métodos
+
+En Java, es posible definir varios métodos con el mismo nombre pero con diferentes parámetros.
+
+Esto se conoce como sobrecarga de métodos y permite que un método tenga diferentes comportamientos dependiendo de los parámetros que reciba.
+
+Por ejemplo, el siguiente código define dos métodos `sumar` con diferentes parámetros:
+
+```java
+int sumar(int a, int b) {
+    return a + b;
+}
+
+double sumar(double a, double b) {
+    return a + b;
+}
+```
+
+En este caso, si se llama al método `sumar` con dos enteros, se llamará al primer método, y si se llama con dos números decimales, se llamará al segundo método.
+
+```java
+int resultado1 = sumar(3, 5); // Llama al primer método
+double resultado2 = sumar(3.5, 5.5); // Llama al segundo método
+```

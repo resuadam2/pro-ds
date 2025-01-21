@@ -1,0 +1,211 @@
+# Arrays en Java
+
+Un array en Java es un objeto que almacena una colección de elementos del mismo tipo. Los arrays en Java son de tamaño fijo, lo que significa que una vez que se crea un array, no se puede cambiar su tamaño. Sin embargo, es posible crear un nuevo array con un tamaño diferente y copiar los elementos del array original al nuevo array.   
+
+## Declaración de arrays
+
+Para declarar un array en Java, se utiliza la siguiente sintaxis:
+
+```java
+tipo[] nombre_del_array;
+```
+
+Por ejemplo, para declarar un array de enteros llamado `numeros`:
+
+```java
+int[] numeros;
+```
+
+También es posible declarar un array de la siguiente forma:
+
+```java
+tipo nombre_del_array[];
+```
+
+Por ejemplo, para declarar un array de enteros llamado `numeros`:
+
+```java
+int numeros[];
+```
+
+## Creación de arrays
+
+Para crear un array en Java, se utiliza la siguiente sintaxis:
+
+```java
+nombre_del_array = new tipo[tamaño];
+```
+
+Por ejemplo, para crear un array de enteros llamado `numeros` con tamaño 5:
+
+```java
+numeros = new int[5];
+```
+
+También es posible declarar y crear un array en la misma línea:
+
+```java
+tipo[] nombre_del_array = new tipo[tamaño];
+```
+
+Por ejemplo, para declarar y crear un array de enteros llamado `numeros` con tamaño 5:
+
+```java
+int[] numeros = new int[5];
+```
+
+También se puede crear un array e inicializarlo con valores en la misma línea:
+
+```java
+tipo[] nombre_del_array = {valor1, valor2, valor3, ...};
+```
+
+Por ejemplo, para declarar y crear un array de enteros llamado `numeros` con los valores `1`, `2` y `3`:
+
+```java
+int[] numeros = {1, 2, 3};
+```
+
+## Acceso a elementos de un array
+
+Para acceder a un elemento de un array en Java, se utiliza el siguiente índice:
+
+```java
+nombre_del_array[indice];
+```
+
+Por ejemplo, para acceder al primer elemento del array `numeros`:
+
+```java
+int primerElemento = numeros[0];
+```
+
+## Iteración sobre un array
+
+Para iterar sobre los elementos de un array en Java, se puede utilizar un bucle `for`:
+
+```java
+for (int i = 0; i < nombre_del_array.length; i++) {
+    // Acceder al elemento en la posición i
+}
+```
+
+Por ejemplo, para imprimir todos los elementos de un array de enteros llamado `numeros`:
+
+```java
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println(numeros[i]);
+}
+```
+
+También se puede utilziar un bucle `for-each` para iterar sobre los elementos de un array:
+
+```java
+for (tipo elemento : nombre_del_array) {
+    // Acceder al elemento
+}
+```
+
+Por ejemplo, para imprimir todos los elementos de un array de enteros llamado `numeros`:
+
+```java
+for (int numero : numeros) {
+    System.out.println(numero);
+}
+```
+
+## Arrays multidimensionales
+
+En Java, también es posible crear arrays multidimensionales, es decir, arrays de arrays. Por ejemplo, un array bidimensional se puede declarar y crear de la siguiente forma:
+
+```java
+tipo[][] nombre_del_array = new tipo[fila][columna];
+```
+
+Por ejemplo, para declarar y crear un array bidimensional de enteros llamado `matriz` con 3 filas y 3 columnas:
+
+```java
+int[][] matriz = new int[3][3];
+```
+
+Para acceder a un elemento de un array bidimensional en Java, se utiliza el siguiente índice:
+
+```java
+nombre_del_array[fila][columna];
+```
+
+Por ejemplo, para acceder al elemento en la fila 1 y columna 2 de la matriz `matriz`:
+
+```java
+int elemento = matriz[1][2];
+```
+
+Para iterar sobre los elementos de un array bidimensional en Java, se pueden utilizar dos bucles `for` anidados:
+
+```java
+for (int i = 0; i < nombre_del_array.length; i++) {
+    for (int j = 0; j < nombre_del_array[i].length; j++) {
+        // Acceder al elemento en la posición (i, j)
+    }
+}
+```
+
+Por ejemplo, para imprimir todos los elementos de una matriz de enteros llamada `matriz`:
+
+```java
+for (int i = 0; i < matriz.length; i++) {
+    for (int j = 0; j < matriz[i].length; j++) {
+        System.out.println(matriz[i][j]);
+    }
+}
+```
+
+También se puede utilizar un bucle `for-each` anidado para iterar sobre los elementos de un array bidimensional:
+
+```java
+for (tipo[] fila : nombre_del_array) {
+    for (tipo elemento : fila) {
+        // Acceder al elemento
+    }
+}
+```
+
+Por ejemplo, para imprimir todos los elementos de una matriz de enteros llamada `matriz`:
+
+```java
+for (int[] fila : matriz) {
+    for (int elemento : fila) {
+        System.out.println(elemento);
+    }
+}
+```
+
+## Métodos de la clase `Arrays`
+
+La clase `Arrays` en Java proporciona varios métodos estáticos para trabajar con arrays. Algunos de los métodos más comunes son:
+
+- `sort(array)`: Ordena los elementos de un array en orden ascendente.
+- `binarySearch(array, valor)`: Busca un valor en un array ordenado y devuelve su índice.
+- `copyOf(array, nuevo_tamaño)`: Copia un array a un nuevo array con un tamaño diferente.
+- `fill(array, valor)`: Rellena un array con un valor específico.
+- `equals(array1, array2)`: Compara dos arrays para determinar si son iguales.
+- `toString(array)`: Convierte un array en una cadena de texto.
+- `asList(array)`: Convierte un array en una lista.
+- `stream(array)`: Convierte un array en un `Stream`.
+- `copyOfRange(array, inicio, fin)`: Copia un rango de elementos de un array a un nuevo array.
+
+Por ejemplo, para ordenar un array de enteros llamado `numeros`:
+
+```java
+Arrays.sort(numeros);
+```
+
+O para copiar un array de enteros llamado `numeros` a un nuevo array con el doble de tamaño:
+
+```java
+int[] nuevoArray = Arrays.copyOf(numeros, numeros.length * 2);
+```
+
+Existen muchos otros métodos en la clase `Arrays` que pueden ser útiles para trabajar con arrays en Java.
+
+Para consultar la documentación completa de la clase `Arrays`, se puede visitar la [página oficial de Oracle](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html).

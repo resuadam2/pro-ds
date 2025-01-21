@@ -1,0 +1,417 @@
+# Strings en Java
+
+En Java, un `String` es un objeto que representa una secuencia de caracteres. 
+
+Los `String` son inmutables, lo que significa que una vez que se crea un `String`, no se puede modificar su contenido.
+
+A diferencia de otros lenguajes de programación, en Java los `String` se tratan como objetos, lo que significa que se pueden utilizar métodos para trabajar con ellos.  
+
+## Declaración de Strings
+
+Para declarar un `String` en Java, se utiliza la siguiente sintaxis:
+
+```java
+String nombre_del_string;
+```
+
+Por ejemplo, para declarar un `String` llamado `mensaje`:
+
+```java
+String mensaje;
+```
+
+También es posible declarar y asignar un valor a un `String` en la misma línea:
+
+```java
+String nombre_del_string = "valor";
+```
+
+Por ejemplo, para declarar un `String` llamado `mensaje` con el valor `"Hola, mundo"`:
+
+```java
+String mensaje = "Hola, mundo";
+```
+
+Podemos concatenar `String` con el operador `+`:
+
+```java
+String saludo = "Hola";
+String nombre = "Mundo";
+String mensaje = saludo + ", " + nombre + "!";
+```
+
+Aunque también podemos utilizar el método `concat`:
+
+```java
+String saludo = "Hola";
+String nombre = "Mundo";
+String mensaje = saludo.concat(", ").concat(nombre).concat("!");
+```
+
+## Métodos de la clase String
+
+La clase `String` en Java proporciona una serie de métodos para trabajar con `String`. Algunos de los métodos más comunes son:
+
+- `length()`: Devuelve la longitud del `String`.
+- `concat(String str)`: Concatena el `String` con otro `String`.
+- `charAt(int index)`: Devuelve el carácter en la posición especificada.
+- `substring(int beginIndex)`: Devuelve una subcadena que comienza en la posición especificada.
+- `substring(int beginIndex, int endIndex)`: Devuelve una subcadena que comienza en la posición especificada y termina en la posición especificada.
+- `equals(Object obj)`: Compara el `String` con el objeto especificado.
+- `equalsIgnoreCase(String anotherString)`: Compara el `String` con otro `String`, ignorando las diferencias entre mayúsculas y minúsculas.
+- `toUpperCase()`: Convierte el `String` a mayúsculas.
+- `toLowerCase()`: Convierte el `String` a minúsculas.
+- `isEmpty()`: Comprueba si el `String` está vacío.
+- `trim()`: Elimina los espacios en blanco al principio y al final del `String`.
+- `startsWith(String prefix)`: Comprueba si el `String` comienza con el prefijo especificado.
+- `endsWith(String suffix)`: Comprueba si el `String` termina con el sufijo especificado.
+- `contains(CharSequence s)`: Comprueba si el `String` contiene la secuencia de caracteres especificada.
+- `indexOf(int ch)`: Devuelve la posición de la primera ocurrencia del carácter especificado.
+- `lastIndexOf(int ch)`: Devuelve la posición de la última ocurrencia del carácter especificado.
+- `replace(char oldChar, char newChar)`: Reemplaza todas las ocurrencias del carácter antiguo por el carácter nuevo.
+- `split(String regex)`: Divide el `String` en subcadenas utilizando la expresión regular especificada.
+- `matches(String regex)`: Comprueba si el `String` coincide con la expresión regular especificada.
+- `valueOf(int i)`: Convierte un entero en un `String`.
+- `valueOf(double d)`: Convierte un número de punto flotante en un `String`.
+- `valueOf(boolean b)`: Convierte un booleano en un `String`.
+- `valueOf(char c)`: Convierte un carácter en un `String`.
+- `valueOf(Object obj)`: Convierte un objeto en un `String`.
+- `format(String format, Object... args)`: Devuelve una cadena formateada utilizando la cadena de formato y los argumentos especificados.	
+
+Por ejemplo, para obtener la longitud de un `String` llamado `mensaje`:
+
+```java
+int longitud = mensaje.length();
+```
+
+O para convertir un `String` llamado `mensaje` a mayúsculas:
+
+```java
+String mayusculas = mensaje.toUpperCase();
+```
+
+:::warning[El método capitalize de Python]
+En Python, el método `capitalize` convierte la primera letra de un `String` a mayúsculas y el resto a minúsculas.
+
+ En Java, no existe un método `capitalize` en la clase `String`, pero se puede lograr utilizando los métodos `toUpperCase` y `toLowerCase`:
+```java
+String mensaje = "hola, mundo";
+String capitalizado = mensaje.substring(0, 1).toUpperCase() + mensaje.substring(1).toLowerCase();
+```
+:::
+
+## Comparación de Strings
+
+En Java, para comparar dos `String` se utiliza el método `equals`:
+
+```java
+String s1 = "hola";
+String s2 = "hola";
+boolean iguales = s1.equals(s2);
+```
+
+El método `equals` compara el contenido de los `String`, por lo que en el ejemplo anterior, la variable `iguales` será `true`.
+
+Si se desea comparar dos `String` ignorando las diferencias entre mayúsculas y minúsculas, se puede utilizar el método `equalsIgnoreCase`:
+
+```java
+String s1 = "hola";
+String s2 = "Hola";
+boolean iguales = s1.equalsIgnoreCase(s2);
+```
+
+En este caso, la variable `iguales` también será `true`.
+
+:::warning[Comparación de Strings usando `==`]
+En Java, el operador `==` compara las referencias de los objetos, no su contenido. Por lo tanto, no se debe utilizar el operador `==` para comparar `String`, ya que puede dar resultados inesperados.  
+:::
+
+## Conversión de Strings
+
+En Java, se pueden convertir otros tipos de datos a `String` utilizando el método `valueOf` de la clase `String`:
+
+```java
+int numero = 42;
+String numeroComoString = String.valueOf(numero);
+```
+
+También es posible convertir un `String` a un tipo de dato específico utilizando los métodos `parse` de las clases correspondientes. Por ejemplo, para convertir un `String` a un entero:
+
+```java
+String numeroComoString = "42";
+int numero = Integer.parseInt(numeroComoString);
+```
+
+:::info[Clases para la conversión de tipos de datos]
+- `Byte`: `parseByte`, `valueOf`
+- `Short`: `parseShort`, `valueOf`
+- `Integer`: `parseInt`, `valueOf`
+- `Long`: `parseLong`, `valueOf`
+- `Float`: `parseFloat`, `valueOf`
+- `Double`: `parseDouble`, `valueOf`
+- `Boolean`: `parseBoolean`, `valueOf`
+- `Character`: `toString`
+:::
+
+## Strings y bucles
+
+Para iterar sobre los caracteres de un `String` en Java, se puede utilizar un bucle `for`:
+
+```java
+String mensaje = "Hola, mundo";
+
+for (int i = 0; i < mensaje.length(); i++) {
+    char caracter = mensaje.charAt(i);
+    System.out.println(caracter);
+}
+```
+
+También se puede utilizar un bucle `for-each`:
+
+```java
+String mensaje = "Hola, mundo";
+
+for (char caracter : mensaje.toCharArray()) {
+    System.out.println(caracter);
+}
+```
+
+En este caso, el método `toCharArray` convierte el `String` en un array de caracteres, que se puede recorrer con un bucle `for-each`.
+
+## Strings y arrays
+
+En Java, un `String` se puede convertir en un array de caracteres utilizando el método `toCharArray`:
+
+```java
+String mensaje = "Hola, mundo";
+char[] caracteres = mensaje.toCharArray();
+```
+
+También es posible crear un `String` a partir de un array de caracteres utilizando el constructor de la clase `String`:
+
+```java
+char[] caracteres = {'H', 'o', 'l', 'a'};
+String mensaje = new String(caracteres);
+```
+
+## Strings y StringBuilder
+
+En Java, la clase `StringBuilder` se utiliza para crear y manipular `String` de forma eficiente. 
+
+A diferencia de los `String`, los `StringBuilder` son mutables, lo que significa que se pueden modificar sin crear un nuevo objeto.    
+
+Esto es especialmente interesante cuando se necesita concatenar múltiples `String`, ya que los `StringBuilder` son más eficientes que los `String` normales.
+
+También en situaciones en las que se necesita modificar un `String` de forma repetida, ya que los `String` normales son inmutables y cada modificación crea un nuevo objeto.    
+
+Por ejemplo, para concatenar múltiples `String`:
+
+```java
+StringBuilder sb = new StringBuilder();
+sb.append("Hola");
+sb.append(", ");
+sb.append("mundo");
+String mensaje = sb.toString();
+```
+
+En este caso, el método `append` se utiliza para añadir `String` al `StringBuilder`, y el método `toString` se utiliza para obtener el `String` resultante. 
+
+### Métodos de la clase StringBuilder
+
+La clase `StringBuilder` en Java proporciona una serie de métodos para trabajar con `String`. Algunos de los métodos más comunes son:
+
+- `append(String str)`: Añade el `String` especificado al final del `StringBuilder`.
+- `insert(int offset, String str)`: Inserta el `String` especificado en la posición especificada.
+- `delete(int start, int end)`: Elimina los caracteres en el rango especificado.
+- `deleteCharAt(int index)`: Elimina el carácter en la posición especificada.
+- `replace(int start, int end, String str)`: Reemplaza los caracteres en el rango especificado con el `String` especificado.
+- `reverse()`: Invierte el contenido del `StringBuilder`.
+- `length()`: Devuelve la longitud del `StringBuilder`.
+- `toString()`: Convierte el `StringBuilder` en un `String`.
+
+Por ejemplo, para insertar un `String` en una posición específica:
+
+```java
+StringBuilder sb = new StringBuilder("Hola, mundo");
+sb.insert(5, "Java ");
+String mensaje = sb.toString();
+```
+
+En este caso, el método `insert` se utiliza para insertar el `String` `"Java "` en la posición 5 del `StringBuilder`.
+
+:::info[Clase StringBuffer]
+En Java, la clase `StringBuffer` es similar a la clase `StringBuilder`, pero es sincronizada, lo que significa que es segura para su uso en entornos multi-hilo.    
+
+En general, se recomienda utilizar `StringBuilder` en lugar de `StringBuffer` a menos que se necesite la sincronización.
+
+Ambas clases tienen la misma API, por lo que se pueden intercambiar fácilmente.
+
+:::
+
+## Strings y formatos
+
+En Java, se pueden formatear `String` utilizando la clase `String.format`:
+
+```java
+String mensaje = String.format("Hola, %s", "mundo");
+```
+
+En este caso, el `%s` se sustituye por el `String` `"mundo"`.
+
+También es posible formatear números:
+
+```java
+int numero = 42;
+String mensaje = String.format("El número es %d", numero);
+```
+
+En este caso, el `%d` se sustituye por el número `42`.
+
+### Especificadores de formato
+
+Algunos de los especificadores de formato más comunes son:
+
+- `%s`: `String`
+- `%d`: `int`
+- `%f`: `float`
+- `%e`: `float` en notación científica
+- `%x`: `int` en hexadecimal
+- `%o`: `int` en octal
+- `%t`: `Date` y `Time`
+- `%b`: `boolean`
+
+Por ejemplo, para formatear un número en notación científica:
+
+```java
+double numero = 12345.6789;
+String mensaje = String.format("El número es %e", numero);
+```
+
+En este caso, el `%e` se sustituye por el número `12345.6789` en notación científica.
+
+:::info[Clase Formatter]
+La clase `Formatter` en Java también se puede utilizar para formatear `String`.
+
+Por ejemplo, para formatear un número en notación científica:
+
+```java
+double numero = 12345.6789;
+String mensaje = new Formatter().format("El número es %e", numero).toString();
+```
+
+En este caso, el `%e` se sustituye por el número `12345.6789` en notación científica.
+
+:::
+
+## Strings y expresiones regulares
+
+En Java, se pueden utilizar expresiones regulares para buscar y manipular `String`.
+
+Por ejemplo, para comprobar si un `String` contiene un número:
+
+```java
+String mensaje = "El número es 42";
+boolean contieneNumero = mensaje.matches(".*\\d+.*");
+```
+
+En este caso, la expresión regular `.*\d+.*` se utiliza para comprobar si el `String` contiene al menos un número.
+
+### Las expresiones regulares en Java
+
+En Java, las expresiones regulares se pueden utilizar con las clases `Pattern` y `Matcher` del paquete `java.util.regex`.
+
+Por ejemplo, para comprobar si un `String` contiene un número utilizando la clase `Pattern`:
+
+```java
+String mensaje = "El número es 42";
+Pattern pattern = Pattern.compile(".*\\d+.*");
+Matcher matcher = pattern.matcher(mensaje);
+boolean contieneNumero = matcher.matches();
+```
+
+En este caso, la expresión regular `.*\d+.*` se compila utilizando la clase `Pattern`, y se utiliza un `Matcher` para comprobar si el `String` contiene un número.  
+
+Posibilidades de las expresiones regulares en Java:
+
+- `.`: Cualquier carácter.
+- `*`: Cero o más repeticiones.
+- `+`: Una o más repeticiones.
+- `?`: Cero o una repetición.
+- `\d`: Dígito.
+- `\w`: Carácter alfanumérico.
+- `\s`: Espacio en blanco.
+- `^`: Inicio de la línea.
+- `$`: Fin de la línea.
+- `[]`: Cualquier carácter dentro de los corchetes.
+- `[^]`: Cualquier carácter que no esté dentro de los corchetes.
+- `|`: Alternativa.
+- `()`: Agrupación.
+- `\`: Carácter de escape.
+
+
+### Métodos de la clase Pattern
+
+La clase `Pattern` en Java se utiliza para compilar expresiones regulares. Algunos de los métodos más comunes son:
+
+- `compile(String regex)`: Compila la expresión regular especificada.
+- `matcher(CharSequence input)`: Crea un `Matcher` para la expresión regular y el `String` especificados.
+- `matches(String regex, CharSequence input)`: Comprueba si la expresión regular coincide con el `String` especificado.
+- `split(String regex)`: Divide el `String` en subcadenas utilizando la expresión regular especificada.
+
+Por ejemplo, para comprobar si un `String` contiene un número utilizando la clase `Pattern`:
+
+```java
+String mensaje = "El número es 42";
+Pattern pattern = Pattern.compile(".*\\d+.*");
+Matcher matcher = pattern.matcher(mensaje);
+boolean contieneNumero = matcher.matches();
+```
+
+En este caso, la expresión regular `.*\d+.*` se compila utilizando la clase `Pattern`, y se utiliza un `Matcher` para comprobar si el `String` contiene un número.
+
+## Strings y StringTokenizer
+
+En Java, la clase `StringTokenizer` se utiliza para dividir un `String` en tokens utilizando un delimitador.
+
+Por ejemplo, para dividir un `String` en palabras:
+
+```java
+String mensaje = "Hola, mundo";
+StringTokenizer tokenizer = new StringTokenizer(mensaje, " ,");
+while (tokenizer.hasMoreTokens()) {
+    String palabra = tokenizer.nextToken();
+    System.out.println(palabra);
+}
+```
+
+En este caso, el `String` `"Hola, mundo"` se divide en palabras utilizando los delimitadores `","` y `" "`.
+
+### Métodos de la clase StringTokenizer
+
+La clase `StringTokenizer` en Java proporciona una serie de métodos para trabajar con tokens. Algunos de los métodos más comunes son:   
+
+- `hasMoreTokens()`: Comprueba si hay más tokens disponibles.
+- `nextToken()`: Devuelve el siguiente token.
+- `countTokens()`: Devuelve el número de tokens restantes.
+- `nextElement()`: Devuelve el siguiente token como un `Object`.
+- `hasMoreElements()`: Comprueba si hay más tokens disponibles como `Object`.
+
+Por ejemplo, para contar el número de palabras en un `String`:
+
+```java
+String mensaje = "Hola, mundo";
+StringTokenizer tokenizer = new StringTokenizer(mensaje, " ,");
+
+int contador = 0;
+while (tokenizer.hasMoreTokens()) {
+    tokenizer.nextToken();
+    contador++;
+}
+
+System.out.println("Número de palabras: " + contador);
+```
+
+En este caso, se utiliza el método `countTokens` para contar el número de palabras en el `String`.
+
+
+

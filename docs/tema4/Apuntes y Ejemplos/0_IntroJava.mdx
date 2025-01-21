@@ -1,0 +1,655 @@
+# Introducción a Java
+
+Java es un lenguaje de programación de propósito general, concurrente, orientado a objetos y basado en clases. 
+
+Fue diseñado por James Gosling en Sun Microsystems (actualmente propiedad de Oracle) y lanzado en 1995. 
+
+La intención de los creadores de Java era hacer un lenguaje que pudiera ejecutarse en cualquier plataforma, sin tener que recompilar el código. 
+
+Para ello, Java se compila en un código intermedio llamado *bytecode*, que es interpretado por la máquina virtual de Java (JVM). 
+
+A diferencia de Python, Java es un lenguaje compilado, lo que significa que el código fuente se traduce a un lenguaje de máquina antes de ser ejecutado.
+
+Otra de las principales diferencias con Python es que Java es un lenguaje fuertemente tipado, lo que significa que las variables deben ser declaradas con un tipo específico y no pueden cambiar de tipo una vez declaradas.
+
+En este tema veremos los conceptos básicos de Java, así como la sintaxis y las estructuras de control más comunes.
+
+```java
+public class HolaMundo {
+    public static void main(String[] args) {
+        System.out.println("¡Hola, mundo!");
+    }
+}
+```
+
+En este ejemplo, se define una clase `HolaMundo` con un método `main` que imprime por pantalla el mensaje "¡Hola, mundo!".
+
+Cómo se puede observar en el simple ejemplo del programa "Hola Mundo", Java es un lenguaje de programación orientado a objetos.
+
+Esto podemos verlo en la definición de la clase `HolaMundo`, que es la unidad básica de programación en Java. 
+
+Hablaremos más en detalle sobre las clases y objetos en Java en las siguientes secciones.
+
+## Sobre el método `main`
+
+En Java, el método `main` es el punto de entrada de un programa y se utiliza para iniciar la ejecución del programa.
+
+El método `main` debe ser definido con la siguiente sintaxis:
+
+```java
+public static void main(String[] args) {
+    // Cuerpo del método
+}
+```
+
+Donde:
+
+- `public`: es un modificador de acceso que indica que el método es accesible desde cualquier parte del programa.
+- `static`: es una palabra clave que indica que el método pertenece a la clase en lugar de a una instancia de la clase.
+- `void`: es el tipo de retorno del método, que indica que el método no devuelve ningún valor.
+- `main`: es el nombre del método.
+- `String[] args`: es un parámetro del método que recibe un array de cadenas de texto.
+
+El método `main` es el punto de entrada de un programa Java y se ejecuta cuando se inicia el programa.
+
+En el método `main` se puede escribir el código que se desea ejecutar al iniciar el programa.
+
+### Con respecto al array de cadenas de texto `args`
+
+El parámetro `String[] args` del método `main` es un array de cadenas de texto que se utiliza para pasar argumentos al programa al iniciarlo.   
+
+Por ejemplo, si se ejecuta el programa con argumentos desde la línea de comandos, estos argumentos se pasan al programa a través del array `args`.  
+
+Por ejemplo, si se ejecuta el programa con los argumentos `java HolaMundo arg1 arg2`, estos argumentos se almacenan en el array `args` y se pueden acceder desde el método `main`.
+
+```java
+public class HolaMundo {
+    public static void main(String[] args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+    }
+}
+```
+
+En este ejemplo, se recorren los argumentos pasados al programa y se imprimen por pantalla uno a uno.
+
+## Compilar y ejecutar un archivo Java por línea de comandos
+
+Para compilar y ejecutar un archivo Java desde la línea de comandos, se pueden seguir los siguientes pasos:
+
+1. Crear un archivo Java con el código fuente, por ejemplo `HolaMundo.java`.
+2. Compilar el archivo Java con el comando `javac HolaMundo.java`. Esto generará un archivo `HolaMundo.class` con el bytecode del programa. 
+3. Ejecutar el archivo Java compilado con el comando `java HolaMundo`. Esto ejecutará el programa y mostrará la salida en la consola.
+
+Por ejemplo, si se tiene el siguiente código en un archivo `HolaMundo.java`:
+
+```java
+public class HolaMundo {
+    public static void main(String[] args) {
+        System.out.println("¡Hola, mundo!");
+    }
+}
+```
+
+Se puede compilar y ejecutar el programa de la siguiente manera:
+
+```bash
+javac HolaMundo.java
+java HolaMundo
+```
+
+Esto mostrará el mensaje "¡Hola, mundo!" en la consola.
+
+Si queremos pasar argumentos al programa, se pueden pasar después del nombre del programa al ejecutarlo:
+
+```bash
+java HolaMundo arg1 arg2
+```
+
+Esto pasará los argumentos `arg1` y `arg2` al programa, que se pueden acceder desde el array `args` en el método `main`.
+
+## Tipos de datos en Java
+
+Java es un lenguaje fuertemente tipado, lo que significa que las variables deben ser declaradas con un tipo específico y no pueden cambiar de tipo una vez declaradas.  
+
+Los tipos de datos en Java se dividen en dos categorías: primitivos y de referencia.
+
+Los tipos de datos primitivos son tipos de datos básicos que representan valores simples, como números enteros, números de punto flotante, caracteres, etc. 
+
+Los tipos de datos de referencia son tipos de datos más complejos que representan objetos y estructuras de datos más complejas.
+
+A continuación se muestran los tipos de datos primitivos en Java:
+
+- `byte`: 8 bits, rango de -128 a 127
+- `short`: 16 bits, rango de -32,768 a 32,767
+- `int`: 32 bits, rango de -2,147,483,648 a 2,147,483,647
+- `long`: 64 bits, rango de -9,223,372,036,854,775,808 a 9,223,372,036,854,775,807
+- `float`: 32 bits, rango de 1.4e-45 a 3.4e+38
+- `double`: 64 bits, rango de 4.9e-324 a 1.8e+308
+- `char`: 16 bits, rango de 0 a 65,535
+- `boolean`: representa un valor booleano, `true` o `false`
+
+A continuación se muestran ejemplos de declaraciones de variables para cada tipo de dato primitivo:
+
+```java
+byte b = 10;
+short s = 100;
+int i = 1000;
+long l = 10000L;
+float f = 3.14f;
+double d = 3.14159;
+char c = 'A';
+boolean bool = true;
+```
+
+Los tipos de datos de referencia en Java son objetos que se definen mediante clases.
+
+Por ejemplo, la clase `String` se utiliza para representar cadenas de texto en Java:
+
+```java
+String str = "Hola, mundo!";
+```
+
+En Java, las cadenas de texto son objetos y se pueden manipular utilizando métodos de la clase `String`.
+
+Hablaremos sobre las Strings y otros tipos de datos de referencia en Java en las siguientes secciones.
+
+### Sobre los enumerados en Java
+
+Los enumerados en Java son un tipo especial de clase que se utiliza para definir un conjunto fijo de constantes.
+
+Por ejemplo, se puede definir un enumerado `Dias` con los días de la semana:
+
+```java
+public enum Dias {
+    LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO, DOMINGO
+}
+```
+
+En este caso, `Dias` es un enumerado que define los días de la semana como constantes.
+
+Los enumerados en Java son útiles para definir un conjunto fijo de valores que se pueden utilizar en el código.
+
+Por ejemplo, se puede utilizar el enumerado `Dias` en un programa de la siguiente manera:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Dias dia = Dias.LUNES;
+        System.out.println("Hoy es " + dia);
+    }
+}
+```
+
+En este ejemplo, se define una variable `dia` de tipo `Dias` y se le asigna el valor `LUNES`.
+
+Los enumerados son especialmente útiles cuando se desea definir un conjunto fijo de valores que no cambian durante la ejecución del programa.
+
+## Variables en Java
+
+Las variables en Java se utilizan para almacenar valores y se definen con un tipo de dato específico.
+
+Las variables en Java se definen con la siguiente sintaxis:
+
+```java
+tipo_de_dato nombre_de_variable = valor;
+```
+
+Donde:
+
+- `tipo_de_dato`: es el tipo de dato de la variable, como `int`, `double`, `String`, etc.
+- `nombre_de_variable`: es el nombre de la variable, que se utiliza para acceder al valor almacenado.
+- `valor`: es el valor inicial de la variable, que puede ser opcional.
+
+Por ejemplo, se pueden definir variables de la siguiente manera:
+
+```java
+int edad = 25;
+double altura = 1.75;
+String nombre = "Juan";
+```
+
+:::tip[Convenciones de nombres de variables en Java]
+En Java, las variables deben seguir ciertas convenciones de nombres:
+
+- Los nombres de variables deben comenzar con una letra minúscula.
+- Los nombres de variables compuestas deben seguir la convención *camelCase*, donde la primera letra de cada palabra, excepto la primera, se escribe en mayúscula.  
+
+Por ejemplo, `nombreDeVariable`, `edadPersona`, `numeroDeTelefono`, etc.
+:::
+
+### Variables locales y variables de instancia
+
+En Java, las variables se pueden clasificar en dos categorías principales: variables locales y variables de instancia.
+
+Las variables locales son variables que se definen dentro de un método o bloque de código y solo son accesibles dentro de ese método o bloque.  
+
+Por ejemplo, en el siguiente método `saludar`, la variable `nombre` es una variable local:
+
+```java
+public void saludar() {
+    String nombre = "Juan";
+    System.out.println("¡Hola, " + nombre + "!");
+}
+```
+
+Las variables de instancia son variables que se definen dentro de una clase y son accesibles desde cualquier método de la clase.    
+
+Por ejemplo, en la siguiente clase `Persona`, las variables `nombre` y `edad` son variables de instancia:
+
+```java
+public class Persona {
+    String nombre;
+    int edad;
+}
+```
+
+En este caso, las variables `nombre` y `edad` son accesibles desde cualquier método de la clase `Persona`.
+
+## Operadores en Java
+
+Los operadores en Java son símbolos que se utilizan para realizar operaciones en variables y valores.
+
+Los operadores en Java se dividen en varias categorías, como operadores aritméticos, operadores de asignación, operadores de comparación, operadores lógicos, etc.  
+
+A continuación veremos los diferentes operadores y su significado y uso en Java.
+
+### Operadores aritméticos
+
+Los operadores aritméticos se utilizan para realizar operaciones matemáticas en variables y valores.
+
+- `+`: Suma
+- `-`: Resta
+- `*`: Multiplicación
+- `/`: División
+- `%`: Módulo (resto de la división)
+
+```java
+int a = 10;
+int b = 5;
+
+int suma = a + b; // 15
+int resta = a - b; // 5
+int multiplicacion = a * b; // 50
+int division = a / b; // 2
+int modulo = a % b; // 0
+```
+
+:::info[División entera Java vs Python]
+En Java, la división de dos números enteros produce un resultado entero, truncando cualquier parte decimal. Por ejemplo, `5 / 2` en Java produce `2`, mientras que en Python produce `2.5`. 
+
+Si se desea obtener un resultado decimal en Java, se puede convertir uno de los operandos a un tipo de dato de punto flotante, por ejemplo: `5.0 / 2` produce `2.5`.    
+
+Por ejemplo:
+
+```java
+int a = 5;
+int b = 2;
+
+int resultado = a / b; // 2
+double resultado = (double) a / b; // 2.5
+```
+:::
+
+### Operadores de asignación
+
+Los operadores de asignación se utilizan para asignar un valor a una variable.
+
+- `=`: Asignación
+- `+=`: Suma y asignación
+- `-=`: Resta y asignación
+- `*=`: Multiplicación y asignación
+- `/=`: División y asignación
+- `%=`: Módulo y asignación
+
+```java
+int a = 10;
+
+a += 5; // a = a + 5 = 15
+a -= 3; // a = a - 3 = 12
+a *= 2; // a = a * 2 = 24
+a /= 4; // a = a / 4 = 6
+a %= 2; // a = a % 2 = 0
+```
+
+### Operadores de comparación
+
+Los operadores de comparación se utilizan para comparar dos valores y producen un resultado booleano (`true` o `false`).
+
+- `==`: Igual a
+- `!=`: Diferente de
+- `>`: Mayor que
+- `<`: Menor que
+- `>=`: Mayor o igual que
+- `<=`: Menor o igual que
+
+```java
+int a = 10;
+int b = 5;
+
+boolean igual = a == b; // false
+boolean diferente = a != b; // true
+boolean mayor = a > b; // true
+boolean menor = a < b; // false
+boolean mayorIgual = a >= b; // true
+boolean menorIgual = a <= b; // false
+```
+
+### Operadores lógicos
+
+Los operadores lógicos se utilizan para combinar expresiones booleanas y producen un resultado booleano.
+
+- `&&`: Y lógico (AND)
+- `||`: O lógico (OR)
+- `!`: Negación lógica (NOT)
+
+```java
+boolean a = true;
+boolean b = false;
+
+boolean y = a && b; // false
+boolean o = a || b; // true
+boolean no = !a; // false
+```
+
+### Operadores de incremento y decremento
+
+Los operadores de incremento y decremento se utilizan para aumentar o disminuir el valor de una variable en una unidad.
+
+- `++`: Incremento
+- `--`: Decremento
+
+```java
+int a = 10;
+
+a++; // a = a + 1 = 11
+a--; // a = a - 1 = 10
+```
+
+Estos son algunos de los operadores más comunes en Java. En las siguientes secciones veremos más operadores y su uso en Java.
+
+### Operador de concatenación de cadenas
+
+El operador de concatenación de cadenas (`+`) se utiliza para unir dos cadenas de texto en una sola cadena.
+
+```java
+String nombre = "Juan";
+String apellido = "Pérez";
+
+String nombreCompleto = nombre + " " + apellido; // "Juan Pérez"
+```
+
+En este ejemplo, se concatenan las cadenas `nombre` y `apellido` para formar la cadena `nombreCompleto`.
+
+## Estructuras de control en Java
+
+Las estructuras de control en Java se utilizan para controlar el flujo de ejecución de un programa.
+
+Las estructuras de control en Java se dividen en tres categorías principales: estructuras de selección, estructuras de repetición y estructuras de salto.   
+
+A continuación veremos las estructuras de control más comunes en Java y su uso.
+
+### Estructuras de selección
+
+Las estructuras de selección se utilizan para tomar decisiones en un programa y ejecutar diferentes bloques de código según una condición.  
+
+#### `if` y `else`
+
+La estructura `if` se utiliza para ejecutar un bloque de código si una condición es verdadera.
+
+```java
+int edad = 18;
+
+if (edad >= 18) {
+    System.out.println("Eres mayor de edad");
+}
+```
+
+La estructura `if-else` se utiliza para ejecutar un bloque de código si una condición es verdadera y otro bloque de código si la condición es falsa.
+
+```java
+int edad = 16;
+
+if (edad >= 18) {
+    System.out.println("Eres mayor de edad");
+} else {
+    System.out.println("Eres menor de edad");
+}
+```
+
+#### `if-else if-else`
+
+La estructura `if-else if-else` se utiliza para evaluar múltiples condiciones en secuencia.
+
+```java
+int nota = 7;
+
+if (nota >= 9) {
+    System.out.println("Sobresaliente");
+} else if (nota >= 7) {
+    System.out.println("Notable");
+} else if (nota >= 5) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("Suspenso");
+}
+```
+
+#### Operador ternario
+
+El operador ternario (`?:`) se utiliza para evaluar una expresión booleana y devolver un valor en función de la evaluación.
+
+```java
+int edad = 18;
+
+String mensaje = (edad >= 18) ? "Eres mayor de edad" : "Eres menor de edad";
+
+System.out.println(mensaje);
+```
+
+:::tip[Sobre el operador ternario y cuándo usarlo]
+El operador ternario es una forma abreviada de escribir una estructura `if-else` en una sola línea.
+
+Es útil cuando se desea asignar un valor a una variable en función de una condición, pero se debe usar con moderación para no complicar la legibilidad del código.  
+:::
+
+#### `switch`
+
+La estructura `switch` se utiliza para evaluar una expresión y ejecutar diferentes bloques de código según el valor de la expresión.
+
+```java
+int dia = 1;
+
+switch (dia) {
+    case 1:
+        System.out.println("Lunes");
+        break;
+    case 2:
+        System.out.println("Martes");
+        break;
+    case 3:
+        System.out.println("Miércoles");
+        break;
+    default:
+        System.out.println("Día no válido");
+}
+```
+
+El uso de `break` es importante en la estructura `switch` para evitar que se ejecuten los bloques de código siguientes.
+
+También podemos escribir una estructura `switch` sin `break` para ejecutar múltiples casos:
+
+```java
+int dia = 1;
+
+switch (dia) {
+    case 1:
+    case 2:
+    case 3:
+        System.out.println("Día laborable");
+        break;
+    case 4:
+    case 5:
+        System.out.println("Fin de semana");
+        break;
+    default:
+        System.out.println("Día no válido");
+}
+```
+
+Otra forma de escribir una estructura `switch` es utilizando flechas (`->`) en Java 12 y versiones posteriores:
+
+```java
+int dia = 1;
+
+switch (dia) {
+    case 1 -> System.out.println("Lunes");
+    case 2 -> System.out.println("Martes");
+    case 3 -> System.out.println("Miércoles");
+    default -> System.out.println("Día no válido");
+}
+```
+
+En este caso no es necesario utilizar `break` ya que cada caso se ejecuta en una sola línea.
+
+Sin embargo, tenemos la limitación de que no podemos ejecutar múltiples casos en una sola línea.
+
+### Estructuras de repetición
+
+Las estructuras de repetición se utilizan para ejecutar un bloque de código varias veces.
+
+#### `for`
+
+La estructura `for` se utiliza para ejecutar un bloque de código un número específico de veces.
+
+```java
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iteración " + i);
+}
+```
+
+En este ejemplo, el bucle `for` se ejecuta 5 veces, imprimiendo "Iteración 0", "Iteración 1", ..., "Iteración 4".
+
+#### `for-each`
+
+La estructura `for-each` se utiliza para iterar sobre una colección de elementos, como un array o una lista.
+
+```java
+int[] numeros = {1, 2, 3, 4, 5};
+
+for (int numero : numeros) {
+    System.out.println(numero);
+}
+```
+
+En este ejemplo, el bucle `for-each` itera sobre el array `numeros` e imprime cada elemento.
+
+Hablaremos sobre los arrays y las colecciones en Java en las siguientes secciones.
+
+#### `while`
+
+La estructura `while` se utiliza para ejecutar un bloque de código mientras una condición sea verdadera.
+
+```java
+int i = 0;
+
+while (i < 5) {
+    System.out.println("Iteración " + i);
+    i++;
+}
+```
+
+En este ejemplo, el bucle `while` se ejecuta 5 veces, imprimiendo "Iteración 0", "Iteración 1", ..., "Iteración 4".
+
+#### `do-while`
+
+La estructura `do-while` se utiliza para ejecutar un bloque de código al menos una vez y luego repetirlo mientras una condición sea verdadera.
+
+```java
+int i = 0;
+
+do {
+    System.out.println("Iteración " + i);
+    i++;
+} while (i < 5);
+```
+
+En este ejemplo, el bucle `do-while` se ejecuta 5 veces, imprimiendo "Iteración 0", "Iteración 1", ..., "Iteración 4".
+
+:::info[El bucle que no hay en Python: `do-while`]
+En Python no existe el bucle `do-while`, por lo que es necesario utilizar un bucle `while` con una condición adicional para simular su comportamiento.  
+
+Por ejemplo, el siguiente código en Java:
+
+```java
+int i = 0;
+
+do {
+    System.out.println("Iteración " + i);
+    i++;
+} while (i < 5);
+```
+
+Se puede escribir en Python de la siguiente manera:
+
+```python
+
+i = 0
+print(f"Iteración {i}")
+i += 1
+
+while i < 5:
+    print(f"Iteración {i}")
+    i += 1
+```
+:::
+
+### Estructuras de salto
+
+Las estructuras de salto se utilizan para cambiar el flujo de ejecución de un programa.
+
+#### `break`
+
+La instrucción `break` se utiliza para salir de un bucle o de una estructura `switch`.
+
+```java
+for (int i = 0; i < 10; i++) {
+    if (i == 5) {
+        break;
+    }
+    System.out.println("Iteración " + i);
+}
+```
+
+En este ejemplo, el bucle `for` se interrumpe cuando `i` es igual a 5.
+
+#### `continue`
+
+La instrucción `continue` se utiliza para saltar a la siguiente iteración de un bucle.
+
+```java
+for (int i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+        continue;
+    }
+    System.out.println("Número impar: " + i);
+}
+```
+
+En este ejemplo, el bucle `for` imprime solo los números impares, saltando los números pares.
+
+#### `return`
+
+La instrucción `return` se utiliza para devolver un valor desde un método y finalizar
+
+```java
+public int suma(int a, int b) {
+    return a + b;
+}
+```
+
+En este ejemplo, el método `suma` devuelve la suma de dos números enteros.
+
+Estas son algunas de las estructuras de control más comunes en Java. En las siguientes secciones veremos más estructuras de control y su uso en Java.   
+
