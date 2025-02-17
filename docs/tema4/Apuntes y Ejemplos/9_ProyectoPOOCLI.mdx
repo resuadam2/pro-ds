@@ -1,0 +1,61 @@
+import CodeBlock from '@theme/CodeBlock';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Ejemplo tienda de videojuegos
+
+En este ejemplo vamos a crear una aplicación de consola que simula una tienda de videojuegos. 
+
+La aplicación permitirá al usuario realizar las siguientes operaciones:
+
+- Ver el catálogo de videojuegos disponibles.
+- Añadir un videojuego a la lista.
+- Eliminar un videojuego de la lista.
+- Salir de la aplicación.
+
+Para ello, crearemos una clase `Videojuego` que representará un videojuego con los siguientes atributos:
+
+- `titulo`: el nombre del videojuego.
+- `plataforma`: la plataforma en la que se puede jugar.
+- `precio`: el precio del videojuego.
+
+:::warning[Nota]
+Vamos a tratar la plataforma como un String de momento, pero lo ideal sería que fuese un enumerado.
+
+De esta forma, si lo fuese, podríamos tener un método que nos devolviese todas las plataformas disponibles, y así poder seleccionar una de ellas.
+:::
+
+A continuación, mostramos el código completo de la aplicación:
+
+<details>
+  <summary>Ver solucion</summary>
+  <Tabs
+  defaultValue="videojuego"
+  values={[
+    {label: 'Videojuego.java', value: 'videojuego'},
+    {label: 'TiendaDeVideojuegos.java', value: 'tienda'},
+    {label: 'TiendaCLI.java', value: 'cli'},
+    {label: 'Main.java', value: 'main'},
+  ]}>
+     <TabItem value="videojuego">
+          <CodeBlock language="java">
+               {require('!!raw-loader!./solucionario/TiendaDeVideojuegos/src/Videojuego.java').default}
+          </CodeBlock>
+     </TabItem>
+    <TabItem value="tienda">
+          <CodeBlock language="java">
+               {require('!!raw-loader!./solucionario/TiendaDeVideojuegos/src/TiendaDeVideojuegos.java').default}
+          </CodeBlock>
+     </TabItem>
+    <TabItem value="cli">
+          <CodeBlock language="java">
+               {require('!!raw-loader!./solucionario/TiendaDeVideojuegos/src/TiendaCLI.java').default}
+          </CodeBlock>
+     </TabItem>
+     <TabItem value="main">
+          <CodeBlock language="java">
+               {require('!!raw-loader!./solucionario/TiendaDeVideojuegos/src/Main.java').default}
+          </CodeBlock>
+     </TabItem>
+  </Tabs>
+</details>
