@@ -1,0 +1,153 @@
+# Enumerados en Java
+
+En Java, un enumerado (o enum) es un tipo de datos especial que permite definir un conjunto fijo de constantes con nombre. Cada constante en un enumerado es un valor válido para ese tipo y se puede utilizar en lugar de un valor numérico o de cadena.   
+
+Los enumerados se definen utilizando la palabra clave `enum` seguida de una lista de constantes separadas por comas. Por ejemplo:
+
+```java
+enum DiaSemana {
+    LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO, DOMINGO
+}
+```
+
+En este ejemplo, `DiaSemana` es un enumerado que define los días de la semana como constantes. Cada constante es una instancia de la clase `DiaSemana` y se puede utilizar en lugar de un valor numérico o de cadena. Por ejemplo:
+
+```java
+DiaSemana dia = DiaSemana.LUNES;
+```
+
+Los enumerados en Java tienen varias ventajas sobre el uso de constantes numéricas o de cadena:
+
+- **Seguridad de tipos**: Los enumerados son tipos seguros, lo que significa que el compilador detectará errores si se intenta asignar un valor incorrecto a una variable de tipo enumerado.
+- **Claridad y legibilidad**: Los enumerados hacen que el código sea más claro y legible al proporcionar nombres significativos para los valores.
+- **Mantenimiento sencillo**: Si necesitas añadir o modificar valores en un enumerado, solo tienes que hacerlo en un lugar, en lugar de buscar y reemplazar en todo el código.
+
+## Uso de enumerados como atributo de una clase
+
+Los enumerados en Java se pueden utilizar como atributos de una clase para representar un conjunto fijo de valores. Por ejemplo, si tienes una clase `Coche` que tiene un atributo `Color`, puedes definir un enumerado `ColorCoche` para representar los colores posibles:
+
+```java
+public class JugadorBaloncesto {
+    private String nombre;
+    private int edad;
+    private Posicion posicion;
+    
+    public JugadorBaloncesto(String nombre, int edad, Posicion posicion) {
+        this.nombre = nombre;
+        this.edad = edad;
+        this.posicion = posicion;
+    }
+    
+    enum Posicion {
+        BASE, ESCOLTA, ALERO, ALAPIVOT, PIVOT
+    }
+}
+
+```
+
+En este ejemplo, la clase `JugadorBaloncesto` tiene un atributo `posicion` de tipo `Posicion`, que es un enumerado que define las posiciones posibles de un jugador de baloncesto. Al crear una instancia de `JugadorBaloncesto`, puedes pasar una constante de `Posicion` como argumento:
+
+```java
+JugadorBaloncesto jugador = new JugadorBaloncesto("Michael Jordan", 58, JugadorBaloncesto.Posicion.ESCOLTA);
+```
+
+## Métodos y atributos en enumerados
+
+Los enumerados en Java pueden tener métodos y atributos, lo que los hace más versátiles y poderosos. 
+Por ejemplo, puedes añadir un método `getAbreviatura()` a un enumerado `DiaSemana` para obtener la abreviatura de un día de la semana:
+
+```java
+enum DiaSemana {
+    LUNES("L"), MARTES("M"), MIERCOLES("X"), JUEVES("J"), VIERNES("V"), SABADO("S"), DOMINGO("D");
+    
+    private String abreviatura;
+    
+    DiaSemana(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+    
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+}
+```
+
+En este ejemplo, el enumerado `DiaSemana` tiene un atributo `abreviatura` y un constructor que inicializa este atributo. También tiene un método `getAbreviatura()` que devuelve la abreviatura de un día de la semana. 
+
+Puedes utilizar este método para obtener la abreviatura de un día de la semana:
+
+```java
+DiaSemana dia = DiaSemana.LUNES;
+System.out.println(dia.getAbreviatura()); // Imprime "L"
+```
+
+## Comparación de enumerados
+
+En Java, puedes comparar enumerados utilizando el operador `==` o el método `equals()`.
+Por ejemplo, para comparar dos constantes de un enumerado `DiaSemana`, puedes hacer lo siguiente:
+
+```java
+DiaSemana dia1 = DiaSemana.LUNES;
+DiaSemana dia2 = DiaSemana.MARTES;
+
+if (dia1 == dia2) {
+    System.out.println("Los días son iguales");
+} else {
+    System.out.println("Los días son diferentes");
+}
+```
+
+También puedes utilizar el método `equals()` para comparar enumerados:
+
+```java
+if (dia1.equals(dia2)) {
+    System.out.println("Los días son iguales");
+} else {
+    System.out.println("Los días son diferentes");
+}
+```
+
+Ambos métodos de comparación son válidos y devolverán el mismo resultado.
+
+## Iteración sobre un enumerado
+
+En Java, puedes iterar sobre los valores de un enumerado utilizando un bucle `for` o el método `values()`. Por ejemplo, para imprimir todos los días de la semana:
+
+```java
+for (DiaSemana dia : DiaSemana.values()) {
+    System.out.println(dia);
+}
+```
+
+Este bucle recorrerá todos los valores del enumerado `DiaSemana` e imprimirá cada día de la semana.
+
+## Usando un menú para seleccionar un valor de un enumerado
+
+Una forma común de utilizar un enumerado en una aplicación es presentar al usuario un menú para seleccionar un valor del enumerado. 
+
+Por ejemplo, puedes mostrar un menú para seleccionar un día de la semana:
+
+```java
+import java.util.Scanner;
+
+public class MenuDiaSemana {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Selecciona un día de la semana:");
+        for (DiaSemana dia : DiaSemana.values()) {
+            System.out.println(dia.ordinal() + 1 + ". " + dia);
+        }
+        
+        int opcion = scanner.nextInt();
+        DiaSemana diaSeleccionado = DiaSemana.values()[opcion - 1];
+        
+        System.out.println("Has seleccionado: " + diaSeleccionado);
+        
+        scanner.close();
+    }
+}
+```
+
+En este ejemplo, se muestra un menú con los días de la semana y se permite al usuario seleccionar un día. El método `ordinal()` devuelve el índice de un valor en un enumerado, que se utiliza para seleccionar el día de la semana correspondiente.    
+
