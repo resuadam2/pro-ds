@@ -50,11 +50,14 @@ Crea también una clase `Main` que cree un objeto de la clase `Libro`, muestre s
 <details>
   <summary>Ver solucion</summary>
   <Tabs
-  defaultValue="libro"
+  defaultValue="video"
   values={[
+     {label: 'Solución en vídeo', value: 'video'},
     {label: 'Libro.java', value: 'libro'},
     {label: 'Main.java', value: 'main'},
   ]}>
+     <TabItem value="video">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xAaRu5rU7Ck?si=A14Tm9JdYesqXnPA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>     </TabItem>
      <TabItem value="libro">
           <CodeBlock language="java">
                {require('!!raw-loader!./solucionario/PROtema4ejer1/src/Libro.java').default}
@@ -98,9 +101,21 @@ Probar el programa con la siguiente clase ``Main``:
 
 <details>
   <summary>Ver solucion</summary>
-     <CodeBlock language="java" title="Solución">
-          {require('!!raw-loader!./solucionario/PROtema4ejer2/src/Cuenta.java').default}
-     </CodeBlock>
+  <Tabs
+  defaultValue="video"
+  values={[
+    {label: 'Video', value: 'video'},
+    {label: 'Cuenta.java', value: 'cuenta'},
+  ]}>
+       <TabItem value="video">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/Ec6rwkvee5g?si=q2CqyASqFW7ENlqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+     </TabItem>
+     <TabItem value="cuenta">
+          <CodeBlock language="java">
+               {require('!!raw-loader!./solucionario/PROtema4ejer2/src/Cuenta.java').default}
+          </CodeBlock>
+     </TabItem>
+     </Tabs>
 </details>
 
 ### Ejercicio 3
@@ -152,9 +167,13 @@ Crear también la clase ``Main`` para poder probar todas estas operaciones.ç
   <Tabs
   defaultValue="fraccion"
   values={[
+     {label: 'Vídeo', value: 'video'},
     {label: 'Fraccion.java', value: 'fraccion'},
     {label: 'Main.java', value: 'main'},
   ]}>
+     <TabItem value="video">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/El3kx81t25c?si=TdBLBiCqP_bmKZCm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+     </TabItem>
      <TabItem value="fraccion">
           <CodeBlock language="java">
                {require('!!raw-loader!./solucionario/PROtema4ejer4/src/Fraccion.java').default}
