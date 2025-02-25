@@ -1,0 +1,68 @@
+# Composición en Java
+
+La composición es una técnica de programación que permite crear objetos complejos a partir de otros más simples. 
+Para ello, un objeto puede contener referencias a otros objetos como atributos, es decir, parte de sus atributos son objetos de otras clases.
+
+Podríamos considerar la composición como una alternativa a la herencia, ya que permite reutilizar código sin necesidad de heredar de una clase base.
+Sin embargo, normalmente se utiliza en combinación con la herencia, ya que la composición permite crear objetos complejos a partir de otros objetos más simples, y la herencia permite crear jerarquías de clases.
+Todo ello depende sobre todo de la relación que exista entre las clases.
+
+## Ejemplo de composición
+
+Vamos a ver un ejemplo de composición en el que una clase `Coche` contiene un objeto de la clase `Motor`.
+
+```java
+public class Motor {
+    private int potencia;
+    private String tipo;
+
+    public Motor(int potencia, String tipo) {
+        this.potencia = potencia;
+        this.tipo = tipo;
+    }
+
+    public void arrancar() {
+        System.out.println("Motor arrancado");
+    }
+}
+
+public class Coche {
+    private String marca;
+    private String modelo;
+    private Motor motor;
+
+    public Coche(String marca, String modelo, Motor motor) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.motor = motor;
+    }
+
+    public void arrancar() {
+        System.out.println("Coche arrancado");
+        motor.arrancar();
+    }
+}
+```
+
+En este ejemplo, la clase `Coche` contiene un objeto de la clase `Motor` como atributo.
+Cuando se llama al método `arrancar` de la clase `Coche`, se llama también al método `arrancar` de la clase `Motor`.
+
+## Ventajas y desventajas de la composición con respecto a la herencia
+
+La composición tiene varias ventajas respecto a la herencia:
+
+- **Flexibilidad**: permite cambiar la implementación de un objeto en tiempo de ejecución.
+- **Reutilización de código**: permite reutilizar código sin necesidad de heredar de una clase base.
+- **Evita el problema del diamante**: en Java no se permite herencia múltiple, por lo que la composición es una alternativa para evitar el problema del diamante.
+
+Sin embargo, también tiene algunas desventajas:
+
+- **Complejidad**: puede aumentar la complejidad del código al tener que gestionar la relación entre las clases.
+- **Dificultad para entender el código**: puede ser más difícil de entender que la herencia, ya que no se ve claramente la relación entre las clases.
+
+## Agregación y composición
+
+La composición es un tipo de agregación en la que un objeto contiene a otro objeto como parte de sí mismo.
+La diferencia entre agregación y composición es que en la composición, el objeto contenido no puede existir sin el objeto contenedor, mientras que en la agregación, el objeto contenido puede existir de forma independiente.
+
+En UML, una relación de composición se representa con un rombo relleno en la clase que contiene el objeto y una línea continua que une ambas clases.

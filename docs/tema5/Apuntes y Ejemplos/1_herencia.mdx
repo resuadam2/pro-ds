@@ -1,0 +1,112 @@
+# Herencia en Java
+
+La herencia es un mecanismo de la programación orientada a objetos que permite que una clase herede los atributos y métodos de otra clase.
+La clase que hereda se denomina **subclase** o **clase derivada**, y la clase de la que hereda se denomina **superclase** o **clase base**.
+También se pueden denominar **clase hija** y **clase padre**, respectivamente.
+
+## Sintaxis de la herencia
+
+La sintaxis para definir una clase que hereda de otra clase en Java es la siguiente:
+
+```java
+public class Subclase extends Superclase {
+    // Atributos y métodos de la subclase
+}
+```
+
+Por ejemplo, si queremos definir una clase `Empleado` que hereda de una clase `Persona`, la sintaxis sería la siguiente:
+
+```java
+public class Empleado extends Persona {
+    // Atributos y métodos de la clase Empleado
+}
+```
+
+En este caso, la clase `Empleado` hereda los atributos y métodos de la clase `Persona`.
+
+## Ejemplo de herencia
+
+Vamos a ver un ejemplo de herencia en el que una clase `Empleado` hereda de una clase `Persona`.
+
+```java
+public class Persona {
+    private String nombre;
+    private int edad;
+
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public void saludar() {
+        System.out.println("Hola, soy " + nombre);
+    }
+}
+
+public class Empleado extends Persona {
+    private String empresa;
+
+    public Empleado(String nombre, int edad, String empresa) {
+        super(nombre, edad);
+        this.empresa = empresa;
+    }
+
+    public void trabajar() {
+        System.out.println("Trabajando en " + empresa);
+    }
+}
+```
+
+En este ejemplo, la clase `Empleado` hereda los atributos y métodos de la clase `Persona`.
+
+## Ventajas y desventajas de la herencia
+
+La herencia tiene varias ventajas respecto a la composición:
+
+- **Reutilización de código**: permite reutilizar código al heredar los atributos y métodos de una clase base.
+- **Facilidad de uso**: facilita la creación de clases derivadas que comparten la misma funcionalidad.
+- **Polimorfismo**: permite tratar un objeto de la clase derivada como si fuera de la clase base. Aunque este concepto lo veremos próximamente más en detalle.
+
+Sin embargo, también tiene algunas desventajas:
+
+- **Acoplamiento fuerte**: puede aumentar el acoplamiento entre las clases, lo que dificulta la modificación de una clase sin afectar a las clases derivadas.
+- **Jerarquías complejas**: puede llevar a jerarquías de clases complejas y difíciles de mantener.
+- **Problema del diamante**: en Java no se permite herencia múltiple, por lo que puede surgir el problema del diamante al heredar de varias clases.
+
+## Palabra clave `super`
+
+En Java, la palabra clave `super` se utiliza para llamar a un método de la superclase desde la subclase.
+Por ejemplo, en el constructor de la clase `Empleado`, se llama al constructor de la clase `Persona` utilizando `super(nombre, edad)`.
+
+```java
+public Empleado(String nombre, int edad, String empresa) {
+    super(nombre, edad);
+    this.empresa = empresa;
+}
+```
+
+También se puede utilizar `super` para llamar a un método de la superclase desde la subclase:
+
+```java
+public void saludar() {
+    super.saludar();
+    System.out.println("Soy un empleado de " + empresa);
+}
+```
+
+En este caso, se llama al método `saludar` de la superclase `Persona` y se añade un mensaje adicional.
+
+## Clase `Object`
+
+En Java, todas las clases heredan de la clase `Object`, que es la clase base de todas las clases en Java.
+La clase `Object` define varios métodos que están disponibles en todas las clases, como `toString`, `equals`, `hashCode`, etc.
+
+Por ejemplo, si definimos una clase `Persona` que no hereda de ninguna otra clase, implícitamente hereda de la clase `Object`:
+
+```java
+public class Persona {
+    // Atributos y métodos de la clase Persona
+}
+```
+
+En este caso, la clase `Persona` hereda los métodos de la clase `Object`.

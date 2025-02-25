@@ -1,0 +1,78 @@
+# Clases abstractas
+
+Una clase abstracta es una clase que no puede ser instanciada, es decir, no se pueden crear objetos de una clase abstracta. Las clases abstractas se utilizan para definir una clase base que no tiene sentido por sí sola, sino que se espera que sea extendida por otras clases que sí se puedan instanciar.  
+
+Esto puede servirnos para definir métodos comunes a todas las clases derivadas, o para definir métodos que deben ser implementados por las clases derivadas.
+
+## Sintaxis de una clase abstracta
+
+La sintaxis para definir una clase abstracta en Java es la siguiente:
+
+```java
+public abstract class ClaseAbstracta {
+    // Atributos y métodos de la clase abstracta
+}
+```
+
+Para definir un método abstracto en una clase abstracta, se utiliza la palabra clave `abstract` en la declaración del método y no se proporciona una implementación del mismo:
+
+```java
+public abstract void metodoAbstracto();
+```
+
+## Ejemplo de clase abstracta y método abstracto con su implementación
+
+Vamos a ver un ejemplo de una clase abstracta `Figura` que define un método abstracto `calcularArea` que debe ser implementado por las clases derivadas:
+
+```java
+public abstract class Figura {
+    public abstract void calcularArea();
+}
+
+public class Circulo extends Figura {
+    private double radio;
+
+    public Circulo(double radio) {
+        this.radio = radio;
+    }
+
+    @Override
+    public void calcularArea() {
+        double area = Math.PI * radio * radio;
+        System.out.println("El área del círculo es: " + area);
+    }
+}
+
+public class Rectangulo extends Figura {
+    private double base;
+    private double altura;
+
+    public Rectangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public void calcularArea() {
+        double area = base * altura;
+        System.out.println("El área del rectángulo es: " + area);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Figura c = new Circulo(5);
+        c.calcularArea();
+
+        Figura r = new Rectangulo(3, 4);
+        r.calcularArea();
+    }
+}
+```
+
+En este ejemplo, la clase `Figura` es una clase abstracta que define un método abstracto `calcularArea`. Las clases `Circulo` y `Rectangulo` heredan de la clase `Figura` y proporcionan una implementación del método `calcularArea`.  
+
+Al crear objetos de las clases `Circulo` y `Rectangulo`, podemos llamar al método `calcularArea` de la clase `Figura` y se ejecutará la implementación correspondiente de cada clase derivada.  
+
+En este caso, se calcula el área de un círculo y de un rectángulo, pero podríamos añadir más clases derivadas de `Figura` con diferentes implementaciones del método `calcularArea`.    
+

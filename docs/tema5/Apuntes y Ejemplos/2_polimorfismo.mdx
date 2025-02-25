@@ -1,0 +1,164 @@
+# Polimorfismo en Java
+
+El polimorfismo es un concepto fundamental en la programación orientada a objetos que permite que un objeto pueda ser tratado como si fuera de un tipo diferente al que realmente es. 
+Esto se consigue mediante la herencia y el uso de clases base y clases derivadas. 
+
+## Ejemplo de polimorfismo
+
+Vamos a ver un ejemplo de polimorfismo en el que una clase `Empleado` hereda de una clase `Persona` y se utiliza el polimorfismo para tratar un objeto de la clase `Empleado` como si fuera de la clase `Persona`.
+
+```java
+public class Persona {
+    private String nombre;
+    private int edad;
+
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public void saludar() {
+        System.out.println("Hola, soy " + nombre);
+    }
+}
+
+public class Empleado extends Persona {
+    private String empresa;
+
+    public Empleado(String nombre, int edad, String empresa) {
+        super(nombre, edad);
+        this.empresa = empresa;
+    }
+
+    public void trabajar() {
+        System.out.println("Trabajando en " + empresa);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Persona p = new Empleado("Juan", 30, "Empresa X");
+        p.saludar();
+    }
+}
+```
+
+En este ejemplo, se crea un objeto de la clase `Empleado` y se trata como si fuera de la clase `Persona`.
+Esto es posible gracias al polimorfismo, que permite tratar un objeto de la clase derivada (`Empleado`) como si fuera de la clase base (`Persona`).
+
+## Conversión de tipos en Java: Casting
+
+En Java, la conversión de tipos se puede realizar mediante *casting*, que consiste en tratar un objeto de una clase como si fuera de otra clase.    
+
+Por ejemplo, en el siguiente código se crea un objeto de la clase `Empleado` y se convierte en un objeto de la clase `Persona` mediante *casting*:
+
+```java
+Empleado e = new Empleado("Juan", 30, "Empresa X");
+Persona p = (Persona) e;
+```
+
+En este caso, se convierte el objeto `e` de la clase `Empleado` en un objeto de la clase `Persona` mediante *casting*.
+
+### Casting seguro
+
+Es importante tener en cuenta que el *casting* puede provocar errores si se intenta convertir un objeto de una clase en un objeto de una clase incompatible.    
+
+Por ejemplo, en el siguiente código se intenta convertir un objeto de la clase `Persona` en un objeto de la clase `Empleado`:
+
+```java
+Persona p = new Persona("Juan", 30);
+Empleado e = (Empleado) p;
+```
+
+En este caso, se produce un error en tiempo de ejecución (`ClassCastException`) porque el objeto `p` es de la clase `Persona` y no se puede convertir en un objeto de la clase `Empleado`.  
+
+Para evitar este tipo de errores, se puede comprobar si un objeto es una instancia de una clase antes de realizar el *casting* mediante el operador `instanceof`, que se explica más adelante.  
+
+### Downcasting y upcasting
+
+En Java, la conversión de tipos se puede clasificar en dos tipos: *downcasting* y *upcasting*.
+
+- **Downcasting**: consiste en convertir un objeto de una clase base en un objeto de una clase derivada.
+- **Upcasting**: consiste en convertir un objeto de una clase derivada en un objeto de una clase base.
+
+Por ejemplo, en el siguiente código se realiza un *downcasting* y un *upcasting*:
+
+```java
+Persona p = new Empleado("Juan", 30, "Empresa X"); // Upcasting
+Empleado e = (Empleado) p; // Downcasting
+```
+
+En este caso, se convierte un objeto de la clase `Empleado` en un objeto de la clase `Persona` mediante *upcasting* y luego se convierte de nuevo en un objeto de la clase `Empleado` mediante *downcasting*.   
+
+Es importante tener en cuenta que el *downcasting* puede provocar errores si se intenta convertir un objeto de una clase base en un objeto de una clase derivada incompatible.  
+
+Para evitar este tipo de errores, se puede comprobar si un objeto es una instancia de una clase antes de realizar el *downcasting* mediante el operador `instanceof`, que se explica más adelante.  
+
+## El operador `instanceof`
+
+En Java, el operador `instanceof` se utiliza para comprobar si un objeto es una instancia de una clase o de una interfaz.
+
+Por ejemplo, en el siguiente código se comprueba si un objeto `p` es una instancia de la clase `Persona`:
+
+```java
+Persona p = new Persona("Juan", 30);
+if (p instanceof Persona) {
+    System.out.println("Es una persona");
+}
+```
+
+En este caso, la condición se cumple y se imprime "Es una persona", ya que el objeto `p` es una instancia de la clase `Persona`.
+
+El operador `instanceof` también se puede utilizar para comprobar si un objeto es una instancia de una clase derivada:
+
+```java
+Persona p = new Empleado("Juan", 30, "Empresa X");
+if (p instanceof Empleado) {
+    System.out.println("Es un empleado");
+}
+```
+
+En este caso, la condición se cumple y se imprime "Es un empleado", ya que el objeto `p` es una instancia de la clase `Empleado`.
+
+El operador `instanceof` es útil para comprobar el tipo de un objeto en tiempo de ejecución y tomar decisiones en función de ese tipo.
+
+Veamos un ejemplo en el que tenemos dos clases derivadas de una clase base y utilizamos el operador `instanceof` para comprobar el tipo de un objeto en tiempo de ejecución:
+
+```java
+public class Figura {
+    public void dibujar() {
+        System.out.println("Dibujando figura");
+    }
+}
+
+public class Circulo extends Figura {
+    public void dibujar() {
+        System.out.println("Dibujando círculo");
+    }
+}
+
+public class Cuadrado extends Figura {
+    public void dibujar() {
+        System.out.println("Dibujando cuadrado");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Figura f1 = new Circulo();
+        Figura f2 = new Cuadrado();
+
+        if (f1 instanceof Circulo) {
+            ((Circulo) f1).dibujar();
+        }
+
+        if (f2 instanceof Cuadrado) {
+            ((Cuadrado) f2).dibujar();
+        }
+    }
+}
+```
+
+En este ejemplo, se crean objetos de las clases `Circulo` y `Cuadrado` y se comprueba si son instancias de esas clases utilizando el operador `instanceof`. 
+Si la condición se cumple, se realiza un *casting* para tratar el objeto como si fuera de la clase correspondiente y se llama al método `dibujar` de esa clase. 
+Esto nos permite tratar un objeto de una clase derivada como si fuera de la clase base y utilizar el polimorfismo para realizar operaciones específicas de cada clase. 
