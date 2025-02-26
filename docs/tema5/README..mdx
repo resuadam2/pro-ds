@@ -469,11 +469,11 @@ public class Main {
 
 ### Ejercicio 4
 
-Crea una clase `PreguntaRespuestaCorta` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `String`.
-Crea una clase `PreguntaRespuestaNumerica` que tenga un atributo `pregunta` de tipo `String,` y un atributo `respuesta` de tipo `Integer`.
-Crea una clase `PreguntaRespuestaBooleana` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `Boolean`.
+Crea una clase `PreguntaCorta` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `String`.
+Crea una clase `PreguntaNumerica` que tenga un atributo `pregunta` de tipo `String,` y un atributo `respuesta` de tipo `Integer`.
+Crea una clase `PreguntaBool` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `Boolean`.
 
-Crea una clase `PreguntaTrivial` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `T`.
+Crea una clase `Pregunta` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `T`.
 
 Dependiendo del tipo de la respuesta, se podrá crear una pregunta de un tipo u otro:
 
@@ -486,20 +486,20 @@ Crea una clase `Main` que cree una pregunta de cada tipo y muestre la pregunta y
 <details>
 <summary>Ver Solución</summary>
     <Tabs defaultValue="pregunta" groupId="ejercicio-4" values={[
-        {label: 'PreguntaRespuestaCorta.java', value: 'pregunta',},
-        {label: 'PreguntaRespuestaNumerica.java', value: 'respuesta_numerica',},
-        {label: 'PreguntaRespuestaBooleana.java', value: 'respuesta_booleana',},
-        {label: 'PreguntaTrivial.java', value: 'pregunta_trivial',},
+        {label: 'PreguntaCorta.java', value: 'pregunta',},
+        {label: 'PreguntaNumerica.java', value: 'respuesta_numerica',},
+        {label: 'PreguntaBool.java', value: 'respuesta_booleana',},
+        {label: 'Pregunta.java', value: 'pregunta_trivial',},
         {label: 'Main.java', value: 'main',},
     ]}>
         <TabItem value="pregunta">
 
 ```java
-public class PreguntaRespuestaCorta {
+public class PreguntaCorta {
     private String pregunta;
     private String respuesta;
 
-    public PreguntaRespuestaCorta(String pregunta, String respuesta) {
+    public PreguntaCorta(String pregunta, String respuesta) {
         this.pregunta = pregunta;
         this.respuesta = respuesta;
     }
@@ -518,11 +518,11 @@ public class PreguntaRespuestaCorta {
         <TabItem value="respuesta_numerica">
 
 ```java
-public class PreguntaRespuestaNumerica {
+public class PreguntaNumerica {
     private String pregunta;
     private Integer respuesta;
 
-    public PreguntaRespuestaNumerica(String pregunta, Integer respuesta) {
+    public PreguntaNumerica(String pregunta, Integer respuesta) {
         this.pregunta = pregunta;
         this.respuesta = respuesta;
     }
@@ -541,11 +541,11 @@ public class PreguntaRespuestaNumerica {
         <TabItem value="respuesta_booleana">
 
 ```java
-public class PreguntaRespuestaBooleana {
+public class PreguntaBool {
     private String pregunta;
     private Boolean respuesta;
 
-    public PreguntaRespuestaBooleana(String pregunta, Boolean respuesta) {
+    public PreguntaBool(String pregunta, Boolean respuesta) {
         this.pregunta = pregunta;
         this.respuesta = respuesta;
     }
@@ -564,11 +564,11 @@ public class PreguntaRespuestaBooleana {
         <TabItem value="pregunta_trivial">
 
 ```java
-public class PreguntaTrivial<T> {
+public class Pregunta<T> {
     private String pregunta;
     private T respuesta;
 
-    public PreguntaTrivial(String pregunta, T respuesta) {
+    public Pregunta(String pregunta, T respuesta) {
         this.pregunta = pregunta;
         this.respuesta = respuesta;
     }
@@ -589,12 +589,12 @@ public class PreguntaTrivial<T> {
 ```java
 public class Main {
     public static void main(String[] args) {
-        PreguntaRespuestaCorta preguntaCorta = new PreguntaRespuestaCorta("¿Capital de Italia?", "Roma");
-        PreguntaRespuestaNumerica preguntaNumerica = new PreguntaRespuestaNumerica("¿Cuánto es 2 + 2?", 4);
-        PreguntaRespuestaBooleana preguntaBooleana = new PreguntaRespuestaBooleana("¿Es Madrid la capital de Italia?", false);
-        PreguntaTrivial<String> preguntaCorta = new PreguntaTrivial<>("¿Capital de Portugal?", "Lisboa");
-        PreguntaTrivial<Integer> preguntaNumerica = new PreguntaTrivial<>("¿Cuánto es 2 + 6?", 8);
-        PreguntaTrivial<Boolean> preguntaBooleana = new PreguntaTrivial<>("¿Es Oporto la capital de Portugal?", false);.
+        PreguntaCorta preguntaCorta = new PreguntaCorta("¿Capital de Italia?", "Roma");
+        PreguntaNumerica preguntaNumerica = new PreguntaNumerica("¿Cuánto es 2 + 2?", 4);
+        PreguntaBool preguntaBooleana = new PreguntaBool("¿Es Madrid la capital de Italia?", false);
+        Pregunta<String> preguntaCorta = new Pregunta<>("¿Capital de Portugal?", "Lisboa");
+        Pregunta<Integer> preguntaNumerica = new Pregunta<>("¿Cuánto es 2 + 6?", 8);
+        Pregunta<Boolean> preguntaBooleana = new Pregunta<>("¿Es Oporto la capital de Portugal?", false);.
         System.out.println("Preguntas no genéricas:");
         System.out.println(preguntaCorta.getPregunta() + " Respuesta: " + preguntaCorta.getRespuesta());
         System.out.println(preguntaNumerica.getPregunta() + " Respuesta: " + preguntaNumerica.getRespuesta());
@@ -805,7 +805,7 @@ Crea una clase `Cliente` que tenga un atributo `nombre` de tipo `String`.
 
 Crea una clase `Supermercado` que tenga un atributo `cola` de tipo `Queue` de `Cliente`.
 
-La clase `Supermercado` tendrá un método `añadirCliente(Cliente c)` que añadirá un cliente a la cola.
+La clase `Supermercado` tendrá un método `addCliente(Cliente c)` que añadirá un cliente a la cola.
 La clase `Supermercado` tendrá un método `atenderClientes()` que irá atendiendo a los clientes de la cola.
 El método `atenderClientes()` mostrará un mensaje indicando que se está atendiendo a un cliente y mostrará el nombre del cliente.
 El método `atenderClientes()` irá sacando clientes de la cola hasta que la cola esté vacía.
@@ -849,7 +849,7 @@ public class Supermercado {
         cola = new LinkedList<>();
     }
 
-    public void añadirCliente(Cliente c) {
+    public void addCliente(Cliente c) {
         cola.add(c);
     }
 
@@ -870,9 +870,9 @@ public class Supermercado {
 public class Main {
     public static void main(String[] args) {
         Supermercado supermercado = new Supermercado();
-        supermercado.añadirCliente(new Cliente("Juan"));
-        supermercado.añadirCliente(new Cliente("María"));
-        supermercado.añadirCliente(new Cliente("Pedro"));
+        supermercado.addCliente(new Cliente("Juan"));
+        supermercado.addCliente(new Cliente("María"));
+        supermercado.addCliente(new Cliente("Pedro"));
         supermercado.atenderClientes();
     }
 }
