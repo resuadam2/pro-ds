@@ -1,0 +1,107 @@
+# Clases de los tipos primitivos en Java
+
+En Java, los tipos primitivos (`int`, `double`, `char`, `boolean`, etc.) no son objetos, sino que son valores simples que se almacenan en la memoria de forma eficiente. 
+Sin embargo, Java proporciona clases envolventes (wrapper classes) para cada tipo primitivo que permiten tratarlos como objetos.
+
+## Clases de los tipos primitivos
+
+Las clases envolventes de los tipos primitivos en Java son las siguientes:
+
+- `Byte`: Clase envolvente del tipo `byte`.
+- `Short`: Clase envolvente del tipo `short`.
+- `Integer`: Clase envolvente del tipo `int`.
+- `Long`: Clase envolvente del tipo `long`.
+- `Float`: Clase envolvente del tipo `float`.
+- `Double`: Clase envolvente del tipo `double`.
+- `Character`: Clase envolvente del tipo `char`.
+- `Boolean`: Clase envolvente del tipo `boolean`.
+
+Estas clases envolventes permiten realizar operaciones con los tipos primitivos como si fueran objetos, y proporcionan métodos útiles para convertir entre tipos primitivos y objetos.  
+
+## Ejemplo de uso de las clases envolventes
+
+Vamos a ver un ejemplo sencillo de uso de las clases envolventes en Java:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Crear un objeto de la clase Integer
+        Integer i = new Integer(42);
+
+        // Convertir el objeto Integer a un tipo primitivo int
+        int n = i.intValue();
+
+        // Realizar operaciones con el tipo primitivo int
+        int m = n + 10;
+
+        // Convertir el tipo primitivo int a un objeto Integer
+        Integer j = Integer.valueOf(m);
+
+        // Imprimir el resultado
+        System.out.println(j);
+    }
+}
+```
+
+En este ejemplo, se crea un objeto de la clase `Integer` a partir de un valor entero, se convierte el objeto `Integer` a un tipo primitivo `int`, se realizan operaciones con el tipo primitivo `int`, y se convierte el tipo primitivo `int` a un objeto `Integer`.    
+
+Las clases envolventes son útiles cuando se necesita tratar los tipos primitivos como objetos, por ejemplo, al utilizar colecciones genéricas o al trabajar con APIs que requieren objetos en lugar de tipos primitivos.    
+
+Las clases envolventes también proporcionan métodos útiles para convertir entre tipos primitivos y objetos, y para realizar operaciones con los tipos primitivos como si fueran objetos.    
+
+En general, las clases envolventes facilitan el trabajo con los tipos primitivos en Java y permiten tratarlos como objetos cuando sea necesario.    
+
+## Autoboxing y unboxing
+
+En Java, el autoboxing y unboxing son dos características que permiten convertir automáticamente entre tipos primitivos y objetos de las clases envolventes.    
+
+- **Autoboxing**: es la conversión automática de un tipo primitivo a su clase envolvente correspondiente. Por ejemplo, se puede asignar un valor entero a un objeto `Integer` sin necesidad de realizar una conversión explícita.
+- **Unboxing**: es la conversión automática de un objeto de una clase envolvente a su tipo primitivo correspondiente. Por ejemplo, se puede asignar un objeto `Integer` a una variable entera sin necesidad de realizar una conversión explícita.   
+
+El autoboxing y unboxing son útiles para simplificar el código y hacerlo más legible, ya que permiten tratar los tipos primitivos como objetos y viceversa de forma automática. 
+
+Vamos a ver un ejemplo de autoboxing y unboxing en Java:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Autoboxing: asignar un valor entero a un objeto Integer
+        Integer i = 42;
+
+        // Unboxing: asignar un objeto Integer a un valor entero
+        int n = i;
+
+        // Imprimir el resultado
+        System.out.println(n);
+    }
+}
+```
+
+En este ejemplo, se asigna un valor entero a un objeto `Integer` mediante autoboxing, y se asigna un objeto `Integer` a un valor entero mediante unboxing.  
+
+El autoboxing y unboxing son características útiles que simplifican el código y hacen que sea más fácil trabajar con tipos primitivos y objetos en Java.    
+
+## Usos principales de las clases envolventes
+
+Las clases envolventes de los tipos primitivos en Java se utilizan principalmente en los siguientes casos:
+
+- Al trabajar con colecciones genéricas que requieren objetos en lugar de tipos primitivos.
+- Al utilizar APIs que requieren objetos en lugar de tipos primitivos.
+- Al realizar operaciones con tipos primitivos como si fueran objetos.
+- Al convertir entre tipos primitivos y objetos de forma explícita o automática mediante autoboxing y unboxing.
+
+## Métodos habituales de las clases envolventes
+
+Las clases envolventes de los tipos primitivos en Java proporcionan métodos útiles para realizar operaciones con los tipos primitivos como si fueran objetos. Algunos de los métodos más habituales son los siguientes:
+
+- `intValue()`: devuelve el valor del objeto como un tipo primitivo `int`.
+- `doubleValue()`: devuelve el valor del objeto como un tipo primitivo `double`.
+- `charValue()`: devuelve el valor del objeto como un tipo primitivo `char`.
+- `booleanValue()`: devuelve el valor del objeto como un tipo primitivo `boolean`.
+- `valueOf()`: convierte un tipo primitivo en un objeto de la clase envolvente correspondiente.
+- `toString()`: devuelve una representación en forma de cadena del objeto.
+- `equals()`: compara el objeto con otro objeto.
+- `compareTo()`: compara el objeto con otro objeto y devuelve un valor entero que indica si es menor, igual o mayor.
+
+Estos métodos son útiles para convertir entre tipos primitivos y objetos, realizar operaciones con los tipos primitivos como si fueran objetos, y comparar objetos de las clases envolventes.   
+

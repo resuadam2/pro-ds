@@ -1,0 +1,301 @@
+# Estructuras de datos genéricas en Java
+
+En este apartado se estudian las estructuras de datos genéricas en Java, que permiten definir clases y métodos que pueden trabajar con cualquier tipo de dato.  
+
+## Introducción a las estructuras de datos genéricas
+
+Las estructuras de datos genéricas en Java permiten definir clases y métodos que pueden trabajar con cualquier tipo de dato.
+
+Esto nos permite reutilizar el código y escribir clases y métodos que sean independientes del tipo de dato con el que trabajan.
+
+Las estructuras de datos genéricas se definen utilizando parámetros de tipo, que se indican entre corchetes angulares `< >`.
+
+Por ejemplo, si queremos definir una clase `Lista` que almacene elementos de cualquier tipo, podemos hacerlo de la siguiente manera:
+
+```java
+public class Lista<T> {
+    private T[] elementos;
+
+    public Lista(int capacidad) {
+        elementos = (T[]) new Object[capacidad];
+    }
+
+    public void añadirElemento(T elemento, int indice) {
+        elementos[indice] = elemento;
+    }
+
+    public T getElemento(int indice) {
+        return elementos[indice];
+    }
+}
+```
+
+En este caso, la clase `Lista` se define con un parámetro de tipo `T`, que indica que puede almacenar elementos de cualquier tipo.
+
+## Uso de estructuras de datos genéricas
+
+Para utilizar una estructura de datos genérica, se indica el tipo de dato con el que se va a trabajar entre corchetes angulares `< >`.  
+
+Por ejemplo, si queremos crear una lista de enteros, podemos hacerlo de la siguiente manera:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Lista<Integer> listaEnteros = new Lista<>(10);
+        listaEnteros.añadirElemento(5, 0);
+        listaEnteros.añadirElemento(10, 1);
+
+        System.out.println(listaEnteros.getElemento(0)); // Imprime 5
+        System.out.println(listaEnteros.getElemento(1)); // Imprime 10
+    }
+}
+```
+
+En este caso, se crea una lista de enteros `Lista<Integer>` y se añaden elementos de tipo `Integer` a la lista.
+
+## Ventajas de las estructuras de datos genéricas
+
+Las estructuras de datos genéricas tienen varias ventajas respecto a las estructuras de datos no genéricas:
+
+- **Reutilización de código**: permiten reutilizar el código al definir clases y métodos que sean independientes del tipo de dato.
+- **Seguridad de tipos**: proporcionan seguridad de tipos en tiempo de compilación, evitando errores de tipo en tiempo de ejecución.
+- **Mejor rendimiento**: al trabajar con tipos concretos en tiempo de compilación, se pueden realizar optimizaciones que mejoren el rendimiento del código.
+
+En resumen, las estructuras de datos genéricas en Java permiten definir clases y métodos que pueden trabajar con cualquier tipo de dato, proporcionando reutilización de código, seguridad de tipos y mejor rendimiento.
+
+## Sobre las estructuras propias de Java
+
+Java proporciona una serie de estructuras de datos genéricas en la biblioteca estándar, como `ArrayList`, `LinkedList`, `HashMap`, etc. 
+
+Estas estructuras de datos genéricas están optimizadas y son ampliamente utilizadas en el desarrollo de aplicaciones Java.
+
+Por lo tanto, es recomendable utilizar las estructuras de datos genéricas proporcionadas por Java en lugar de definir nuestras propias estructuras de datos genéricas, a menos que sea necesario por algún motivo concreto. 
+
+En general, es preferible utilizar las estructuras de datos genéricas proporcionadas por Java, ya que están optimizadas y probadas en multitud de aplicaciones. 
+
+Ya hemos visto en el tema anterior cómo trabajar con ArrayList pero vamos a ver las características de unas cuantas más que también son interesantes.
+
+## ArrayList
+
+El `ArrayList` es una de las estructuras de datos más utilizadas en Java.
+
+Es una implementación de la interfaz `List` que permite almacenar una colección de elementos en un orden determinado.
+
+El `ArrayList` es dinámico, es decir, puede cambiar de tamaño automáticamente según sea necesario.
+
+Por ejemplo, si queremos almacenar una lista de nombres en un `ArrayList`, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> nombres = new ArrayList<>();
+        nombres.add("Juan");
+        nombres.add("María");
+        nombres.add("Pedro");
+
+        for (String nombre : nombres) {
+            System.out.println(nombre);
+        }
+    }
+}
+```
+
+En este caso, se crea un `ArrayList` de cadenas `ArrayList<String>` y se añaden nombres a la lista con el método `add`.
+
+## LinkedList
+
+El `LinkedList` es otra estructura de datos muy utilizada en Java.
+
+Es una implementación de la interfaz `List` que almacena una colección de elementos en un orden determinado.
+
+A diferencia del `ArrayList`, el `LinkedList` está implementado como una lista doblemente enlazada, lo que permite un acceso más rápido a los elementos.    
+
+Por ejemplo, si queremos almacenar una lista de números en un `LinkedList`, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedList<Integer> numeros = new LinkedList<>();
+        numeros.add(5);
+        numeros.add(10);
+        numeros.add(15);
+
+        for (int numero : numeros) {
+            System.out.println(numero);
+        }
+    }
+}
+```
+
+En este caso, se crea un `LinkedList` de enteros `LinkedList<Integer>` y se añaden números a la lista con el método `add`.
+
+## HashMap
+
+El `HashMap` es una estructura de datos que almacena pares clave-valor.
+
+Es una implementación de la interfaz `Map` que permite asociar una clave con un valor.
+
+El `HashMap` es una estructura de datos muy eficiente para buscar y recuperar elementos por clave.
+
+Por ejemplo, si queremos almacenar una lista de productos con su precio en un `HashMap`, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Double> productos = new HashMap<>();
+        productos.put("Leche", 1.0);
+        productos.put("Pan", 0.5);
+        productos.put("Huevos", 2.0);
+
+        for (String producto : productos.keySet()) {
+            double precio = productos.get(producto);
+            System.out.println(producto + ": " + precio);
+        }
+    }
+}
+```
+
+En este caso, se crea un `HashMap` de cadenas y números `HashMap<String, Double>` y se añaden productos con su precio al mapa con el método `put`.  
+
+## Conjuntos en Java
+
+Los conjuntos en Java son estructuras de datos que almacenan elementos únicos, es decir, no permiten duplicados.
+
+Java proporciona una interfaz `Set` que define las operaciones básicas de un conjunto, y varias implementaciones de conjuntos en la biblioteca estándar, como `HashSet`, `TreeSet`, etc.    
+
+Por ejemplo, si queremos almacenar una lista de números únicos en un `HashSet`, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        HashSet<Integer> numeros = new HashSet<>();
+        numeros.add(5);
+        numeros.add(10);
+        numeros.add(5); // Duplicado, no se añade
+
+        for (int numero : numeros) {
+            System.out.println(numero);
+        }
+    }
+}
+```
+
+En este caso, se crea un `HashSet` de enteros `HashSet<Integer>` y se añaden números al conjunto con el método `add`. Como el número 5 se añade dos veces, solo se almacena una vez en el conjunto. 
+
+## Pilas en Java
+
+Las pilas en Java son estructuras de datos que siguen el principio LIFO (Last In, First Out), es decir, el último elemento que se añade a la pila es el primero en ser eliminado.   
+
+Java proporciona una interfaz `Stack` que define las operaciones básicas de una pila, y una implementación de pila en la biblioteca estándar.   
+
+Por ejemplo, si queremos almacenar una lista de elementos en una pila, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.Stack;
+
+public class Main {
+    public static void main(String[] args) {
+        Stack<Integer> pila = new Stack<>();
+        pila.push(5);
+        pila.push(10);
+        pila.push(15);
+
+        while (!pila.isEmpty()) {
+            int elemento = pila.pop();
+            System.out.println(elemento);
+        }
+    }
+}
+```
+
+En este caso, se crea una pila de enteros `Stack<Integer>` y se añaden elementos a la pila con el método `push`. A continuación, se extraen los elementos de la pila con el método `pop` y se imprimen por pantalla.    
+
+## Colas en Java
+
+Las colas en Java son estructuras de datos que siguen el principio FIFO (First In, First Out), es decir, el primer elemento que se añade a la cola es el primero en ser eliminado.  
+
+Java proporciona una interfaz `Queue` que define las operaciones básicas de una cola, y varias implementaciones de colas en la biblioteca estándar, como `LinkedList`, `ArrayDeque`, etc.   
+
+Por ejemplo, si queremos almacenar una lista de elementos en una cola, podemos hacerlo de la siguiente manera:
+
+```java
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedList<Integer> cola = new LinkedList<>();
+        cola.add(5);
+        cola.add(10);
+        cola.add(15);
+
+        while (!cola.isEmpty()) {
+            int elemento = cola.remove();
+            System.out.println(elemento);
+        }
+    }
+}
+```
+
+En este caso, se crea una cola de enteros `LinkedList<Integer>` y se añaden elementos a la cola con el método `add`. A continuación, se extraen los elementos de la cola con el método `remove` y se imprimen por pantalla. 
+
+Se puede implementar una cola también usando la interfaz `Queue` y la clase `ArrayDeque`:
+
+```java
+import java.util.Queue;
+import java.util.ArrayDeque;
+
+public class Main {
+    public static void main(String[] args) {
+        Queue<Integer> cola = new ArrayDeque<>();
+        cola.add(5);
+        cola.add(10);
+        cola.add(15);
+
+        while (!cola.isEmpty()) {
+            int elemento = cola.remove();
+            System.out.println(elemento);
+        }
+    }
+}
+```
+
+En este caso, se crea una cola de enteros `ArrayDeque<Integer>` y se añaden elementos a la cola con el método `add`. A continuación, se extraen los elementos de la cola con el método `remove` y se imprimen por pantalla. 
+
+:::info[Diferencias entre `LinkedList` y `ArrayDeque`]
+La clase `LinkedList` implementa la interfaz `List` y la interfaz `Queue`, mientras que la clase `ArrayDeque` implementa la interfaz `Queue` pero no la interfaz `List`.    
+
+La clase `LinkedList` es más lenta que la clase `ArrayDeque` para añadir y eliminar elementos en cualquier posición, pero es más rápida para añadir y eliminar elementos al principio y al final de la lista.   
+
+Por lo tanto, si necesitas una lista doblemente enlazada que también sea una cola, puedes utilizar `LinkedList`, pero si solo necesitas una cola, es más eficiente utilizar `ArrayDeque`.
+:::
+
+## Usos y diferencias entre las diferentes estructuras de datos
+
+Las estructuras de datos en Java tienen diferentes usos y características que las hacen adecuadas para diferentes situaciones:
+
+- **ArrayList**: es adecuado para almacenar una colección de elementos en un orden determinado y acceder a ellos por índice.
+- **LinkedList**: es adecuado para insertar y eliminar elementos en cualquier posición de la lista de forma eficiente.
+- **HashMap**: es adecuado para asociar claves con valores y buscar elementos por clave de forma eficiente.
+- **HashSet**: es adecuado para almacenar elementos únicos y comprobar si un elemento está presente en el conjunto de forma eficiente.  
+- **Stack**: es adecuado para implementar una pila LIFO (Last In, First Out) y realizar operaciones de inserción y eliminación en el extremo superior de la pila.   
+- **Queue**: es adecuado para implementar una cola FIFO (First In, First Out) y realizar operaciones de inserción y eliminación en el extremo frontal de la cola.   
+
+En general, es importante elegir la estructura de datos adecuada para cada situación, teniendo en cuenta las operaciones que se van a realizar con los datos y las características de cada estructura.  
+
+Existen muchas otras estructuras de datos en Java, como `PriorityQueue`, `TreeMap`, `LinkedHashSet`, etc., que proporcionan funcionalidades adicionales y se adaptan a diferentes necesidades.  
+
+También es posible combinar diferentes estructuras de datos para obtener el comportamiento deseado, como por ejemplo, utilizar un `HashMap` para almacenar elementos únicos y un `LinkedList` para mantener el orden de inserción.
+
+Existen otras estructuras más avanzadas como los grafos o los árboles que también son muy utilizadas en programación y que se pueden implementar de diferentes maneras en Java.
+Si os interesan, podéis investigar más sobre ellas y cómo se implementan en Java.
+
+En resumen, las estructuras de datos en Java proporcionan una amplia variedad de opciones para almacenar y manipular datos de forma eficiente, y es importante elegir la estructura de datos adecuada para cada situación.  
+

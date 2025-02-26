@@ -8,3 +8,118 @@ Esto nos sirve para definir un contrato que deben cumplir las clases que impleme
 
 ## Sintaxis de una interfaz
 
+La sintaxis para definir una interfaz en Java es la siguiente:
+
+```java
+public interface Interfaz {
+    // Constantes
+    // Métodos abstractos
+    // Métodos default
+    // Métodos estáticos
+}
+```
+
+Por ejemplo, si queremos definir una interfaz `Figura` que contenga un método para calcular el área, la sintaxis sería la siguiente:
+
+```java
+public interface Figura {
+    double calcularArea();
+}
+```
+
+En este caso, la interfaz `Figura` define un método abstracto `calcularArea` que debe ser implementado por las clases que la implementen.   
+
+## Implementación de una interfaz
+
+Para implementar una interfaz en una clase, se utiliza la palabra clave `implements` en la declaración de la clase:
+
+```java
+public class Circulo implements Figura {
+    private double radio;
+
+    public Circulo(double radio) {
+        this.radio = radio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+}
+```
+
+En este caso, la clase `Circulo` implementa la interfaz `Figura` y proporciona una implementación del método `calcularArea`.
+
+## Herencia vs. interfaces
+
+Una clase puede implementar múltiples interfaces, pero solo puede heredar de una clase. Esto nos permite definir comportamientos comunes a través de interfaces sin necesidad de heredar de una clase base. 
+
+Por ejemplo, si tenemos una interfaz `Volador` y una interfaz `Nadador`, podemos tener una clase `Pato` que implemente ambas interfaces:
+
+```java
+public class Pato implements Volador, Nadador {
+    @Override
+    public void volar() {
+        System.out.println("Volando");
+    }
+
+    @Override
+    public void nadar() {
+        System.out.println("Nadando");
+    }
+}
+```
+
+En este caso, la clase `Pato` implementa los métodos `volar` y `nadar` definidos en las interfaces `Volador` y `Nadador`, respectivamente.  
+
+:::info[Sobre las interfaces para lidiar con la herencia múltiple]
+La herencia múltiple no está permitida en Java, pero las interfaces nos permiten simularla de una manera más segura y flexible.
+:::
+
+## Métodos default en una interfaz
+
+A partir de Java 8, las interfaces pueden contener métodos default, que son métodos con una implementación por defecto.
+
+Esto nos permite añadir nuevos métodos a una interfaz sin romper la compatibilidad con las clases que la implementan.
+
+Por ejemplo, si queremos añadir un método `desplazar` a la interfaz `Volador`, podemos hacerlo de la siguiente manera:
+
+```java
+public interface Volador {
+    void volar();
+
+    default void desplazar() {
+        System.out.println("Desplazándose por el aire");
+    }
+}
+```
+
+En este caso, las clases que implementen la interfaz `Volador` heredarán automáticamente la implementación del método `desplazar`.
+
+## Métodos estáticos en una interfaz
+
+A partir de Java 8, las interfaces pueden contener métodos estáticos, que son métodos asociados a la interfaz y no a una instancia concreta de la misma.    
+
+Esto nos permite definir métodos de utilidad que pueden ser utilizados sin necesidad de crear una instancia de la interfaz.
+
+Por ejemplo, si queremos añadir un método `calcularDistancia` a la interfaz `Volador`, podemos hacerlo de la siguiente manera:
+
+```java
+
+public interface Volador {
+    void volar();
+
+    default void desplazar() {
+        System.out.println("Desplazándose por el aire");
+    }
+
+    static double calcularDistancia(double velocidad, double tiempo) {
+        return velocidad * tiempo;
+    }
+}
+```
+
+En este caso, el método `calcularDistancia` es un método estático que puede ser llamado directamente a través de la interfaz `Volador`.
+
+
+

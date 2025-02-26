@@ -16,10 +16,871 @@ Se estudia también el polimorfismo, que permite que un objeto pueda ser tratado
  - [Interfaces](./Apuntes%20y%20Ejemplos/3_interfaces.mdx)
  - [Clases abstractas](./Apuntes%20y%20Ejemplos/4_clases_abstractas.mdx)
  - [Clases anónimas](./Apuntes%20y%20Ejemplos/5_clases_anonimas.mdx)
+ - [Clases de los tipos primitivos](./Apuntes%20y%20Ejemplos/6_clases_tipos_basicos.mdx)
+ - [Estructuras de datos genéricas](./Apuntes%20y%20Ejemplos/7_estructuras_genericas.mdx)
 
 
 
 ## Enunciados ejercicios
+
+### Ejercicio 1
+
+Crea una clase `Vehiculo` con los atributos `marca` y `modelo`. No debe ser posible crear vehículos de forma directa, sino que se debe crear una clase que herede de `Vehiculo` para cada tipo de vehículo. 
+Crea una clase `Coche` que herede de `Vehiculo` y añade un atributo `numeroPuertas`. Además, añade un atributo `motor` de tipo `Motor`.
+Crea una clase `Camion` que herede de `Vehiculo` y añade un atributo `cargaMaxima` y un atributo `motor	` de tipo `Motor`.
+Crea una clase `Bicicleta` que herede de `Vehiculo` y añade un atributo `tipo` que sea un `enum` con los valores `MONTANA`, `CARRETERA` y `CIUDAD`. 
+Crear una clase `Motor` con los atributos `cilindrada` y `potencia`.
+
+Una vez creadas las clases anteriores, crea una clase que gestione las reparaciones de un taller de vehículos.
+La clase `Taller` tendrá un atributo `vehiculos` que será un `ArrayList` de `Vehiculo`.
+
+La clase `Taller` tendrá un método `añadirVehiculo(Vehiculo v)` que añadirá un vehículo al taller.
+La clase `Taller` tendrá un método `repararVehiculos()` que recorrerá todos los vehículos del taller y mostrará un mensaje indicando que se está reparando el vehículo.
+Dependiendo del tipo de vehículo, se mostrará un mensaje u otro. Por ejemplo, si es un coche, se mostrará un mensaje indicando que se está reparando un coche y se mostrará la marca y modelo del coche. Si es una bicicleta, se mostrará un mensaje indicando que se está reparando una bicicleta y se mostrará el tipo de bicicleta.
+
+Crea un programa que cree un taller, añada varios vehículos y los repare.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="vehiculo" groupId="ejercicio-1" values={[
+        {label: 'Vehiculo.java', value: 'vehiculo',},
+        {label: 'Coche.java', value: 'coche',},
+        {label: 'Camion.java', value: 'camion',},
+        {label: 'Bicicleta.java', value: 'bicicleta',},
+        {label: 'Motor.java', value: 'motor',},
+        {label: 'Taller.java', value: 'taller',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="vehiculo">
+
+```java
+public abstract class Vehiculo {
+    private String marca;
+    private String modelo;
+
+    public Vehiculo(String marca, String modelo) {
+        this.marca = marca;
+        this.modelo = modelo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="coche">
+
+```java
+public class Coche extends Vehiculo {
+    private int numeroPuertas;
+    private Motor motor;
+
+    public Coche(String marca, String modelo, int numeroPuertas, Motor motor) {
+        super(marca, modelo);
+        this.numeroPuertas = numeroPuertas;
+        this.motor = motor;
+    }
+
+    public int getNumeroPuertas() {
+        return numeroPuertas;
+    }
+
+    public Motor getMotor() {
+        return motor;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="camion">
+
+```java
+public class Camion extends Vehiculo {
+    private int cargaMaxima;
+    private Motor motor;
+
+    public Camion(String marca, String modelo, int cargaMaxima, Motor motor) {
+        super(marca, modelo);
+        this.cargaMaxima = cargaMaxima;
+        this.motor = motor;
+    }
+
+    public int getCargaMaxima() {
+        return cargaMaxima;
+    }
+
+    public Motor getMotor() {
+        return motor;
+    }
+
+}
+```
+
+        </TabItem>
+        <TabItem value="bicicleta">
+
+```java
+public class Bicicleta extends Vehiculo {
+    public enum Tipo {
+        MONTANA, CARRETERA, CIUDAD
+    }
+
+    private Tipo tipo;
+
+    public Bicicleta(String marca, String modelo, Tipo tipo) {
+        super(marca, modelo);
+        this.tipo = tipo;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="motor">
+
+```java
+public class Motor {
+    private int cilindrada;
+    private int potencia;
+
+    public Motor(int cilindrada, int potencia) {
+        this.cilindrada = cilindrada;
+        this.potencia = potencia;
+    }
+
+    public int getCilindrada() {
+        return cilindrada;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="taller">
+
+```java
+import java.util.ArrayList;
+
+public class Taller {
+    private ArrayList<Vehiculo> vehiculos;
+
+    public Taller() {
+        vehiculos = new ArrayList<>();
+    }
+
+    public void añadirVehiculo(Vehiculo v) {
+        vehiculos.add(v);
+    }
+
+    public void repararVehiculos() {
+        for (Vehiculo v : vehiculos) {
+            if (v instanceof Coche) {
+                System.out.println("Reparando coche: " + v.getMarca() + " " + v.getModelo());
+            } else if (v instanceof Camion) {
+                System.out.println("Reparando camión: " + v.getMarca() + " " + v.getModelo());
+            } else if (v instanceof Bicicleta) {
+                System.out.println("Reparando bicicleta: " + v.getMarca() + " " + v.getModelo() + " " + ((Bicicleta) v).getTipo());
+            }
+        }
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Taller taller = new Taller();
+        Motor motorCoche = new Motor(2000, 150);
+        Motor motorCamion = new Motor(5000, 300);
+        Coche coche = new Coche("Seat", "Ibiza", 5, motorCoche);
+        Camion camion = new Camion("Mercedes", "Actros", 20000, motorCamion);
+        Bicicleta bicicleta = new Bicicleta("Orbea", "Alma", Bicicleta.Tipo.MONTANA);
+        taller.añadirVehiculo(coche);
+        taller.añadirVehiculo(camion);
+        taller.añadirVehiculo(bicicleta);
+        taller.repararVehiculos();
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 2
+
+Crea una clase `Figura` con un método `calcularArea()` que devuelva un `double` con el área de la figura.
+Crea una clase `Circulo` que herede de `Figura` y añade un atributo `radio` y un constructor que reciba el radio.
+Crea una clase `Rectangulo` que herede de `Figura` y añade dos atributos `base` y `altura` y un constructor que reciba la base y la altura.
+Crea una clase `Triangulo` que herede de `Figura` y añade un atributo `base`, un atributo `altura` y un constructor que reciba la base y la altura.
+
+Crea una clase `Main`que cree una `LinkedList` de `Figura` y añada un círculo, un rectángulo y un triángulo a la lista.
+Recorre la lista y muestra el área de cada figura.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="figura" groupId="ejercicio-2" values={[
+        {label: 'Figura.java', value: 'figura',},
+        {label: 'Circulo.java', value: 'circulo',},
+        {label: 'Rectangulo.java', value: 'rectangulo',},
+        {label: 'Triangulo.java', value: 'triangulo',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="figura">
+
+```java
+public abstract class Figura {
+    public abstract double calcularArea();
+}
+```
+
+        </TabItem>
+        <TabItem value="circulo">
+
+```java
+public class Circulo extends Figura {
+    private double radio;
+
+    public Circulo(double radio) {
+        this.radio = radio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="rectangulo">
+
+```java
+public class Rectangulo extends Figura {
+    private double base;
+    private double altura;
+
+    public Rectangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return base * altura;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="triangulo">
+
+```java
+public class Triangulo extends Figura {
+    private double base;
+    private double altura;
+
+    public Triangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return base * altura / 2;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedList<Figura> figuras = new LinkedList<>();
+        figuras.add(new Circulo(5));
+        figuras.add(new Rectangulo(3, 4));
+        figuras.add(new Triangulo(3, 4));
+        for (Figura f : figuras) {
+            System.out.println("Área: " + f.calcularArea());
+        }
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 3
+
+Crea una interfaz `Figura` con un método `calcularArea()` y `calcularPerimetro()` que devuelva un `double` con el área de la figura.
+Crea una clase `Circulo` que implemente la interfaz `Figura` y añade un atributo `radio` y un constructor que reciba el radio.
+Crea una clase `Rectangulo` que implemente la interfaz `Figura` y añade dos atributos `base` y `altura` y un constructor que reciba la base y la altura.
+Crea una clase `Triangulo` que implemente la interfaz `Figura` y añade un atributo `base`, un atributo `altura` y un constructor que reciba la base y la altura.
+
+Crea una clase `Main`que cree un Mapa llamado "areas" con la clave con el tipo de figura y el valor con el área de dicha figura, es decir, solo el valor del área.
+Añade un círculo, un rectángulo y un triángulo al mapa.
+Recorre el mapa y muestra el área de cada figura.
+Haz lo mismo con un mapa llamado "perimetros" que contenga el perímetro de cada figura.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="figura" groupId="ejercicio-3" values={[
+        {label: 'Figura.java', value: 'figura',},
+        {label: 'Circulo.java', value: 'circulo',},
+        {label: 'Rectangulo.java', value: 'rectangulo',},
+        {label: 'Triangulo.java', value: 'triangulo',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="figura">
+
+```java
+public interface Figura {
+    double calcularArea();
+    double calcularPerimetro();
+}
+
+```
+
+        </TabItem>
+        <TabItem value="circulo">
+
+```java
+public class Circulo implements Figura {
+    private double radio;
+
+    public Circulo(double radio) {
+        this.radio = radio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+
+    @Override
+    public double calcularPerimetro() {
+        return 2 * Math.PI * radio;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="rectangulo">
+
+```java
+public class Rectangulo implements Figura {
+    private double base;
+    private double altura;
+
+    public Rectangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return base * altura;
+    }
+
+    @Override
+    public double calcularPerimetro() {
+        return 2 * base + 2 * altura;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="triangulo">
+
+```java
+public class Triangulo implements Figura {
+    private double base;
+    private double altura;
+
+    public Triangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double calcularArea() {
+        return base * altura / 2;
+    }
+
+    @Override
+    public double calcularPerimetro() {
+        return base + 2 * Math.sqrt(altura * altura + base * base / 4);
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Double> areas = new HashMap<>();
+        HashMap<String, Double> perimetros = new HashMap<>();
+        Figura circulo = new Circulo(5);
+        Figura rectangulo = new Rectangulo(3, 4);
+        Figura triangulo = new Triangulo(3, 4);
+        areas.put("Circulo", circulo.calcularArea());
+        areas.put("Rectangulo", rectangulo.calcularArea());
+        areas.put("Triangulo", triangulo.calcularArea());
+        perimetros.put("Circulo", circulo.calcularPerimetro());
+        perimetros.put("Rectangulo", rectangulo.calcularPerimetro());
+        perimetros.put("Triangulo", triangulo.calcularPerimetro());
+        for (String figura : areas.keySet()) {
+            System.out.println("Área de " + figura + ": " + areas.get(figura));
+        }
+        for (String figura : perimetros.keySet()) {
+            System.out.println("Perímetro de " + figura + ": " + perimetros.get(figura));
+        }
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 4
+
+Crea una clase `PreguntaRespuestaCorta` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `String`.
+Crea una clase `PreguntaRespuestaNumerica` que tenga un atributo `pregunta` de tipo `String,` y un atributo `respuesta` de tipo `Integer`.
+Crea una clase `PreguntaRespuestaBooleana` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `Boolean`.
+
+Crea una clase `PreguntaTrivial` que tenga un atributo `pregunta` de tipo `String` y un atributo `respuesta` de tipo `T`.
+
+Dependiendo del tipo de la respuesta, se podrá crear una pregunta de un tipo u otro:
+
+- Si la respuesta es de tipo `String`, la pregunta será de tipo `String`.
+- Si la respuesta es de tipo `Integer`, la pregunta será de tipo `Integer`.
+- Si la respuesta es de tipo `Boolean`, la pregunta será de tipo `Boolean`.
+
+Crea una clase `Main` que cree una pregunta de cada tipo y muestre la pregunta y la respuesta.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="pregunta" groupId="ejercicio-4" values={[
+        {label: 'PreguntaRespuestaCorta.java', value: 'pregunta',},
+        {label: 'PreguntaRespuestaNumerica.java', value: 'respuesta_numerica',},
+        {label: 'PreguntaRespuestaBooleana.java', value: 'respuesta_booleana',},
+        {label: 'PreguntaTrivial.java', value: 'pregunta_trivial',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="pregunta">
+
+```java
+public class PreguntaRespuestaCorta {
+    private String pregunta;
+    private String respuesta;
+
+    public PreguntaRespuestaCorta(String pregunta, String respuesta) {
+        this.pregunta = pregunta;
+        this.respuesta = respuesta;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="respuesta_numerica">
+
+```java
+public class PreguntaRespuestaNumerica {
+    private String pregunta;
+    private Integer respuesta;
+
+    public PreguntaRespuestaNumerica(String pregunta, Integer respuesta) {
+        this.pregunta = pregunta;
+        this.respuesta = respuesta;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public Integer getRespuesta() {
+        return respuesta;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="respuesta_booleana">
+
+```java
+public class PreguntaRespuestaBooleana {
+    private String pregunta;
+    private Boolean respuesta;
+
+    public PreguntaRespuestaBooleana(String pregunta, Boolean respuesta) {
+        this.pregunta = pregunta;
+        this.respuesta = respuesta;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public Boolean getRespuesta() {
+        return respuesta;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="pregunta_trivial">
+
+```java
+public class PreguntaTrivial<T> {
+    private String pregunta;
+    private T respuesta;
+
+    public PreguntaTrivial(String pregunta, T respuesta) {
+        this.pregunta = pregunta;
+        this.respuesta = respuesta;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public T getRespuesta() {
+        return respuesta;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        PreguntaRespuestaCorta preguntaCorta = new PreguntaRespuestaCorta("¿Capital de Italia?", "Roma");
+        PreguntaRespuestaNumerica preguntaNumerica = new PreguntaRespuestaNumerica("¿Cuánto es 2 + 2?", 4);
+        PreguntaRespuestaBooleana preguntaBooleana = new PreguntaRespuestaBooleana("¿Es Madrid la capital de Italia?", false);
+        PreguntaTrivial<String> preguntaCorta = new PreguntaTrivial<>("¿Capital de Portugal?", "Lisboa");
+        PreguntaTrivial<Integer> preguntaNumerica = new PreguntaTrivial<>("¿Cuánto es 2 + 6?", 8);
+        PreguntaTrivial<Boolean> preguntaBooleana = new PreguntaTrivial<>("¿Es Oporto la capital de Portugal?", false);.
+        System.out.println("Preguntas no genéricas:");
+        System.out.println(preguntaCorta.getPregunta() + " Respuesta: " + preguntaCorta.getRespuesta());
+        System.out.println(preguntaNumerica.getPregunta() + " Respuesta: " + preguntaNumerica.getRespuesta());
+        System.out.println(preguntaBooleana.getPregunta() + " Respuesta: " + preguntaBooleana.getRespuesta());
+        System.out.println("Preguntas genéricas:");
+        System.out.println(preguntaCorta.getPregunta() + " Respuesta: " + preguntaCorta.getRespuesta());
+        System.out.println(preguntaNumerica.getPregunta() + " Respuesta: " + preguntaNumerica.getRespuesta());
+        System.out.println(preguntaBooleana.getPregunta() + " Respuesta: " + preguntaBooleana.getRespuesta());
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 5
+
+Un grupo de amigos se reúne para jugar a un juego de cartas. Cada jugador tiene una pila de cartas.
+El juego consiste en que cada jugador coge la carta de arriba de su pila y la pone en el centro.
+El jugador que ponga la carta más alta gana y se lleva todas las cartas del centro.
+Si dos jugadores ponen cartas del mismo valor, se reparten las cartas del centro entre los dos jugadores.
+El juego termina cuando un jugador se queda sin cartas.
+
+Crea una clase `Jugador` que tenga un atributo `nombre` de tipo `String` y un atributo `pila` de tipo `Stack` de `Carta`.
+Crea una clase `Carta` que tenga un atributo `valor` de tipo `int`.
+
+Crea una clase `Juego` que tenga un atributo `jugadores` de tipo `ArrayList` de `Jugador`.
+
+La clase `Juego` tendrá un método `jugar()` que simulará una partida del juego.
+El método `jugar()` irá sacando cartas de la pila de cada jugador y las irá poniendo en el centro.
+También debe ir mostrando por pantalla el nombre del jugador que ha sacado la carta y el valor de la carta.
+Cuando dos jugadores saquen cartas del mismo valor, se mostrará un mensaje indicando que se reparten las cartas.
+Tras cada jugada, se mostrará el número de cartas que tiene cada jugador.
+Cuando se saquen todas las cartas de un jugador, se mostrará un mensaje indicando que el jugador ha perdido.
+Cuando se saquen todas las cartas de todos los jugadores, se mostrará un mensaje indicando que el juego ha terminado y se mostrará el nombre del jugador que ha ganado. 
+
+Crea un programa que cree un juego con varios jugadores y juegue una partida.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="jugador" groupId="ejercicio-5" values={[
+        {label: 'Jugador.java', value: 'jugador',},
+        {label: 'Carta.java', value: 'carta',},
+        {label: 'Juego.java', value: 'juego',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="jugador">
+
+```java
+import java.util.Stack;
+
+public class Jugador {
+    private String nombre;
+    private Stack<Carta> pila;
+
+    public Jugador(String nombre, Stack<Carta> pila) {
+        this.nombre = nombre;
+        this.pila = pila;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Stack<Carta> getPila() {
+        return pila;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="carta">
+
+```java
+public class Carta {
+    private int valor;
+
+    public Carta(int valor) {
+        this.valor = valor;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="juego">
+
+```java
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class Juego {
+    private ArrayList<Jugador> jugadores;
+
+    public Juego(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public void jugar() {
+        Stack<Carta> centro = new Stack<>();
+        boolean fin = false;
+        while (!fin) {
+            Carta carta = null;
+            for (Jugador jugador : jugadores) {
+                if (!jugador.getPila().isEmpty()) {
+                    carta = jugador.getPila().pop();
+                    centro.push(carta);
+                    System.out.println(jugador.getNombre() + " ha sacado la carta " + carta.getValor());
+                }
+            }
+            if (carta != null) {
+                boolean empate = false;
+                for (Jugador jugador : jugadores) {
+                    if (!jugador.getPila().isEmpty() && jugador.getPila().peek().getValor() == carta.getValor()) {
+                        empate = true;
+                    }
+                }
+                if (empate) {
+                    System.out.println("Empate. Se reparten las cartas.");
+                    for (Jugador jugador : jugadores) {
+                        while (!centro.isEmpty()) {
+                            jugador.getPila().push(centro.pop());
+                        }
+                    }
+                } else {
+                    Jugador ganador = null;
+                    int max = 0;
+                    for (Jugador jugador : jugadores) {
+                        if (!jugador.getPila().isEmpty() && jugador.getPila().peek().getValor() > max) {
+                            max = jugador.getPila().peek().getValor();
+                            ganador = jugador;
+                        }
+                    }
+                    if (ganador != null) {
+                        System.out.println("Gana " + ganador.getNombre());
+                        while (!centro.isEmpty()) {
+                            ganador.getPila().push(centro.pop());
+                        }
+                    }
+                }
+                for (Jugador jugador : jugadores) {
+                    System.out.println(jugador.getNombre() + " tiene " + jugador.getPila().size() + " cartas.");
+                    if (jugador.getPila().isEmpty()) {
+                        System.out.println(jugador.getNombre() + " ha perdido.");
+                        fin = true;
+                    }
+                }
+            } else {
+                fin = true;
+            }
+        }
+        Jugador ganador = null;
+        int max = 0;
+        for (Jugador jugador : jugadores) {
+            if (jugador.getPila().size() > max) {
+                max = jugador.getPila().size();
+                ganador = jugador;
+            }
+        }
+        System.out.println("El juego ha terminado. Gana " + ganador.getNombre());
+    }
+
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class Main {
+    public static void main(String[] args) {
+        Stack<Carta> pila1 = new Stack<>();
+        pila1.push(new Carta(1));
+        pila1.push(new Carta(2));
+        pila1.push(new Carta(3));
+        pila1.push(new Carta(4));
+        Stack<Carta> pila2 = new Stack<>();
+        pila2.push(new Carta(5));
+        pila2.push(new Carta(6));
+        pila2.push(new Carta(7));
+        pila2.push(new Carta(8));
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        jugadores.add(new Jugador("Jugador 1", pila1));
+        jugadores.add(new Jugador("Jugador 2", pila2));
+        Juego juego = new Juego(jugadores);
+        juego.jugar();
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
+
+
+### Ejercicio 6
+
+Un supermercado tiene una cola de clientes que esperan a ser atendidos en la caja.
+
+Crea una clase `Cliente` que tenga un atributo `nombre` de tipo `String`.
+
+Crea una clase `Supermercado` que tenga un atributo `cola` de tipo `Queue` de `Cliente`.
+
+La clase `Supermercado` tendrá un método `añadirCliente(Cliente c)` que añadirá un cliente a la cola.
+La clase `Supermercado` tendrá un método `atenderClientes()` que irá atendiendo a los clientes de la cola.
+El método `atenderClientes()` mostrará un mensaje indicando que se está atendiendo a un cliente y mostrará el nombre del cliente.
+El método `atenderClientes()` irá sacando clientes de la cola hasta que la cola esté vacía.
+
+Crea un programa que cree un supermercado, añada varios clientes a la cola y atienda a los clientes.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="cliente" groupId="ejercicio-6" values={[
+        {label: 'Cliente.java', value: 'cliente'},
+        {label: 'Supermercado.java', value: 'supermercado'},
+        {label: 'Main.java', value: 'main'},
+    ]}>
+        <TabItem value="cliente">
+
+```java
+public class Cliente {
+    private String nombre;
+
+    public Cliente(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="supermercado">
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Supermercado {
+    private Queue<Cliente> cola;
+
+    public Supermercado() {
+        cola = new LinkedList<>();
+    }
+
+    public void añadirCliente(Cliente c) {
+        cola.add(c);
+    }
+
+    public void atenderClientes() {
+        while (!cola.isEmpty()) {
+            Cliente c = cola.poll();
+            System.out.println("Atendiendo a " + c.getNombre());
+        }
+    }
+}
+```
+
+        </TabItem>
+        <TabItem value="main">
+
+```java
+
+public class Main {
+    public static void main(String[] args) {
+        Supermercado supermercado = new Supermercado();
+        supermercado.añadirCliente(new Cliente("Juan"));
+        supermercado.añadirCliente(new Cliente("María"));
+        supermercado.añadirCliente(new Cliente("Pedro"));
+        supermercado.atenderClientes();
+    }
+}
+```
+
+        </TabItem>
+    </Tabs>
+</details>
 
 
 

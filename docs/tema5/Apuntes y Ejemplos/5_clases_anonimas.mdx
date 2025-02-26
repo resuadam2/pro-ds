@@ -1,0 +1,87 @@
+# Clases anónimas
+
+Una clase anónima es una clase que se define en el lugar donde se necesita, sin necesidad de darle un nombre.
+
+En Java, se pueden crear clases anónimas mediante la palabra clave `new` seguida de la definición de una clase o interfaz. Por ejemplo:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Crear una clase anónima que implementa la interfaz Runnable
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Hola desde la clase anónima");
+            }
+        };
+
+        // Ejecutar el método run de la clase anónima
+        r.run();
+    }
+}
+```
+
+En este ejemplo, se crea una clase anónima que implementa la interfaz `Runnable` y se define el método `run` en el lugar donde se necesita.
+
+A continuación, se crea un objeto de la clase anónima y se ejecuta el método `run`. 
+
+Las clases anónimas son útiles cuando se necesita una implementación rápida de una interfaz o clase abstracta en un lugar concreto del código.
+
+## Clases anónimas vs. clases normales
+
+Las clases anónimas son similares a las clases normales, pero con algunas diferencias:
+
+- Las clases anónimas no tienen nombre y se definen en el lugar donde se necesitan.
+- Las clases anónimas no pueden tener constructores, ya que no tienen nombre.
+- Las clases anónimas no pueden ser estáticas, ya que no tienen nombre.
+- Las clases anónimas pueden acceder a variables locales y parámetros finales del método en el que se definen.
+
+En general, las clases anónimas se utilizan cuando se necesita una implementación rápida de una interfaz o clase abstracta en un lugar concreto del código,
+ y no es necesario reutilizar la implementación en otros lugares. Esto es útil para eventos, hilos, etc.
+
+## Ejemplo de clase anónima
+
+Vamos a ver un ejemplo sencillo de clase anónima que implementa la interfaz `Figura`:
+
+```java
+public interface Figura {
+    double calcularArea(int base, int altura);
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Crear una clase anónima que implementa la interfaz Figura
+        Figura f = new Figura() {
+            @Override
+            public double calcularArea(int base, int altura) {
+                return base * altura;
+            }
+        };
+
+        // Calcular el área de un rectángulo con la clase anónima
+        double area = f.calcularArea(3, 4);
+        System.out.println("El área del rectángulo es: " + area);
+    }
+}
+```
+
+En este ejemplo, se crea una clase anónima que implementa la interfaz `Figura` y se define el método `calcularArea` en el lugar donde se necesita.  
+
+A continuación, se crea un objeto de la clase anónima y se calcula el área de un rectángulo con el método `calcularArea`.
+
+Las clases anónimas son útiles cuando se necesita una implementación rápida de una interfaz o clase abstracta en un lugar concreto del código.
+
+## Ventajas y desventajas de las clases anónimas
+
+Las clases anónimas tienen varias ventajas y desventajas:
+
+### Ventajas
+
+- **Sintaxis concisa**: permiten definir una implementación rápida de una interfaz o clase abstracta en el lugar donde se necesita.
+- **Acceso a variables locales**: pueden acceder a variables locales y parámetros finales del método en el que se definen.
+
+### Desventajas
+
+- **No reutilizables**: al no tener nombre, no se pueden reutilizar en otros lugares del código.
+- **Difíciles de depurar**: al no tener nombre, pueden ser difíciles de depurar si se producen errores en la implementación.
+

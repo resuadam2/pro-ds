@@ -1,6 +1,8 @@
 # Clases abstractas
 
-Una clase abstracta es una clase que no puede ser instanciada, es decir, no se pueden crear objetos de una clase abstracta. Las clases abstractas se utilizan para definir una clase base que no tiene sentido por sí sola, sino que se espera que sea extendida por otras clases que sí se puedan instanciar.  
+Una clase abstracta es una clase que no puede ser instanciada, es decir, no se pueden crear objetos de una clase abstracta. 
+
+Las clases abstractas se utilizan para definir una clase base que no tiene sentido por sí sola, sino que se espera que sea extendida por otras clases que sí se puedan instanciar.  
 
 Esto puede servirnos para definir métodos comunes a todas las clases derivadas, o para definir métodos que deben ser implementados por las clases derivadas.
 
@@ -76,3 +78,10 @@ Al crear objetos de las clases `Circulo` y `Rectangulo`, podemos llamar al méto
 
 En este caso, se calcula el área de un círculo y de un rectángulo, pero podríamos añadir más clases derivadas de `Figura` con diferentes implementaciones del método `calcularArea`.    
 
+:::info[Interfaces vs. clases abstractas]
+Las interfaces son similares a las clases abstractas, pero con algunas diferencias clave:
+
+- Una clase puede implementar múltiples interfaces, pero solo puede heredar de una clase.
+- Los métodos de una interfaz son implícitamente públicos y abstractos, mientras que los métodos de una clase abstracta pueden ser públicos, protegidos o privados, y pueden tener una implementación.
+- Las interfaces no pueden contener atributos, constructores ni métodos concretos, mientras que las clases abstractas pueden contenerlos.   
+:::
