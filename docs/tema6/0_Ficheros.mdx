@@ -1,0 +1,278 @@
+# Acceso a ficheros en Java
+
+## Sistemas de ficheros
+
+Un sistema de ficheros es una forma de organizar y almacenar datos en un dispositivo de almacenamiento, como un disco duro. Un sistema de ficheros permite a los usuarios y a los programas acceder a los datos de manera estructurada y eficiente. Los sistemas de ficheros pueden variar en su diseño y funcionalidad, pero todos comparten algunos conceptos básicos.
+
+Dependiendo del sistema operativo, el sistema de ficheros puede ser diferente. Por ejemplo, en Windows se utiliza el sistema de ficheros NTFS, mientras que en Linux se utilizan sistemas de ficheros como ext4 o XFS. Cada sistema de ficheros tiene sus propias características y ventajas, pero todos comparten algunos conceptos básicos.
+Un sistema de ficheros se compone de varios elementos clave, que incluyen:
+
+- **Ficheros**: Un fichero es una unidad de almacenamiento que contiene datos. Los ficheros pueden ser de diferentes tipos, como texto, binarios, imágenes, etc. Cada fichero tiene un nombre y una extensión que indica su tipo.
+- **Directorios**: Un directorio es una unidad de organización que contiene ficheros y otros directorios. Los directorios permiten organizar los ficheros en una estructura jerárquica, lo que facilita su localización y acceso.
+- **Rutas**: Una ruta es una cadena de texto que describe la ubicación de un fichero o directorio en el sistema de ficheros. Las rutas pueden ser absolutas (que comienzan desde la raíz del sistema de ficheros) o relativas (que se basan en la ubicación actual del usuario o programa). 
+- **Permisos**: Los permisos son reglas que determinan quién puede acceder a un fichero o directorio y qué acciones pueden realizar. Los permisos pueden incluir lectura, escritura y ejecución, y pueden ser asignados a usuarios individuales o grupos de usuarios.
+- **Metadatos**: Los metadatos son datos que describen otros datos. En el contexto de un sistema de ficheros, los metadatos pueden incluir información sobre el tamaño del fichero, la fecha de creación, la fecha de modificación y los permisos asociados al fichero.
+
+Incluyen también información sobre el tamaño del fichero, la fecha de creación, la fecha de modificación y los permisos asociados al fichero. Los metadatos son importantes porque permiten a los sistemas operativos y a los programas gestionar y organizar los ficheros de manera eficiente. 
+
+## Tipos de ficheros
+
+Los ficheros pueden clasificarse en base a diferentes criterios, como su contenido, su formato o su uso.
+
+Si los clasificamos según su contenido podemos diferenciar entre:
+
+- **Ficheros de texto**: Son ficheros que contienen datos en formato de texto, como documentos de texto, archivos de configuración o scripts. Los ficheros de texto pueden ser leídos y editados por humanos y suelen tener extensiones como `.txt`, `.csv`, `.xml`, etc.
+- **Ficheros binarios**: Son ficheros que contienen datos en formato binario, como imágenes, vídeos, archivos de audio o programas ejecutables. Los ficheros binarios no pueden ser leídos directamente por humanos y suelen tener extensiones como `.jpg`, `.mp3`, `.exe`, etc.
+
+Si los clasificamos según su formato podemos diferenciar entre:
+
+- **Ficheros de texto plano**: Son ficheros que contienen datos en formato de texto sin ningún tipo de formato adicional. Los ficheros de texto plano pueden ser leídos y editados por cualquier editor de texto y suelen tener extensiones como `.txt`, `.csv`, `.xml`, etc.   
+- **Ficheros de texto enriquecido**: Son ficheros que contienen datos en formato de texto con algún tipo de formato adicional, como negritas, cursivas o colores. Los ficheros de texto enriquecido suelen tener extensiones como `.rtf`, `.docx`, `.html`, etc.       
+- **Ficheros de imagen**: Son ficheros que contienen datos en formato de imagen, como fotografías o gráficos. Los ficheros de imagen pueden ser de diferentes formatos, como JPEG, PNG o GIF, y suelen tener extensiones como `.jpg`, `.png`, `.gif`, etc.  
+- **Ficheros de audio**: Son ficheros que contienen datos en formato de audio, como música o grabaciones de voz. Los ficheros de audio pueden ser de diferentes formatos, como MP3, WAV o AAC, y suelen tener extensiones como `.mp3`, `.wav`, `.aac`, etc.
+- **Ficheros de vídeo**: Son ficheros que contienen datos en formato de vídeo, como películas o grabaciones de pantalla. Los ficheros de vídeo pueden ser de diferentes formatos, como MP4, AVI o MKV, y suelen tener extensiones como `.mp4`, `.avi`, `.mkv`, etc.
+- **Ficheros comprimidos**: Son ficheros que contienen datos en formato comprimido, lo que significa que ocupan menos espacio en disco. Los ficheros comprimidos pueden contener uno o más ficheros y suelen tener extensiones como `.zip`, `.rar`, `.tar`, etc.
+- **Ficheros ejecutables**: Son ficheros que contienen programas o aplicaciones que pueden ser ejecutados directamente por el sistema operativo. Los ficheros ejecutables suelen tener extensiones como `.exe`, `.bat`, `.sh`, etc.
+- **Ficheros de configuración**: Son ficheros que contienen datos de configuración para programas o sistemas operativos. Los ficheros de configuración suelen tener extensiones como `.ini`, `.cfg`, `.json`, etc.
+- **Ficheros de base de datos**: Son ficheros que contienen datos estructurados que pueden ser consultados y manipulados mediante un sistema de gestión de bases de datos. Los ficheros de base de datos suelen tener extensiones como `.db`, `.sql`, `.mdb`, etc.
+- **Ficheros de registro**: Son ficheros que contienen datos de registro o seguimiento de eventos en un sistema o aplicación. Los ficheros de registro suelen tener extensiones como `.log`, `.txt`, `.csv`, etc.
+- **Ficheros de script**: Son ficheros que contienen código fuente de un programa o script que puede ser ejecutado por un intérprete o compilador. Los ficheros de script suelen tener extensiones como `.js`, `.py`, `.sh`, etc.   
+- **Ficheros de plantilla**: Son ficheros que contienen un formato o estructura predefinida que puede ser utilizada como base para crear otros ficheros. Los ficheros de plantilla suelen tener extensiones como `.dotx`, `.dotm`, `.dot`, etc. 
+- **Ficheros de fuente**: Son ficheros que contienen código fuente de un programa o aplicación que puede ser compilado para crear un programa ejecutable. Los ficheros de fuente suelen tener extensiones como `.java`, `.cpp`, `.c`, etc.  
+- **Ficheros de imagen de disco**: Son ficheros que contienen una copia exacta de un disco o partición, incluyendo su sistema de ficheros y datos. Los ficheros de imagen de disco suelen tener extensiones como `.iso`, `.img`, `.dmg`, etc.   
+- **Ficheros de volcado de memoria**: Son ficheros que contienen una copia del contenido de la memoria de un sistema en un momento dado. Los ficheros de volcado de memoria suelen tener extensiones como `.dmp`, `.core`, `.mdmp`, etc.    
+- **Ficheros de imagen de disco duro**: Son ficheros que contienen una copia exacta de un disco duro o partición, incluyendo su sistema de ficheros y datos. Los ficheros de imagen de disco duro suelen tener extensiones como `.vmdk`, `.vdi`, `.vhd`, etc.   
+- **Ficheros de imagen de máquina virtual**: Son ficheros que contienen una copia exacta de una máquina virtual, incluyendo su sistema operativo y datos. Los ficheros de imagen de máquina virtual suelen tener extensiones como `.vmdk`, `.vdi`, `.vhd`, etc. 
+- **Ficheros de imagen de contenedor**: Son ficheros que contienen una copia exacta de un contenedor, incluyendo su sistema operativo y datos. Los ficheros de imagen de contenedor suelen tener extensiones como `.tar`, `.zip`, `.gz`, etc.   
+- **Ficheros de imagen de sistema operativo**: Son ficheros que contienen una copia exacta de un sistema operativo, incluyendo su sistema de ficheros y datos. Los ficheros de imagen de sistema operativo suelen tener extensiones como `.iso`, `.img`, `.dmg`, etc.   
+
+Y un largo etcétera.
+
+Si los clasificamos según su uso podemos diferenciar entre:
+
+- **Ficheros de entrada**: Son ficheros que contienen datos que serán utilizados como entrada para un programa o aplicación. Los ficheros de entrada pueden ser de diferentes tipos, como texto, binarios, imágenes, etc.   
+- **Ficheros de salida**: Son ficheros que contienen datos que serán generados como salida por un programa o aplicación. Los ficheros de salida pueden ser de diferentes tipos, como texto, binarios, imágenes, etc.    
+- **Ficheros temporales**: Son ficheros que son creados y utilizados temporalmente por un programa o aplicación. Los ficheros temporales suelen ser eliminados automáticamente al finalizar el programa o aplicación.   
+- **Ficheros de respaldo**: Son ficheros que son creados como copia de seguridad de otros ficheros o directorios. Los ficheros de respaldo suelen ser utilizados para restaurar datos en caso de pérdida o corrupción.  
+- **Ficheros de intercambio**: Son ficheros que son utilizados para intercambiar datos entre diferentes programas o aplicaciones. Los ficheros de intercambio suelen ser utilizados para transferir datos entre diferentes sistemas o plataformas.  
+- **Ficheros de registro**: Son ficheros que son utilizados para registrar eventos o acciones realizadas por un programa o aplicación. Los ficheros de registro suelen ser utilizados para depurar o analizar el comportamiento de un programa o aplicación.    
+- **Ficheros de configuración**: Son ficheros que son utilizados para almacenar la configuración de un programa o aplicación. Los ficheros de configuración suelen ser utilizados para personalizar el comportamiento de un programa o aplicación.  
+- **Ficheros de datos**: Son ficheros que son utilizados para almacenar datos utilizados por un programa o aplicación. Los ficheros de datos suelen ser utilizados para almacenar información persistente, como bases de datos o archivos de configuración. 
+- **Ficheros de caché**: Son ficheros que son utilizados para almacenar datos temporales que son utilizados por un programa o aplicación. Los ficheros de caché suelen ser utilizados para mejorar el rendimiento de un programa o aplicación al reducir el tiempo de acceso a los datos.   
+
+Y más.
+
+### Sobre las rutas
+
+Las rutas son cadenas de texto que describen la ubicación de un fichero o directorio en el sistema de ficheros. Las rutas pueden ser absolutas o relativas. 
+
+Las rutas absolutas son rutas completas que comienzan desde la raíz del sistema de ficheros y especifican la ubicación exacta de un fichero o directorio. Por ejemplo, en un sistema operativo Windows, una ruta absoluta podría ser `C:\Users\Usuario\Documents\archivo.txt`, mientras que en un sistema operativo Linux, una ruta absoluta podría ser `/home/usuario/documentos/archivo.txt`. 
+
+Las rutas relativas son rutas que se basan en la ubicación actual del usuario o programa. Por ejemplo, si el usuario se encuentra en el directorio `/home/usuario/documentos`, una ruta relativa para acceder al fichero `archivo.txt` podría ser simplemente `archivo.txt` o `./archivo.txt`. Las rutas relativas son útiles porque permiten acceder a ficheros y directorios sin necesidad de especificar la ruta completa.   
+
+Existen algunas rutas especiales que se utilizan en los sistemas de ficheros. Estas rutas especiales son:
+
+- `.`: representa el directorio actual. Se utiliza para referirse al directorio en el que se encuentra el usuario o programa en ese momento.    
+- `..`: representa el directorio padre. Se utiliza para referirse al directorio que contiene el directorio actual. Por ejemplo, si el usuario se encuentra en el directorio `/home/usuario/documentos`, la ruta `..` se refiere al directorio `/home/usuario`.
+- `/`: representa la raíz del sistema de ficheros. Se utiliza para referirse al directorio principal del sistema de ficheros. En sistemas operativos Windows, la raíz del sistema de ficheros se representa con una letra de unidad seguida de dos puntos, como `C:`. En sistemas operativos Linux, la raíz del sistema de ficheros se representa con una barra diagonal `/`.   
+- `~`: representa el directorio personal del usuario. Se utiliza para referirse al directorio que contiene los ficheros y configuraciones del usuario actual. Por ejemplo, en un sistema operativo Linux, la ruta `~/documentos` se refiere al directorio `/home/usuario/documentos`, donde `usuario` es el nombre del usuario actual.  
+- `\`: en sistemas operativos Windows, se utiliza como separador de directorios en las rutas. Por ejemplo, la ruta `C:\Users\Usuario\Documents\archivo.txt` utiliza la barra invertida `\` como separador de directorios. En sistemas operativos Linux, se utiliza la barra diagonal `/` como separador de directorios. 
+- `:`: en sistemas operativos Windows, se utiliza para separar la letra de unidad de la ruta. Por ejemplo, en la ruta `C:\Users\Usuario\Documents\archivo.txt`, la letra `C` representa la unidad de disco y los dos puntos `:` separan la letra de unidad de la ruta del fichero. En sistemas operativos Linux, no se utiliza el símbolo `:` para separar la letra de unidad de la ruta.   
+
+
+## La clase File
+
+En Java, la clase `File` se utiliza para representar un fichero o un directorio en el sistema de archivos. La clase `File` proporciona métodos para crear, eliminar, renombrar y manipular ficheros y directorios, así como para obtener información sobre ellos, como su tamaño, fecha de creación y permisos. 
+
+La clase `File` no se utiliza para leer o escribir datos en un fichero, sino que se utiliza para representar la ubicación del fichero en el sistema de archivos. Para leer y escribir datos en un fichero, se utilizan otras clases, como `FileInputStream`, `FileOutputStream`, `FileReader` y `FileWriter`, que veremos más adelante.
+
+La clase `File` se encuentra en el paquete `java.io` y proporciona una serie de métodos para trabajar con ficheros y directorios. Algunos de los métodos más comunes son:   
+
+- `createNewFile()`: crea un nuevo fichero en la ubicación especificada. Si el fichero ya existe, no se crea uno nuevo.
+- `delete()`: elimina el fichero o directorio especificado. Si el fichero o directorio no existe, no se realiza ninguna acción.
+- `exists()`: verifica si el fichero o directorio especificado existe en el sistema de archivos. Devuelve `true` si existe y `false` en caso contrario. 
+- `getAbsolutePath()`: devuelve la ruta absoluta del fichero o directorio especificado. La ruta absoluta es la ruta completa desde la raíz del sistema de archivos. 
+- `getName()`: devuelve el nombre del fichero o directorio especificado. El nombre no incluye la ruta completa, solo el nombre del fichero o directorio.    
+- `getParent()`: devuelve la ruta del directorio padre del fichero o directorio especificado. Si el fichero o directorio no tiene un directorio padre, devuelve `null`. 
+- `isDirectory()`: verifica si el fichero o directorio especificado es un directorio. Devuelve `true` si es un directorio y `false` en caso contrario.  
+- `isFile()`: verifica si el fichero o directorio especificado es un fichero. Devuelve `true` si es un fichero y `false` en caso contrario.
+- `length()`: devuelve el tamaño del fichero o directorio especificado en bytes. Si el fichero o directorio no existe, devuelve `0`.
+
+### Operaciones habituales con ficheros
+
+Las operaciones más habituales que se pueden realizar con ficheros son:
+
+- Crear un nuevo fichero o directorio.
+- Eliminar un fichero o directorio existente.
+- Renombrar un fichero o directorio existente.
+- Copiar un fichero o directorio existente a otra ubicación.
+- Mover un fichero o directorio existente a otra ubicación.
+- Leer datos de un fichero existente.
+- Escribir datos en un fichero existente.
+- Obtener información sobre un fichero o directorio existente, como su tamaño, fecha de creación y permisos.
+- Verificar si un fichero o directorio existe en el sistema de archivos.
+- Verificar si un fichero o directorio es un fichero o un directorio.
+- Ejecutar un fichero existente, si es un programa o script ejecutable.
+- Obtener la ruta absoluta de un fichero o directorio existente.
+- Obtener la ruta del directorio padre de un fichero o directorio existente.
+- Obtener el nombre de un fichero o directorio existente sin la ruta completa.
+
+Podemos realizar todas estas operaciones utilizando la clase `File` y sus métodos. A continuación, se presentan algunos ejemplos de cómo realizar estas operaciones en Java:
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class FileOperations {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("nuevo_fichero.txt");
+        try {
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Eliminar un fichero existente
+        if (file.delete()) {
+            System.out.println("Fichero eliminado: " + file.getAbsolutePath());
+        } else {
+            System.out.println("No se pudo eliminar el fichero.");
+        }
+
+        // Renombrar un fichero existente
+        File renamedFile = new File("fichero_renombrado.txt");
+        if (file.renameTo(renamedFile)) {
+            System.out.println("Fichero renombrado a: " + renamedFile.getAbsolutePath());
+        } else {
+            System.out.println("No se pudo renombrar el fichero.");
+        }
+
+        // Obtener información sobre un fichero
+        if (renamedFile.exists()) {
+            System.out.println("Nombre del fichero: " + renamedFile.getName());
+            System.out.println("Ruta absoluta: " + renamedFile.getAbsolutePath());
+            System.out.println("Tamaño: " + renamedFile.length() + " bytes");
+            System.out.println("Es un directorio: " + renamedFile.isDirectory());
+            System.out.println("Es un fichero: " + renamedFile.isFile());
+        } else {
+            System.out.println("El fichero no existe.");
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un nuevo fichero llamado `nuevo_fichero.txt`, se elimina, se renombra a `fichero_renombrado.txt` y se obtiene información sobre el fichero renombrado. Se manejan excepciones para capturar errores al crear o eliminar ficheros.
+
+También podemos crear directorios con la clase `File`. Para crear un directorio, se utiliza el método `mkdir()` o `mkdirs()`. El método `mkdir()` crea un solo directorio, mientras que `mkdirs()` crea todos los directorios intermedios necesarios para crear la ruta completa. Aquí hay un ejemplo:
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class DirectoryOperations {
+    public static void main(String[] args) {
+        // Crear un nuevo directorio
+        File directory = new File("nuevo_directorio");
+        if (directory.mkdir()) {
+            System.out.println("Directorio creado: " + directory.getAbsolutePath());
+        } else {
+            System.out.println("El directorio ya existe o no se pudo crear.");
+        }
+
+        // Crear un directorio con subdirectorios
+        File nestedDirectory = new File("directorio_principal/subdirectorio1/subdirectorio2");
+        if (nestedDirectory.mkdirs()) {
+            System.out.println("Directorios creados: " + nestedDirectory.getAbsolutePath());
+        } else {
+            System.out.println("Los directorios ya existen o no se pudieron crear.");
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un nuevo directorio llamado `nuevo_directorio` y un directorio anidado con subdirectorios. Se verifica si los directorios ya existen o si no se pudieron crear.    
+
+También podemos listar los ficheros y directorios contenidos en un directorio utilizando el método `list()` de la clase `File`. Este método devuelve un array de cadenas que contiene los nombres de los ficheros y directorios en el directorio especificado. Aquí hay un ejemplo:
+
+```java
+import java.io.File;
+
+public class ListFilesInDirectory {
+    public static void main(String[] args) {
+        // Crear un nuevo directorio
+        File directory = new File("directorio_principal");
+        if (directory.mkdir()) {
+            System.out.println("Directorio creado: " + directory.getAbsolutePath());
+        } else {
+            System.out.println("El directorio ya existe o no se pudo crear.");
+        }
+
+        // Listar los ficheros y directorios en el directorio
+        String[] files = directory.list();
+        if (files != null) {
+            System.out.println("Ficheros y directorios en " + directory.getAbsolutePath() + ":");
+            for (String file : files) {
+                System.out.println(file);
+            }
+        } else {
+            System.out.println("El directorio está vacío o no se pudo acceder.");
+        }
+    }
+}
+```
+
+En el ejemplo anterior, se crea un nuevo directorio llamado `directorio_principal` y se listan los ficheros y directorios contenidos en él. Se verifica si el directorio está vacío o si no se pudo acceder a él.   
+
+:::info[Para más información]
+Se puede consultar toda la información sobre la clase `File` en la [documentación oficial de Java](https://docs.oracle.com/javase/8/docs/api/java/io/File.html).
+:::
+
+## Los flujos de datos
+
+Los flujos de datos son objetos que permiten leer y escribir datos en ficheros. En Java, los flujos de datos se dividen en dos categorías principales: flujos de entrada (input streams) y flujos de salida (output streams). Los flujos de entrada se utilizan para leer datos de un fichero, mientras que los flujos de salida se utilizan para escribir datos en un fichero.
+Los flujos de datos pueden ser de tipo byte o de tipo carácter. Los flujos de tipo byte se utilizan para leer y escribir datos binarios, como imágenes o archivos de audio, mientras que los flujos de tipo carácter se utilizan para leer y escribir datos de texto, como archivos de texto o documentos XML.
+
+Este esuqmea de entradas y salidas basadas en un flujo permite que las entradas sean independientes de la fuente de los datos y que la salida también lo sea del destino de los datos.
+
+Los flujos de datos se pueden encadenar, lo que significa que se pueden conectar varios flujos de entrada y salida para procesar datos de manera más eficiente. Por ejemplo, se puede leer datos de un fichero, procesarlos y luego escribirlos en otro fichero utilizando flujos de datos encadenados.
+
+Los flujos de datos en Java se implementan a través de una jerarquía de clases que se encuentran en el paquete `java.io`. Algunas de las clases más comunes son:
+- `InputStream`: clase base para todos los flujos de entrada de bytes.
+- `OutputStream`: clase base para todos los flujos de salida de bytes.
+- `Reader`: clase base para todos los flujos de entrada de caracteres.  
+- `Writer`: clase base para todos los flujos de salida de caracteres.   
+- `FileInputStream`: clase que permite leer datos de un fichero en formato de bytes.    
+- `FileOutputStream`: clase que permite escribir datos en un fichero en formato de bytes.
+- `FileReader`: clase que permite leer datos de un fichero en formato de caracteres.    
+- `FileWriter`: clase que permite escribir datos en un fichero en formato de caracteres.
+- `BufferedInputStream`: clase que permite leer datos de un flujo de entrada de manera más eficiente utilizando un búfer.   
+- `BufferedOutputStream`: clase que permite escribir datos en un flujo de salida de manera más eficiente utilizando un búfer.   
+- `BufferedReader`: clase que permite leer datos de un flujo de entrada de caracteres de manera más eficiente utilizando un búfer.  
+- `BufferedWriter`: clase que permite escribir datos en un flujo de salida de caracteres de manera más eficiente utilizando un búfer.   
+- `PrintStream`: clase que permite escribir datos en un flujo de salida de bytes de manera formateada.  
+- `PrintWriter`: clase que permite escribir datos en un flujo de salida de caracteres de manera formateada. 
+- `DataInputStream`: clase que permite leer datos primitivos de un flujo de entrada de bytes.   
+- `DataOutputStream`: clase que permite escribir datos primitivos en un flujo de salida de bytes.   
+- `ObjectInputStream`: clase que permite leer objetos de un flujo de entrada de bytes.  
+- `ObjectOutputStream`: clase que permite escribir objetos en un flujo de salida de bytes.  
+- `File`: clase que representa un fichero o un directorio en el sistema de archivos.    
+- `FileDescriptor`: clase que representa un descriptor de fichero, que es un identificador único para un fichero abierto en el sistema operativo.   
+- `FileNotFoundException`: excepción que se lanza cuando no se puede encontrar un fichero.  
+- `EOFException`: excepción que se lanza cuando se alcanza el final de un flujo de entrada. 
+- `IOException`: excepción que se lanza cuando ocurre un error de entrada/salida.
+
+:::tip[¿Qué es un búfer?]
+Un búfer es una región de memoria que se utiliza para almacenar temporalmente datos que se están transfiriendo entre dos dispositivos o entre un dispositivo y un programa. En el contexto de los flujos de datos, un búfer se utiliza para almacenar datos que se están leyendo o escribiendo en un fichero, lo que permite mejorar la eficiencia de las operaciones de entrada/salida al reducir el número de accesos al disco.  
+Los búferes se utilizan en muchos contextos, como en la transmisión de datos a través de redes, en la lectura y escritura de archivos, y en la comunicación entre procesos. En Java, los búferes se implementan a través de clases como `BufferedInputStream`, `BufferedOutputStream`, `BufferedReader` y `BufferedWriter`, que permiten leer y escribir datos de manera más eficiente utilizando un búfer. 
+
+Los búferes pueden ser de diferentes tamaños, y el tamaño del búfer puede afectar el rendimiento de las operaciones de entrada/salida. Un búfer más grande puede mejorar el rendimiento al reducir el número de accesos al disco, pero también puede aumentar el uso de memoria. Por otro lado, un búfer más pequeño puede reducir el uso de memoria, pero puede aumentar el número de accesos al disco y disminuir el rendimiento.
+:::
+
+## Lectura y escritura de ficheros
+
+## Borrado de un fichero
