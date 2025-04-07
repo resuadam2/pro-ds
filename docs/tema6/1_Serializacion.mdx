@@ -1,0 +1,128 @@
+# Serialización y deserealización de objetos	
+
+La serialización es el proceso de convertir un objeto en una secuencia de bytes para poder almacenarlo o transmitirlo. La deserialización es el proceso inverso, donde se convierte una secuencia de bytes de nuevo en un objeto.
+
+En Java, la serialización se realiza mediante la interfaz `Serializable`. Para que un objeto sea serializable, su clase debe implementar esta interfaz. Además, los atributos de la clase también deben ser serializables. Si un atributo no es serializable, se puede marcar como `transient`, lo que indica que no debe ser serializado.
+La serialización se utiliza comúnmente para guardar el estado de un objeto en un archivo o para enviar objetos a través de una red. En Java, la clase `ObjectOutputStream` se utiliza para serializar objetos y la clase `ObjectInputStream` se utiliza para deserializarlos.
+
+## Ejemplo de serialización y deserialización
+
+```java
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+// Clase que implementa Serializable
+class Persona implements Serializable {
+    private static final long serialVersionUID = 1L; // Versión de la clase
+    private String nombre;
+    private int edad;
+
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", edad=" + edad +
+                '}';
+    }
+}
+
+// Clase principal
+public class Main {
+    public static void main(String[] args) {
+        // Crear una lista de personas
+        List<Persona> personas = new ArrayList<>();
+        personas.add(new Persona("Juan", 30));
+        personas.add(new Persona("Ana", 25));
+        personas.add(new Persona("Pedro", 35));
+
+        // Serializar la lista de personas
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("personas.ser"))) {
+            oos.writeObject(personas);
+            System.out.println("Lista de personas serializada.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Deserializar la lista de personas
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("personas.ser"))) {
+            List<Persona> personasDeserializadas = (List<Persona>) ois.readObject();
+            System.out.println("Lista de personas deserializada: " + personasDeserializadas);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+En este ejemplo, se crea una clase `Persona` que implementa la interfaz `Serializable`. Luego, se crea una lista de objetos `Persona`, que se serializa y se guarda en un archivo llamado `personas.ser`. Posteriormente, se deserializa la lista desde el archivo y se imprime en la consola.  
+
+La serialización es útil para guardar el estado de los objetos y para enviar datos a través de una red. Sin embargo, es importante tener en cuenta que la serialización puede tener implicaciones de seguridad, ya que permite la ejecución de código arbitrario al deserializar objetos. Por lo tanto, se debe tener cuidado al deserializar objetos de fuentes no confiables.
+
+
+## Ejemplo de serialización y deserialización con atributos transient
+
+```java
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
+// Clase que implementa Serializable
+class Persona implements Serializable {
+    private static final long serialVersionUID = 1L; // Versión de la clase
+    private String nombre;
+    private int edad;
+    transient private String contrasena; // Atributo no serializable
+
+    public Persona(String nombre, int edad, String contrasena) {
+        this.nombre = nombre;
+        this.edad = edad;
+        this.contrasena = contrasena;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", edad=" + edad +
+                ", contrasena='" + contrasena + '\'' +
+                '}';
+    }
+}
+
+// Clase principal
+public class Main {
+    public static void main(String[] args) {
+        // Crear una lista de personas
+        List<Persona> personas = new ArrayList<>();
+        personas.add(new Persona("Juan", 30, "1234"));
+        personas.add(new Persona("Ana", 25, "abcd"));
+        personas.add(new Persona("Pedro", 35, "5678"));
+
+        // Serializar la lista de personas
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("personas.ser"))) {
+            oos.writeObject(personas);
+            System.out.println("Lista de personas serializada.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Deserializar la lista de personas
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("personas.ser"))) {
+            List<Persona> personasDeserializadas = (List<Persona>) ois.readObject();
+            System.out.println("Lista de personas deserializada: " + personasDeserializadas);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+En este ejemplo, el atributo `contrasena` de la clase `Persona` se marca como `transient`, lo que significa que no se serializará. Al deserializar, el valor de `contrasena` será `null`. Esto es útil para evitar que información sensible se almacene en el archivo de serialización.
+
+La serialización y deserialización son herramientas poderosas en Java que permiten guardar y recuperar el estado de los objetos de manera eficiente. Sin embargo, es importante utilizarlas con precaución y considerar las implicaciones de seguridad al trabajar con datos sensibles.
+

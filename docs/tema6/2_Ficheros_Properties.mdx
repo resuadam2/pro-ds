@@ -1,0 +1,77 @@
+# Ficheros de propiedades
+
+Los ficheros de propiedades son archivos de texto que se utilizan para almacenar configuraciones y parámetros de una aplicación. Estos ficheros son muy útiles para separar la lógica del programa de la configuración, lo que permite modificar los parámetros sin necesidad de recompilar el código.
+
+En Java, los ficheros de propiedades se representan mediante la clase `Properties`, que es una subclase de `Hashtable`. Esta clase permite almacenar pares clave-valor, donde tanto la clave como el valor son cadenas de texto. Los ficheros de propiedades suelen tener la extensión `.properties` y su formato es sencillo: cada línea contiene una clave y un valor separados por un signo igual (`=`) o dos puntos (`:`).
+Por ejemplo, un fichero de propiedades podría tener el siguiente contenido:
+
+```properties
+# Configuración de la aplicación
+app.name=MiAplicacion
+app.version=1.0.0
+app.author=Juan Perez
+app.debug=true
+```
+
+En este ejemplo, se definen cuatro propiedades: `app.name`, `app.version`, `app.author` y `app.debug`. La propiedad `app.debug` es de tipo booleano, mientras que las demás son cadenas de texto.
+
+## Lectura de un fichero de propiedades
+Para leer un fichero de propiedades en Java, se utiliza la clase `Properties` junto con un `FileInputStream`. A continuación se muestra un ejemplo de cómo leer un fichero de propiedades:
+
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class Main {
+    public static void main(String[] args) {
+        Properties propiedades = new Properties();
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
+            propiedades.load(fis);
+            String appName = propiedades.getProperty("app.name");
+            String appVersion = propiedades.getProperty("app.version");
+            String appAuthor = propiedades.getProperty("app.author");
+            boolean appDebug = Boolean.parseBoolean(propiedades.getProperty("app.debug"));
+            
+            System.out.println("Nombre de la aplicación: " + appName);
+            System.out.println("Versión de la aplicación: " + appVersion);
+            System.out.println("Autor de la aplicación: " + appAuthor);
+            System.out.println("Modo depuración: " + appDebug);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un objeto `Properties` y se carga el fichero de propiedades `config.properties` utilizando un `FileInputStream`. Luego, se obtienen los valores de las propiedades utilizando el método `getProperty()`, que devuelve el valor asociado a la clave especificada. Si la clave no existe, se devuelve `null`.
+El valor de la propiedad `app.debug` se convierte a booleano utilizando `Boolean.parseBoolean()`.
+
+## Escritura de un fichero de propiedades
+Para escribir en un fichero de propiedades, se utiliza el método `store()` de la clase `Properties`. A continuación se muestra un ejemplo de cómo escribir en un fichero de propiedades:
+
+```java
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class Main {
+    public static void main(String[] args) {
+        Properties propiedades = new Properties();
+        propiedades.setProperty("app.name", "MiAplicacion");
+        propiedades.setProperty("app.version", "1.0.0");
+        propiedades.setProperty("app.author", "Juan Perez");
+        propiedades.setProperty("app.debug", "true");
+
+        try (FileOutputStream fos = new FileOutputStream("config.properties")) {
+            propiedades.store(fos, "Configuración de la aplicación");
+            System.out.println("Fichero de propiedades guardado.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un objeto `Properties` y se establecen varias propiedades utilizando el método `setProperty()`. Luego, se guarda el fichero de propiedades en `config.properties` utilizando un `FileOutputStream`. El segundo parámetro del método `store()` es un comentario que se añade al principio del fichero.
+El comentario es opcional y se utiliza para describir el contenido del fichero.

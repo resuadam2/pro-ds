@@ -275,4 +275,285 @@ Los búferes pueden ser de diferentes tamaños, y el tamaño del búfer puede af
 
 ## Lectura y escritura de ficheros
 
+Las clases FileReader y FileWriter permiten leer y escribir, respectivamente, en un fichero. Lo primero que debemos hacer es importar estas clases y las que controlan las excepciones. 
+Después debemos crear un objeto de alguna de estas clases. Se pueden construir con un objeto File, FileDescriptor o un String.
+
+```java
+import java.io.*;
+
+public class FileExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("fichero.txt");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Escribir en el fichero
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write("Hola, mundo!");
+            System.out.println("Datos escritos en el fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero: " + e.getMessage());
+        }
+
+        // Leer del fichero
+        try (FileReader reader = new FileReader(file)) {
+            int character;
+            while ((character = reader.read()) != -1) {
+                System.out.print((char) character);
+            }
+            System.out.println("\nDatos leídos del fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al leer del fichero: " + e.getMessage());
+        }
+    }
+}
+```
+
+En este ejemplo, se crea un nuevo fichero llamado `fichero.txt`, se escribe "Hola, mundo!" en él y luego se lee el contenido del fichero. Se manejan excepciones para capturar errores al crear, escribir o leer el fichero.
+
+Usamos las clases `FileReader` y `FileWriter` para leer y escribir en el fichero, respectivamente. Estas clases permiten leer y escribir datos en formato de caracteres, lo que es útil para trabajar con ficheros de texto.
+
+Podemos realizar esta misma acción utilizando las clases `BufferedReader` y `BufferedWriter`, que permiten leer y escribir datos de manera más eficiente utilizando un búfer. Aquí hay un ejemplo:
+
+```java
+import java.io.*;
+
+public class BufferedFileExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("fichero.txt");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Escribir en el fichero utilizando BufferedWriter
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("Hola, mundo!");
+            System.out.println("Datos escritos en el fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero: " + e.getMessage());
+        }
+
+        // Leer del fichero utilizando BufferedReader
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            System.out.println("Datos leídos del fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al leer del fichero: " + e.getMessage());
+        }
+    }
+}
+```
+En este ejemplo, se utiliza `BufferedWriter` para escribir en el fichero y `BufferedReader` para leer del fichero. Estas clases permiten leer y escribir datos de manera más eficiente utilizando un búfer, lo que mejora el rendimiento de las operaciones de entrada/salida.  
+
+La clase `BufferedWriter` permite escribir datos en un flujo de salida de caracteres de manera más eficiente utilizando un búfer. La clase `BufferedReader` permite leer datos de un flujo de entrada de caracteres de manera más eficiente utilizando un búfer. Ambas clases son útiles para mejorar el rendimiento de las operaciones de entrada/salida al reducir el número de accesos al disco. 
+
+La principal diferencia entre `FileReader` y `BufferedReader` es que `FileReader` lee datos directamente del fichero, mientras que `BufferedReader` utiliza un búfer para almacenar temporalmente los datos leídos, lo que permite mejorar la eficiencia de las operaciones de lectura. De manera similar, `FileWriter` escribe datos directamente en el fichero, mientras que `BufferedWriter` utiliza un búfer para almacenar temporalmente los datos escritos, lo que permite mejorar la eficiencia de las operaciones de escritura.
+
+Con las clases `DataInputStream` y `DataOutputStream` podemos leer y escribir datos primitivos en un fichero. Estas clases permiten leer y escribir datos de diferentes tipos, como enteros, flotantes, caracteres, etc. Aquí hay un ejemplo:
+
+```java
+import java.io.*;
+
+public class DataFileExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("datos.dat");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Escribir datos en el fichero utilizando DataOutputStream
+        try (DataOutputStream dataOutput = new DataOutputStream(new FileOutputStream(file))) {
+            dataOutput.writeInt(42);
+            dataOutput.writeDouble(3.14);
+            dataOutput.writeUTF("Hola, mundo!");
+            System.out.println("Datos escritos en el fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero: " + e.getMessage());
+        }
+
+        // Leer datos del fichero utilizando DataInputStream
+        try (DataInputStream dataInput = new DataInputStream(new FileInputStream(file))) {
+            int intValue = dataInput.readInt();
+            double doubleValue = dataInput.readDouble();
+            String stringValue = dataInput.readUTF();
+            System.out.println("Datos leídos del fichero:");
+            System.out.println("Entero: " + intValue);
+            System.out.println("Flotante: " + doubleValue);
+            System.out.println("Cadena: " + stringValue);
+        } catch (IOException e) {
+            System.out.println("Error al leer del fichero: " + e.getMessage());
+        }
+    }
+}
+```
+En este ejemplo, se crea un nuevo fichero llamado `datos.dat`, se escriben un entero, un flotante y una cadena en él, y luego se leen los datos del fichero. Se manejan excepciones para capturar errores al crear, escribir o leer el fichero.
+
+Otra posibilidad es el uso de la clase `PrintWriter`, que permite escribir datos en un fichero de manera formateada. Aquí hay un ejemplo:
+
+```java
+import java.io.*;
+
+public class PrintWriterExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("fichero.txt");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Escribir en el fichero utilizando PrintWriter
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+            writer.println("Hola, mundo!");
+            writer.printf("Número entero: %d%n", 42);
+            writer.printf("Número decimal: %.2f%n", 3.14);
+            System.out.println("Datos escritos en el fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero: " + e.getMessage());
+        }
+
+        // Leer del fichero utilizando BufferedReader
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            System.out.println("Datos leídos del fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al leer del fichero: " + e.getMessage());
+        }
+    }
+}
+```
+En este ejemplo, se utiliza `PrintWriter` para escribir en el fichero de manera formateada y `BufferedReader` para leer del fichero. La clase `PrintWriter` permite escribir datos en un flujo de salida de caracteres de manera formateada, lo que es útil para crear ficheros de texto con un formato específico.
+
+Para leer y escribir objetos en un fichero, se utilizan las clases `ObjectInputStream` y `ObjectOutputStream`. Estas clases permiten leer y escribir objetos en un flujo de entrada y salida de bytes, lo que es útil para serializar y deserializar objetos en Java. Aquí hay un ejemplo:
+
+```java
+import java.io.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ObjectFileExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("objetos.dat");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Crear una lista de objetos
+        List<String> listaObjetos = new ArrayList<>();
+        listaObjetos.add("Objeto 1");
+        listaObjetos.add("Objeto 2");
+        listaObjetos.add("Objeto 3");
+
+        // Escribir objetos en el fichero utilizando ObjectOutputStream
+        try (ObjectOutputStream objectOutput = new ObjectOutputStream(new FileOutputStream(file))) {
+            objectOutput.writeObject(listaObjetos);
+            System.out.println("Objetos escritos en el fichero.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero: " + e.getMessage());
+        }
+
+        // Leer objetos del fichero utilizando ObjectInputStream
+        try (ObjectInputStream objectInput = new ObjectInputStream(new FileInputStream(file))) {
+            List<String> objetosLeidos = (List<String>) objectInput.readObject();
+            System.out.println("Objetos leídos del fichero:");
+            for (String objeto : objetosLeidos) {
+                System.out.println(objeto);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al leer del fichero: " + e.getMessage());
+        }
+    }
+}
+```
+En este ejemplo, se crea un nuevo fichero llamado `objetos.dat`, se crea una lista de objetos y se escriben en el fichero utilizando `ObjectOutputStream`. Luego, se leen los objetos del fichero utilizando `ObjectInputStream`. Se manejan excepciones para capturar errores al crear, escribir o leer el fichero.    
+
+:::tip[Serialización y deserialización]
+La serialización es el proceso de convertir un objeto en una secuencia de bytes para que pueda ser almacenado en un fichero o transmitido a través de una red. La deserialización es el proceso inverso, que consiste en convertir una secuencia de bytes en un objeto. En Java, la serialización y deserialización se realizan utilizando las clases `ObjectInputStream` y `ObjectOutputStream`, que permiten leer y escribir objetos en un flujo de entrada y salida de bytes.    
+
+La serialización es útil para almacenar objetos en ficheros o transmitirlos a través de redes, y se utiliza en muchas aplicaciones, como bases de datos, sistemas distribuidos y aplicaciones web. Para que un objeto sea serializable, debe implementar la interfaz `Serializable`, que indica que el objeto puede ser convertido en una secuencia de bytes.
+:::
+
 ## Borrado de un fichero
+
+Para borrar un fichero, se utiliza el método `delete()` de la clase `File`. Este método elimina el fichero o directorio especificado. Si el fichero o directorio no existe, no se realiza ninguna acción. Aquí hay un ejemplo:
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class DeleteFileExample {
+    public static void main(String[] args) {
+        // Crear un nuevo fichero
+        File file = new File("fichero.txt");
+        try {
+            // Crear un nuevo fichero si no existe
+            if (file.createNewFile()) {
+                System.out.println("Fichero creado: " + file.getAbsolutePath());
+            } else {
+                System.out.println("El fichero ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + e.getMessage());
+        }
+
+        // Borrar el fichero
+        if (file.delete()) {
+            System.out.println("Fichero borrado: " + file.getAbsolutePath());
+        } else {
+            System.out.println("No se pudo borrar el fichero.");
+        }
+    }
+}
+```
+En este ejemplo, se crea un nuevo fichero llamado `fichero.txt` y luego se borra utilizando el método `delete()`. Se verifica si el fichero fue borrado correctamente o si no se pudo borrar.   
+
+:::tip[Precaución al borrar ficheros]
+Es importante tener cuidado al borrar ficheros, ya que una vez que un fichero es borrado, no se puede recuperar. Asegúrate de que realmente deseas borrar el fichero antes de hacerlo. Si necesitas conservar una copia del fichero, considera hacer una copia de seguridad antes de borrarlo.  
+:::
+
