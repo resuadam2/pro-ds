@@ -622,8 +622,19 @@ Los métodos más utilizados de la clase ``Files`` son:
 
 
 :::info[¿Qué es un enlace simbólico?]
-Un enlace simbólico (o symlink) es un tipo de fichero que actúa como un acceso directo a otro fichero o directorio en el sistema de archivos. Un enlace simbólico contiene una referencia a la ubicación del fichero o directorio al que apunta, lo que permite acceder a él sin necesidad de conocer su ruta completa. Los enlaces simbólicos son útiles para crear accesos directos a ficheros o directorios que se utilizan con frecuencia, y pueden facilitar la organización y gestión de los ficheros en el sistema de archivos.
-Los enlaces simbólicos son diferentes de los enlaces duros (hard links), que son referencias directas a la ubicación física de un fichero en el sistema de archivos. A diferencia de los enlaces simbólicos, los enlaces duros no pueden apuntar a directorios y no pueden cruzar sistemas de archivos. Si se elimina el fichero original al que apunta un enlace simbólico, el enlace simbólico seguirá existiendo, pero no podrá acceder al fichero original. En cambio, si se elimina un enlace duro, el fichero original también se eliminará si no hay otros enlaces duros apuntando a él.
+Un enlace simbólico (o symlink) es un tipo de fichero que actúa como un acceso directo a otro fichero o directorio en el sistema de archivos. 
+
+Un enlace simbólico contiene una referencia a la ubicación del fichero o directorio al que apunta, lo que permite acceder a él sin necesidad de conocer su ruta completa. 
+
+Los enlaces simbólicos son útiles para crear accesos directos a ficheros o directorios que se utilizan con frecuencia, y pueden facilitar la organización y gestión de los ficheros en el sistema de archivos.
+
+Los enlaces simbólicos son diferentes de los enlaces duros (hard links), que son referencias directas a la ubicación física de un fichero en el sistema de archivos. 
+
+A diferencia de los enlaces simbólicos, los enlaces duros no pueden apuntar a directorios y no pueden cruzar sistemas de archivos. 
+
+Si se elimina el fichero original al que apunta un enlace simbólico, el enlace simbólico seguirá existiendo, pero no podrá acceder al fichero original. 
+
+En cambio, si se elimina un enlace duro, el fichero original también se eliminará si no hay otros enlaces duros apuntando a él.
 :::
 
 #### Ejemplos de uso de ``Files``
@@ -675,3 +686,7 @@ public class EjemploFiles2 {
     }
 }
 ```
+
+:::info[Más información sobre la clase ``Files``]
+Para más información sobre esta clase podéis consultar la [documentación oficial de Java](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html).
+:::

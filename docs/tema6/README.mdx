@@ -196,3 +196,817 @@ public class GestionUsuarios {
         </TabItem>
     </Tabs>
 </details>
+
+### Ejercicio 2 - Sistema de Log de Usuarios
+
+Realiza un programa en Java que simule un sistema de logs para registrar los eventos de inicio de sesión (login) y cierre de sesión (logout) de los usuarios del sistema.
+
+El programa debe funcionar de la siguiente manera:
+
+1. Comprobar existencia del fichero log:
+    - El fichero se llamará log_usuarios.txt.
+
+    - Si no existe, debe crearse automáticamente.
+
+2. Mostrar menú con las siguientes opciones:
+
+```
+1. Login de usuario
+2. Logout de usuario
+3. Mostrar log completo
+4. Salir
+```
+
+Detalles de funcionamiento:
+- Opción 1 — Login:
+
+    - Pedir el nombre de usuario.
+
+    - Escribir en el fichero una línea con el siguiente formato:
+
+```plaintext
+[Fecha - Hora] LOGIN -> Usuario: nombre_usuario
+```
+
+> Ejemplo:
+```yaml
+[2025-04-07 15:22:10] LOGIN -> Usuario: Carlos
+```
+
+- Opción 2 — Logout:
+
+    - Pedir el nombre de usuario.
+
+    - Escribir en el fichero una línea con el siguiente formato:
+
+```plaintext
+[Fecha - Hora] LOGOUT -> Usuario: nombre_usuario
+```
+
+- Opción 3 — Mostrar log completo:
+
+    - Leer el fichero y mostrar todas las líneas en consola.
+
+
+**Requisitos adicionales:**
+
+- Utilizar la clase LocalDateTime y DateTimeFormatter de Java para formatear la fecha y la hora.
+- Usar FileWriter en modo append para no sobrescribir el fichero.
+- Manejar posibles excepciones con try-catch.
+- Organizar el código en métodos separados.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="logusuarios" groupId="ejercicio-1" values={[
+        {label: 'LogUsuarios.java', value: 'logusuarios',},
+    ]}>
+        <TabItem value="logusuarios">
+```java
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class LogUsuarios {
+    private static final String NOMBRE_FICHERO_LOG = "log_usuarios.txt";
+    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        File ficheroLog = new File(NOMBRE_FICHERO_LOG);
+        try {
+            if (ficheroLog.createNewFile()) {
+                System.out.println("El fichero 'log_usuarios.txt' ha sido creado.");
+            } else {
+                System.out.println("El fichero 'log_usuarios.txt' ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero de log.");
+            return;
+        }
+
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    registrarEvento(sc, "LOGIN");
+                    break;
+                case 2:
+                    registrarEvento(sc, "LOGOUT");
+                    break;
+                case 3:
+                    mostrarLog();
+                    break;
+                case 4:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 4);
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\n--- Menú de Registro de Logs ---");
+        System.out.println("1. Login de usuario");
+        System.out.println("2. Logout de usuario");
+        System.out.println("3. Mostrar log completo");
+        System.out.println("4. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    private static void registrarEvento(Scanner sc, String tipoEvento) {
+        System.out.print("Introduce el nombre del usuario: ");
+        String nombreUsuario = sc.nextLine();
+
+        String fechaHora = LocalDateTime.now().format(FORMATO_FECHA);
+        String lineaLog = "[" + fechaHora + "] " + tipoEvento + " -> Usuario: " + nombreUsuario;
+
+        try (FileWriter writer = new FileWriter(NOMBRE_FICHERO_LOG, true)) {
+            writer.write(lineaLog + "\n");
+            System.out.println("Evento registrado correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero de log.");
+        }
+    }
+
+    private static void mostrarLog() {
+        System.out.println("\n--- Contenido del Fichero de Log ---");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_FICHERO_LOG))) {
+            String linea;
+            boolean ficheroVacio = true;
+
+            while ((linea = reader.readLine()) != null) {
+                ficheroVacio = false;
+                System.out.println(linea);
+            }
+
+            if (ficheroVacio) {
+                System.out.println("El fichero de log está vacío.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero de log.");
+        }
+    }
+}
+```
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 3 - Sistema de Gestión de Notas de Estudiantes (con múltiples ficheros)
+
+Realiza un programa en Java que permita gestionar un sistema de notas de estudiantes, utilizando varios ficheros de texto.
+
+El sistema debe trabajar con:
+
+Ficheros:
+1. ``estudiantes.txt`` → Contiene el listado de estudiantes registrados.
+
+2. ``notas_nombreEstudiante.txt`` → Para cada estudiante se creará un fichero individual con sus notas registradas.
+
+Funcionamiento del programa:
+1. Mostrar menú principal:
+    
+```
+1. Registrar nuevo estudiante
+2. Añadir nota a un estudiante
+3. Mostrar notas de un estudiante
+4. Mostrar todos los estudiantes
+5. Salir
+```
+
+**Opción 1 — Registrar nuevo estudiante:**
+
+- Pedir el nombre del estudiante.
+
+- Comprobar que no exista ya en ``estudiantes.txt``.
+
+- Si no existe:
+
+    - Añadir el nombre al fichero ``estudiantes.txt``.
+
+    - Crear un fichero nuevo vacío llamado ``notas_nombreEstudiante.txt``.
+
+**Opción 2 — Añadir nota a un estudiante:**
+
+- Mostrar listado de estudiantes.
+
+- Pedir el nombre.
+
+- Si existe su fichero de notas:
+
+    - Pedir una nota (entre 0 y 10).
+
+    - Escribir la nota en su fichero.
+
+**Opción 3 — Mostrar notas de un estudiante:**
+
+- Mostrar listado de estudiantes.
+
+- Pedir nombre.
+
+- Leer y mostrar el contenido del fichero de notas.
+
+**Opción 4 — Mostrar todos los estudiantes:**
+
+- Leer y mostrar el contenido de ``estudiantes.txt``.
+
+**Requisitos adicionales:**
+
+- Crear los ficheros automáticamente si no existen.
+
+- Comprobar existencia de estudiantes y ficheros antes de operar.
+
+- Utilizar ``BufferedReader``, ``BufferedWriter`` y ``FileWriter``.
+
+- Manejar excepciones correctamente.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="gestionnotas" groupId="ejercicio-1" values={[
+        {label: 'GestionNotas.java', value: 'gestionnotas',},
+    ]}>
+        <TabItem value="gestionnotas">
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class GestionNotas {
+    private static final String FICHERO_ESTUDIANTES = "estudiantes.txt";
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        crearFicheroSiNoExiste(FICHERO_ESTUDIANTES);
+
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    registrarEstudiante(sc);
+                    break;
+                case 2:
+                    anadirNota(sc);
+                    break;
+                case 3:
+                    mostrarNotasEstudiante(sc);
+                    break;
+                case 4:
+                    mostrarTodosLosEstudiantes();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\n--- Menú Gestión de Notas ---");
+        System.out.println("1. Registrar nuevo estudiante");
+        System.out.println("2. Añadir nota a un estudiante");
+        System.out.println("3. Mostrar notas de un estudiante");
+        System.out.println("4. Mostrar todos los estudiantes");
+        System.out.println("5. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    private static void registrarEstudiante(Scanner sc) {
+        System.out.print("Introduce el nombre del nuevo estudiante: ");
+        String nombre = sc.nextLine();
+
+        if (existeEstudiante(nombre)) {
+            System.out.println("El estudiante ya está registrado.");
+        } else {
+            try (FileWriter fw = new FileWriter(FICHERO_ESTUDIANTES, true)) {
+                fw.write(nombre + "\n");
+                crearFicheroSiNoExiste("notas_" + nombre + ".txt");
+                System.out.println("Estudiante registrado correctamente.");
+            } catch (IOException e) {
+                System.out.println("Error al registrar el estudiante.");
+            }
+        }
+    }
+
+    private static boolean existeEstudiante(String nombre) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FICHERO_ESTUDIANTES))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (linea.equalsIgnoreCase(nombre)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al comprobar estudiante.");
+        }
+        return false;
+    }
+
+    private static void anadirNota(Scanner sc) {
+        mostrarTodosLosEstudiantes();
+        System.out.print("Introduce el nombre del estudiante: ");
+        String nombre = sc.nextLine();
+
+        if (!existeEstudiante(nombre)) {
+            System.out.println("El estudiante no existe.");
+            return;
+        }
+
+        System.out.print("Introduce la nota (0-10): ");
+        double nota = sc.nextDouble();
+        sc.nextLine(); // limpiar buffer
+
+        if (nota < 0 || nota > 10) {
+            System.out.println("Nota fuera de rango.");
+            return;
+        }
+
+        String ficheroNotas = "notas_" + nombre + ".txt";
+
+        try (FileWriter fw = new FileWriter(ficheroNotas, true)) {
+            fw.write(nota + "\n");
+            System.out.println("Nota añadida correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al añadir la nota.");
+        }
+    }
+
+    private static void mostrarNotasEstudiante(Scanner sc) {
+        mostrarTodosLosEstudiantes();
+        System.out.print("Introduce el nombre del estudiante: ");
+        String nombre = sc.nextLine();
+
+        if (!existeEstudiante(nombre)) {
+            System.out.println("El estudiante no existe.");
+            return;
+        }
+
+        String ficheroNotas = "notas_" + nombre + ".txt";
+
+        System.out.println("\nNotas de " + nombre + ":");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(ficheroNotas))) {
+            String linea;
+            boolean ficheroVacio = true;
+            while ((linea = br.readLine()) != null) {
+                ficheroVacio = false;
+                System.out.println("Nota: " + linea);
+            }
+
+            if (ficheroVacio) {
+                System.out.println("No hay notas registradas.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer las notas.");
+        }
+    }
+
+    private static void mostrarTodosLosEstudiantes() {
+        System.out.println("\nListado de estudiantes:");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FICHERO_ESTUDIANTES))) {
+            String linea;
+            boolean ficheroVacio = true;
+            while ((linea = br.readLine()) != null) {
+                ficheroVacio = false;
+                System.out.println("- " + linea);
+            }
+
+            if (ficheroVacio) {
+                System.out.println("No hay estudiantes registrados.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero de estudiantes.");
+        }
+    }
+
+    private static void crearFicheroSiNoExiste(String nombreFichero) {
+        File fichero = new File(nombreFichero);
+        try {
+            if (fichero.createNewFile()) {
+                System.out.println("Fichero creado: " + nombreFichero);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero: " + nombreFichero);
+        }
+    }
+}
+```
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 4 - Gestor de tareas con eliminación y copias de seguridad
+
+Crea un programa en Java llamado **GestorTareas** que permita gestionar un listado de tareas pendientes.
+
+El programa trabajará con un fichero llamado ``tareas.txt`` donde cada línea representa una tarea registrada por el usuario.
+
+Formato de cada línea en el fichero:
+
+```plaintext
+ID_TAREA | Descripción de la tarea
+```
+
+**Requisitos:**
+
+1. Mostrar un menú con las siguientes opciones:
+
+- Añadir nueva tarea.
+
+- Mostrar todas las tareas.
+
+- Eliminar una tarea específica (por ID).
+
+- Crear una copia de seguridad del fichero de tareas.
+
+- Salir del programa.
+
+2. Antes de eliminar una tarea:
+
+- Mostrar las tareas actuales.
+
+- Pedir el ID de la tarea a eliminar.
+
+- Eliminar solo la línea correspondiente al ID introducido.
+
+- El resto de las tareas deben permanecer intactas.
+
+3. Al crear una copia de seguridad:
+
+- Copiar el contenido de ``tareas.txt`` a un nuevo fichero llamado ``tareas_backup_fecha.txt``.
+
+- El nombre del backup debe incluir la fecha y hora actual (por ejemplo: ``tareas_backup_2025-04-07_18-30.txt``).
+
+4. Si el fichero ``tareas.txt`` no existe, debe crearse automáticamente.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="gestortareas" groupId="ejercicio-4" values={[
+        {label: 'GestorTareas.java (usando Files)', value: 'gestortareas',},
+        {label: 'GestorTareasClasico.java (usando File)', value: 'gestortareasclasico',},
+
+    ]}>
+        <TabItem value="gestortareas">
+
+```java
+import java.io.IOException;
+import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class GestorTareas {
+
+    private static final String FICHERO_TAREAS = "tareas.txt";
+    private static final Path PATH_TAREAS = Paths.get(FICHERO_TAREAS);
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        crearFicheroSiNoExiste();
+
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    anadirTarea();
+                    break;
+                case 2:
+                    mostrarTareas();
+                    break;
+                case 3:
+                    eliminarTarea();
+                    break;
+                case 4:
+                    crearCopiaSeguridad();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\n--- Menú Gestor de Tareas ---");
+        System.out.println("1. Añadir nueva tarea");
+        System.out.println("2. Mostrar todas las tareas");
+        System.out.println("3. Eliminar tarea por ID");
+        System.out.println("4. Crear copia de seguridad");
+        System.out.println("5. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    private static void crearFicheroSiNoExiste() {
+        try {
+            if (Files.notExists(PATH_TAREAS)) {
+                Files.createFile(PATH_TAREAS);
+                System.out.println("Fichero de tareas creado.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero de tareas.");
+        }
+    }
+
+    private static void anadirTarea() {
+        System.out.print("Introduce la descripción de la tarea: ");
+        String descripcion = sc.nextLine();
+
+        int nuevoId = obtenerSiguienteID();
+
+        String linea = nuevoId + " | " + descripcion;
+
+        try {
+            Files.write(PATH_TAREAS, Arrays.asList(linea), StandardOpenOption.APPEND);
+            System.out.println("Tarea añadida correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al añadir tarea.");
+        }
+    }
+
+    private static int obtenerSiguienteID() {
+        try {
+            List<String> lineas = Files.readAllLines(PATH_TAREAS);
+            int maxId = 0;
+
+            for (String linea : lineas) {
+                String[] partes = linea.split("\\|");
+                int id = Integer.parseInt(partes[0].trim());
+                if (id > maxId) {
+                    maxId = id;
+                }
+            }
+
+            return maxId + 1;
+
+        } catch (IOException e) {
+            System.out.println("Error al obtener ID.");
+            return 1;
+        }
+    }
+
+    private static void mostrarTareas() {
+        System.out.println("\nListado de Tareas:");
+
+        try {
+            List<String> lineas = Files.readAllLines(PATH_TAREAS);
+
+            if (lineas.isEmpty()) {
+                System.out.println("No hay tareas registradas.");
+            } else {
+                lineas.forEach(System.out::println);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer las tareas.");
+        }
+    }
+
+    private static void eliminarTarea() {
+        mostrarTareas();
+
+        System.out.print("Introduce el ID de la tarea a eliminar: ");
+        int idEliminar = sc.nextInt();
+        sc.nextLine(); // Limpiar buffer
+
+        try {
+            List<String> lineas = Files.readAllLines(PATH_TAREAS);
+
+            List<String> nuevasLineas = lineas.stream()
+                    .filter(linea -> {
+                        String[] partes = linea.split("\\|");
+                        int id = Integer.parseInt(partes[0].trim());
+                        return id != idEliminar;
+                    })
+                    .collect(Collectors.toList());
+
+            Files.write(PATH_TAREAS, nuevasLineas, StandardOpenOption.TRUNCATE_EXISTING);
+
+            System.out.println("Tarea eliminada correctamente (si existía).");
+
+        } catch (IOException e) {
+            System.out.println("Error al eliminar tarea.");
+        }
+    }
+
+    private static void crearCopiaSeguridad() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
+        String fechaHora = LocalDateTime.now().format(formatter);
+
+        String nombreBackup = "tareas_backup_" + fechaHora + ".txt";
+        Path pathBackup = Paths.get(nombreBackup);
+
+        try {
+            Files.copy(PATH_TAREAS, pathBackup, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Copia de seguridad creada: " + nombreBackup);
+        } catch (IOException e) {
+            System.out.println("Error al crear la copia de seguridad.");
+        }
+    }
+}
+```
+        </TabItem>
+        <TabItem value="gestortareasclasico">
+```java
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class GestorTareasClasico {
+
+    private static final String FICHERO_TAREAS = "tareas.txt";
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        crearFicheroSiNoExiste();
+
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    anadirTarea();
+                    break;
+                case 2:
+                    mostrarTareas();
+                    break;
+                case 3:
+                    eliminarTarea();
+                    break;
+                case 4:
+                    crearCopiaSeguridad();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\n--- Menú Gestor de Tareas ---");
+        System.out.println("1. Añadir nueva tarea");
+        System.out.println("2. Mostrar todas las tareas");
+        System.out.println("3. Eliminar tarea por ID");
+        System.out.println("4. Crear copia de seguridad");
+        System.out.println("5. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    private static void crearFicheroSiNoExiste() {
+        File fichero = new File(FICHERO_TAREAS);
+        if (!fichero.exists()) {
+            try {
+                fichero.createNewFile();
+                System.out.println("Fichero de tareas creado.");
+            } catch (IOException e) {
+                System.out.println("Error al crear el fichero.");
+            }
+        }
+    }
+
+    private static void anadirTarea() {
+        System.out.print("Introduce la descripción de la tarea: ");
+        String descripcion = sc.nextLine();
+        int nuevoId = obtenerSiguienteID();
+
+        try (FileWriter fw = new FileWriter(FICHERO_TAREAS, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+
+            pw.println(nuevoId + " | " + descripcion);
+            System.out.println("Tarea añadida correctamente.");
+
+        } catch (IOException e) {
+            System.out.println("Error al escribir la tarea.");
+        }
+    }
+
+    private static int obtenerSiguienteID() {
+        int maxId = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FICHERO_TAREAS))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split("\\|");
+                int id = Integer.parseInt(partes[0].trim());
+                if (id > maxId) {
+                    maxId = id;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer las tareas.");
+        }
+
+        return maxId + 1;
+    }
+
+    private static void mostrarTareas() {
+        System.out.println("\nListado de Tareas:");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FICHERO_TAREAS))) {
+            String linea;
+            boolean hayTareas = false;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+                hayTareas = true;
+            }
+            if (!hayTareas) {
+                System.out.println("No hay tareas registradas.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer las tareas.");
+        }
+    }
+
+    private static void eliminarTarea() {
+        mostrarTareas();
+
+        System.out.print("Introduce el ID de la tarea a eliminar: ");
+        int idEliminar = sc.nextInt();
+        sc.nextLine(); // Limpiar buffer
+
+        File ficheroOriginal = new File(FICHERO_TAREAS);
+        File ficheroTemporal = new File("tareas_temp.txt");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(ficheroOriginal));
+             PrintWriter pw = new PrintWriter(new FileWriter(ficheroTemporal))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split("\\|");
+                int id = Integer.parseInt(partes[0].trim());
+
+                if (id != idEliminar) {
+                    pw.println(linea);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al eliminar la tarea.");
+        }
+
+        if (ficheroOriginal.delete()) {
+            ficheroTemporal.renameTo(ficheroOriginal);
+            System.out.println("Tarea eliminada correctamente (si existía).");
+        } else {
+            System.out.println("Error al actualizar el fichero.");
+        }
+    }
+
+    private static void crearCopiaSeguridad() {
+        String fechaHora = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
+        String nombreBackup = "tareas_backup_" + fechaHora + ".txt";
+
+        File ficheroOriginal = new File(FICHERO_TAREAS);
+        File ficheroBackup = new File(nombreBackup);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(ficheroOriginal));
+             PrintWriter pw = new PrintWriter(new FileWriter(ficheroBackup))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                pw.println(linea);
+            }
+
+            System.out.println("Copia de seguridad creada: " + nombreBackup);
+
+        } catch (IOException e) {
+            System.out.println("Error al crear la copia de seguridad.");
+        }
+    }
+}
+```
+        </TabItem>
+    </Tabs> 
+</details>
+
+### Ejercicio 5 - Gestión de Biblioteca con Serialización de Objetos
+
