@@ -557,3 +557,121 @@ En este ejemplo, se crea un nuevo fichero llamado `fichero.txt` y luego se borra
 Es importante tener cuidado al borrar ficheros, ya que una vez que un fichero es borrado, no se puede recuperar. Asegúrate de que realmente deseas borrar el fichero antes de hacerlo. Si necesitas conservar una copia del fichero, considera hacer una copia de seguridad antes de borrarlo.  
 :::
 
+## El paquete java.nio
+
+El paquete `java.nio` (New Input/Output) es una parte de la biblioteca estándar de Java que proporciona una forma más eficiente y flexible de trabajar con entradas y salidas en comparación con las clases tradicionales del paquete `java.io`. El paquete `java.nio` introduce nuevas clases y conceptos que permiten realizar operaciones de entrada/salida de manera más eficiente, especialmente en aplicaciones que requieren un alto rendimiento, como servidores web y aplicaciones de red. 
+
+Fue introducido en Java 1.4 (año 2002) como una mejora y alternativa al paquete clásico java.io para el manejo de:
+
+- Ficheros
+- Directorios
+- Entrada/Salida
+- Buffers de datos
+- Canales de comunicación
+- Memoria mapeada
+- Multiplexación (Non-Blocking I/O)
+
+Desde Java 7 se amplió con java.nio.file para un manejo de ficheros más potente y flexible.
+
+### Diferencias entre java.io frente a java.nio
+
+| Caraterística | java.io | java.nio |
+|----------|----------|----------|
+| Basado en    | Streams (flujos de datos)   | Buffers (bloques de datos en memoria)   |
+| Tipo de E/S    | Bloqueante   | No bloqueante (Non-Blocking)   |
+| Rendimiento    | Correcto   | Mucho mejor con grandes volúmenes de datos   |
+| Soporte multihilo | Limitado   | Mejorado (con canales y selectores)   |
+
+### Clases más relevantes de java.nio.file
+
+- ``Path``: Representa una ruta en el sistema de archivos. Se utiliza para trabajar con rutas de ficheros y directorios.
+- ``Paths``: Proporciona métodos estáticos para crear instancias de `Path` y trabajar con rutas de ficheros y directorios.
+- ``Files``: Proporciona métodos estáticos para realizar operaciones de entrada/salida en ficheros y directorios, como copiar, mover, eliminar y leer/escribir datos.
+- ``FileSystem``: Representa un sistema de archivos y proporciona métodos para trabajar con él, como obtener información sobre el sistema de archivos y crear instancias de `Path`.
+- ``FileSystems``: Proporciona métodos estáticos para obtener instancias de `FileSystem` y trabajar con sistemas de archivos.
+
+### ¿Qué es Files? (Java NIO)
+
+Es una clase utilitaria final de Java (java.nio.file.Files) que proporciona métodos estáticos para realizar operaciones comunes con ficheros y directorios.
+
+Introducida en Java 7 como parte del paquete java.nio.file junto con Path.
+
+Los métodos más utilizados de la clase ``Files`` son:
+
+- ``createFile(Path path, FileAttribute<?>... attrs)``: Crea un nuevo fichero en la ruta especificada.  
+- ``createDirectory(Path dir, FileAttribute<?>... attrs)``: Crea un nuevo directorio en la ruta especificada.
+- ``createDirectories(Path dir, FileAttribute<?>... attrs)``: Crea un nuevo directorio y todos los directorios intermedios necesarios en la ruta especificada.
+- ``delete(Path path)``: Elimina el fichero o directorio especificado.
+- ``exists(Path path, LinkOption... options)``: Verifica si el fichero o directorio especificado existe en el sistema de archivos.
+- ``copy(Path source, Path target, CopyOption... options)``: Copia un fichero o directorio de la ruta de origen a la ruta de destino.
+- ``move(Path source, Path target, CopyOption... options)``: Mueve un fichero o directorio de la ruta de origen a la ruta de destino.
+- ``readAllBytes(Path path)``: Lee todos los bytes de un fichero y devuelve un array de bytes.
+- ``readAllLines(Path path, Charset cs)``: Lee todas las líneas de un fichero y devuelve una lista de cadenas.
+- ``write(Path path, Iterable<? extends CharSequence> lines, OpenOption... options)``: Escribe líneas en un fichero.
+- ``write(Path path, byte[] bytes, OpenOption... options)``: Escribe bytes en un fichero.
+- ``isDirectory(Path path, LinkOption... options)``: Verifica si la ruta especificada es un directorio.
+- ``isRegularFile(Path path, LinkOption... options)``: Verifica si la ruta especificada es un fichero regular.
+- ``isSymbolicLink(Path path)``: Verifica si la ruta especificada es un enlace simbólico.
+- ``getFileAttributeView(Path path, Class<T> type, LinkOption... options)``: Obtiene una vista de los atributos del fichero o directorio especificado.
+- ``getFileStore(Path path)``: Obtiene información sobre el almacenamiento del fichero o directorio especificado.
+- ``getFileSystem()``: Obtiene el sistema de archivos asociado a la ruta especificada.
+- ``getPath(String first, String... more)``: Crea una instancia de `Path` a partir de una cadena de texto que representa la ruta.
+- ``getFileName()``: Devuelve el nombre del fichero o directorio especificado.
+- ``getParent()``: Devuelve la ruta del directorio padre del fichero o directorio especificado.
+- ``getRoot()``: Devuelve la raíz del sistema de archivos asociado a la ruta especificada.
+
+
+:::info[¿Qué es un enlace simbólico?]
+Un enlace simbólico (o symlink) es un tipo de fichero que actúa como un acceso directo a otro fichero o directorio en el sistema de archivos. Un enlace simbólico contiene una referencia a la ubicación del fichero o directorio al que apunta, lo que permite acceder a él sin necesidad de conocer su ruta completa. Los enlaces simbólicos son útiles para crear accesos directos a ficheros o directorios que se utilizan con frecuencia, y pueden facilitar la organización y gestión de los ficheros en el sistema de archivos.
+Los enlaces simbólicos son diferentes de los enlaces duros (hard links), que son referencias directas a la ubicación física de un fichero en el sistema de archivos. A diferencia de los enlaces simbólicos, los enlaces duros no pueden apuntar a directorios y no pueden cruzar sistemas de archivos. Si se elimina el fichero original al que apunta un enlace simbólico, el enlace simbólico seguirá existiendo, pero no podrá acceder al fichero original. En cambio, si se elimina un enlace duro, el fichero original también se eliminará si no hay otros enlaces duros apuntando a él.
+:::
+
+#### Ejemplos de uso de ``Files``
+
+Creación de un fichero y escritura de datos:
+
+```java
+import java.nio.file.*;
+import java.io.IOException;
+import java.util.List;
+
+public class EjemploFiles1 {
+    public static void main(String[] args) throws IOException {
+        Path ruta = Paths.get("ejemplo.txt");
+
+        if (!Files.exists(ruta)) {
+            Files.createFile(ruta);
+        }
+
+        List<String> lineas = List.of("Primera línea", "Segunda línea");
+        Files.write(ruta, lineas);
+
+        System.out.println("Fichero creado y datos escritos.");
+    }
+}
+```
+
+Lectura de un fichero y copiado:
+```java
+import java.nio.file.*;
+import java.io.IOException;
+import java.util.List;
+
+public class EjemploFiles2 {
+    public static void main(String[] args) throws IOException {
+        Path ruta = Paths.get("ejemplo.txt");
+        Path copia = Paths.get("ejemplo_copia.txt");
+
+        if (Files.exists(ruta)) {
+            List<String> contenido = Files.readAllLines(ruta);
+            contenido.forEach(System.out::println);
+
+            Files.copy(ruta, copia, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("Fichero copiado.");
+        } else {
+            System.out.println("El fichero no existe.");
+        }
+    }
+}
+```

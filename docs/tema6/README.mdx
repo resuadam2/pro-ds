@@ -16,3 +16,183 @@ También aprenderemos sobre la serialización de objetos y el uso de ficheros de
 
 ## Ejercicios
 
+### Ejercicio 1 - Gestión de Usuarios en un fichero
+
+Realiza un programa en Java que permita gestionar un fichero de usuarios llamado ``usuarios.txt``. El programa deberá hacer lo siguiente:
+
+1. Al iniciar, verificar si el fichero usuarios.txt existe:
+
+    - Si no existe, crearlo vacío.
+
+2. Mostrar un menú en consola con las siguientes opciones:
+
+```
+1. Añadir nuevo usuario
+2. Mostrar todos los usuarios
+3. Buscar usuario por nombre
+4. Salir
+```
+
+3. Los usuarios se deben almacenar en el fichero con el siguiente formato por cada línea:
+
+```plaintext
+Nombre,Edad,Ciudad
+```
+
+> Ejemplo de fichero:
+
+```plaintext	
+Carlos,30,Madrid
+Laura,25,Barcelona
+Ana,40,Valencia
+```
+
+- La opción "Añadir nuevo usuario" debe pedir al usuario que introduzca su nombre, edad y ciudad, y añadir esa información al final del fichero.
+
+- La opción "Mostrar todos los usuarios" debe leer el fichero y mostrar todos los registros de usuarios con un formato claro:
+
+```yaml
+Nombre: Carlos | Edad: 30 | Ciudad: Madrid
+...
+```
+
+- La opción "Buscar usuario por nombre" debe pedir un nombre y buscar coincidencias en el fichero. Si lo encuentra, debe mostrar sus datos. Si no lo encuentra, indicar que no existe.
+
+- La opción "Salir" termina el programa.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="gestionusuarios" groupId="ejercicio-1" values={[
+        {label: 'GestionUsuarios.java', value: 'gestionusuarios',},
+    ]}>
+        <TabItem value="gestionusuarios">
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class GestionUsuarios {
+    private static final String NOMBRE_FICHERO = "usuarios.txt";
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Comprobar si existe el fichero, sino crearlo
+        File fichero = new File(NOMBRE_FICHERO);
+        try {
+            if (fichero.createNewFile()) {
+                System.out.println("El fichero 'usuarios.txt' ha sido creado.");
+            } else {
+                System.out.println("El fichero 'usuarios.txt' ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el fichero.");
+            return;
+        }
+
+        int opcion;
+        do {
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    anadirUsuario(sc);
+                    break;
+                case 2:
+                    mostrarUsuarios();
+                    break;
+                case 3:
+                    buscarUsuario(sc);
+                    break;
+                case 4:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 4);
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\n--- Menú de Gestión de Usuarios ---");
+        System.out.println("1. Añadir nuevo usuario");
+        System.out.println("2. Mostrar todos los usuarios");
+        System.out.println("3. Buscar usuario por nombre");
+        System.out.println("4. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    private static void anadirUsuario(Scanner sc) {
+        System.out.print("Introduce el nombre: ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Introduce la edad: ");
+        int edad = sc.nextInt();
+        sc.nextLine(); // Limpiar buffer
+
+        System.out.print("Introduce la ciudad: ");
+        String ciudad = sc.nextLine();
+
+        try (FileWriter writer = new FileWriter(NOMBRE_FICHERO, true)) {
+            writer.write(nombre + "," + edad + "," + ciudad + "\n");
+            System.out.println("Usuario añadido correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el fichero.");
+        }
+    }
+
+    private static void mostrarUsuarios() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+            String linea;
+            System.out.println("\n--- Lista de Usuarios ---");
+
+            boolean ficheroVacio = true;
+            while ((linea = reader.readLine()) != null) {
+                ficheroVacio = false;
+                String[] datos = linea.split(",");
+                System.out.println("Nombre: " + datos[0] + " | Edad: " + datos[1] + " | Ciudad: " + datos[2]);
+            }
+
+            if (ficheroVacio) {
+                System.out.println("El fichero está vacío.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero.");
+        }
+    }
+
+    private static void buscarUsuario(Scanner sc) {
+        System.out.print("Introduce el nombre a buscar: ");
+        String nombreBuscar = sc.nextLine();
+
+        boolean encontrado = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+            String linea;
+
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(",");
+                String nombre = datos[0];
+
+                if (nombre.equalsIgnoreCase(nombreBuscar)) {
+                    System.out.println("Usuario encontrado:");
+                    System.out.println("Nombre: " + datos[0] + " | Edad: " + datos[1] + " | Ciudad: " + datos[2]);
+                    encontrado = true;
+                }
+            }
+
+            if (!encontrado) {
+                System.out.println("Usuario no encontrado.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero.");
+        }
+    }
+}
+```
+        </TabItem>
+    </Tabs>
+</details>
