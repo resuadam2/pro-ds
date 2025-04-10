@@ -257,7 +257,7 @@ Detalles de funcionamiento:
 
 <details>
 <summary>Ver Solución</summary>
-    <Tabs defaultValue="logusuarios" groupId="ejercicio-1" values={[
+    <Tabs defaultValue="logusuarios" groupId="ejercicio-2" values={[
         {label: 'LogUsuarios.java', value: 'logusuarios',},
     ]}>
         <TabItem value="logusuarios">
@@ -431,7 +431,7 @@ Funcionamiento del programa:
 
 <details>
 <summary>Ver Solución</summary>
-    <Tabs defaultValue="gestionnotas" groupId="ejercicio-1" values={[
+    <Tabs defaultValue="gestionnotas" groupId="ejercicio-3" values={[
         {label: 'GestionNotas.java', value: 'gestionnotas',},
     ]}>
         <TabItem value="gestionnotas">
@@ -1010,3 +1010,673 @@ public class GestorTareasClasico {
 
 ### Ejercicio 5 - Gestión de Biblioteca con Serialización de Objetos
 
+Desarrolla una aplicación en Java que gestione una biblioteca de libros. Cada libro tendrá:
+
+- Código único (String)
+
+- Título (String)
+
+- Autor (String)
+
+- Año de publicación (int)
+
+Funcionalidades que debe tener el programa:
+1. Añadir un nuevo libro a la biblioteca.
+
+2. Listar todos los libros guardados.
+
+3. Buscar un libro por su código.
+
+4. Eliminar un libro por su código.
+
+5. Guardar y cargar todos los libros usando serialización y deserialización de objetos.
+
+Requisitos:
+- Los libros se deben almacenar en un fichero binario llamado biblioteca.dat usando ObjectOutputStream y ObjectInputStream.
+
+- Cada vez que se añada, elimine o modifique un libro, se debe sobrescribir el fichero completo serializando de nuevo la lista de libros.
+
+- Al iniciar el programa, debe cargarse el fichero biblioteca.dat si existe.
+
+- Si se elimina un libro, debe deserializar la lista, eliminar el objeto correspondiente, y volver a serializar la lista actualizada.
+
+Estructura de Clases recomendada:
+- Libro.java → Clase que representa un libro (Serializable).
+
+- Biblioteca.java → Clase que gestiona los libros y el fichero.
+
+- Main.java → Clase principal con menú de opciones.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="libro" groupId="ejercicio-5" values={[
+        {label: 'Libro.java', value: 'libro',},
+        {label: 'Biblioteca.java', value: 'biblioteca',},
+        {label: 'Main.java', value: 'main',},
+    ]}>
+        <TabItem value="libro">
+
+```java
+import java.io.Serializable;
+
+public class Libro implements Serializable {
+    private String codigo;
+    private String titulo;
+    private String autor;
+    private int anioPublicacion;
+
+    public Libro(String codigo, String titulo, String autor, int anioPublicacion) {
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anioPublicacion = anioPublicacion;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    @Override
+    public String toString() {
+        return "Código: " + codigo + ", Título: " + titulo + ", Autor: " + autor + ", Año: " + anioPublicacion;
+    }
+}
+```
+        </TabItem>
+        <TabItem value="biblioteca">
+```java
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Biblioteca {
+    private List<Libro> libros;
+    private final String nombreFichero = "biblioteca.dat";
+
+    public Biblioteca() {
+        libros = cargarLibros();
+    }
+
+    private List<Libro> cargarLibros() {
+        List<Libro> lista = new ArrayList<>();
+        File fichero = new File(nombreFichero);
+
+        if (fichero.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichero))) {
+                lista = (List<Libro>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error al cargar libros: " + e.getMessage());
+            }
+        }
+
+        return lista;
+    }
+
+    private void guardarLibros() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))) {
+            oos.writeObject(libros);
+        } catch (IOException e) {
+            System.out.println("Error al guardar libros: " + e.getMessage());
+        }
+    }
+
+    public void añadirLibro(Libro libro) {
+        libros.add(libro);
+        guardarLibros();
+        System.out.println("Libro añadido correctamente.");
+    }
+
+    public void listarLibros() {
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros en la biblioteca.");
+        } else {
+            for (Libro l : libros) {
+                System.out.println(l);
+            }
+        }
+    }
+
+    public void buscarLibro(String codigo) {
+        for (Libro l : libros) {
+            if (l.getCodigo().equalsIgnoreCase(codigo)) {
+                System.out.println("Libro encontrado: " + l);
+                return;
+            }
+        }
+        System.out.println("Libro no encontrado.");
+    }
+
+    public void eliminarLibro(String codigo) {
+        boolean eliminado = libros.removeIf(l -> l.getCodigo().equalsIgnoreCase(codigo));
+        if (eliminado) {
+            guardarLibros();
+            System.out.println("Libro eliminado correctamente.");
+        } else {
+            System.out.println("Libro no encontrado.");
+        }
+    }
+}
+```
+        </TabItem>
+        <TabItem value="main">
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Biblioteca biblioteca = new Biblioteca();
+        Scanner sc = new Scanner(System.in);
+        int opcion;
+
+        do {
+            System.out.println("\n--- Menú Biblioteca ---");
+            System.out.println("1. Añadir libro");
+            System.out.println("2. Listar libros");
+            System.out.println("3. Buscar libro por código");
+            System.out.println("4. Eliminar libro por código");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Código: ");
+                    String codigo = sc.nextLine();
+                    System.out.print("Título: ");
+                    String titulo = sc.nextLine();
+                    System.out.print("Autor: ");
+                    String autor = sc.nextLine();
+                    System.out.print("Año de publicación: ");
+                    int anio = sc.nextInt();
+                    sc.nextLine();
+
+                    Libro libro = new Libro(codigo, titulo, autor, anio);
+                    biblioteca.añadirLibro(libro);
+                    break;
+                case 2:
+                    biblioteca.listarLibros();
+                    break;
+                case 3:
+                    System.out.print("Código del libro a buscar: ");
+                    String codBuscar = sc.nextLine();
+                    biblioteca.buscarLibro(codBuscar);
+                    break;
+                case 4:
+                    System.out.print("Código del libro a eliminar: ");
+                    String codEliminar = sc.nextLine();
+                    biblioteca.eliminarLibro(codEliminar);
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+}
+```
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 6 - Gestión de Configuración de una Aplicación con Java Properties 
+
+Desarrollar una aplicación Java que gestione la configuración de una aplicación usando un fichero ``config.properties``.
+
+El programa debe permitir:
+
+1. Crear el fichero config.properties (si no existe) con las siguientes propiedades por defecto:
+
+| Propiedad | Valor por defecto |
+|-----------|------------------|
+| idioma | es |
+| tema | claro |
+| tamaño_fuente | 12 |
+| mostrar_tutorial | true |
+
+2. Leer las propiedades actuales del fichero y mostrarlas al usuario.
+
+3. Modificar culquier propiedad y guardar los cambios en el fichero ``config.properties``.
+
+4. Restaurar los valores por defecto. 
+
+Requisitos:
+
+- El fichero ``config.properties`` debe almacenarse en el directorio raíz del proyecto.
+
+- Debes usar la clase ``Properties`` de Java (``java.util.Properties``).
+
+- Debes usar ``Properties.load()`` para leer las propiedades y ``Properties.store()`` para guardarlas.
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="configuracion" groupId="ejercicio-6" values={[
+        {label: 'Configuracion.java', value: 'configuracion',},
+        {label: 'Main.java', value: 'main',},
+        {label: 'config.properties (ejemplo)', value: 'configproperties',},
+    ]}>
+        <TabItem value="configuracion">
+```java
+import java.io.*;
+import java.util.Properties;
+
+public class Configuracion {
+    private final String nombreFichero = "config.properties";
+    private Properties propiedades;
+
+    public Configuracion() {
+        propiedades = new Properties();
+        cargarPropiedades();
+    }
+
+    private void cargarPropiedades() {
+        File fichero = new File(nombreFichero);
+
+        if (!fichero.exists()) {
+            crearPropiedadesPorDefecto();
+        }
+
+        try (FileInputStream fis = new FileInputStream(fichero)) {
+            propiedades.load(fis);
+        } catch (IOException e) {
+            System.out.println("Error al cargar el fichero de configuración: " + e.getMessage());
+        }
+    }
+
+    private void crearPropiedadesPorDefecto() {
+        propiedades.setProperty("idioma", "español");
+        propiedades.setProperty("tema", "claro");
+        propiedades.setProperty("tamaño_fuente", "14");
+        propiedades.setProperty("mostrar_tutorial", "true");
+
+        guardarPropiedades();
+    }
+
+    public void mostrarPropiedades() {
+        System.out.println("\nConfiguración actual:");
+        propiedades.forEach((k, v) -> System.out.println(k + ": " + v));
+    }
+
+    public void modificarPropiedad(String clave, String valor) {
+        if (propiedades.containsKey(clave)) {
+            propiedades.setProperty(clave, valor);
+            guardarPropiedades();
+            System.out.println("Propiedad modificada correctamente.");
+        } else {
+            System.out.println("La propiedad indicada no existe.");
+        }
+    }
+
+    public void restaurarPorDefecto() {
+        crearPropiedadesPorDefecto();
+        System.out.println("Propiedades restauradas a los valores por defecto.");
+    }
+
+    private void guardarPropiedades() {
+        try (FileOutputStream fos = new FileOutputStream(nombreFichero)) {
+            propiedades.store(fos, "Configuración de la Aplicación");
+        } catch (IOException e) {
+            System.out.println("Error al guardar las propiedades: " + e.getMessage());
+        }
+    }
+}
+```
+        </TabItem>
+        <TabItem value="main">
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Configuracion configuracion = new Configuracion();
+        Scanner sc = new Scanner(System.in);
+        int opcion;
+
+        do {
+            System.out.println("\n--- Menú de Configuración ---");
+            System.out.println("1. Mostrar configuración actual");
+            System.out.println("2. Modificar propiedad");
+            System.out.println("3. Restaurar configuración por defecto");
+            System.out.println("4. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    configuracion.mostrarPropiedades();
+                    break;
+                case 2:
+                    System.out.print("Ingrese el nombre de la propiedad a modificar: ");
+                    String clave = sc.nextLine();
+                    System.out.print("Ingrese el nuevo valor: ");
+                    String valor = sc.nextLine();
+                    configuracion.modificarPropiedad(clave, valor);
+                    break;
+                case 3:
+                    configuracion.restaurarPorDefecto();
+                    break;
+                case 4:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 4);
+    }
+}
+```
+        </TabItem>
+        <TabItem value="configproperties">
+```properties
+#Configuración de la Aplicación
+#Mon Apr 08 17:36:45 CEST 2025
+idioma=es
+tema=claro
+tamaño_fuente=14
+mostrar_tutorial=true
+```
+        </TabItem>
+    </Tabs>
+</details>
+
+### Ejercicio 7 - Gestión de Inventario de Productos usando Ficheros CSV (Coma Separeted Values)
+
+Desarrollar un programa en Java que gestione un inventario de productos de una tienda utilizando un fichero CSV llamado productos.csv.
+
+Cada producto tendrá la siguiente información:
+
+| Campo | Descripción |
+|-------|-------------|
+| ID | Identificador único del producto |
+| Nombre | Nombre del producto |
+| Precio | Precio del producto en euros (€) |
+| Stock | Cantidad disponible |
+
+Requisitos del programa:
+
+1. Crear el fichero ``productos.csv`` si no existe con algunos productos iniciales.
+
+Ejemplo de contenido:
+
+```csv
+1;Manzana;0.50;100
+2;Leche;1.20;50
+3;Pan;0.80;75
+4;Arroz;1.50;30
+5;Carne;5.00;20
+```
+
+2. Mostrar todos los productos del inventario siguiendo el formato del ejemplo:
+
+```yml
+ID: 1 | Nombre: Manzana | Precio: 0.50€ | Stock: 100 unidades
+```
+
+3. Añadir un nuevo producto.
+
+El usuario debe introducir los datos y se añade al final del fichero CSV.
+
+4. Modificar el stock de un producto dado su ID.
+
+Permite aumentar o disminuir el Stock.
+
+5. Elmininar un producto dado su ID.
+
+Debe elminar la línea correspondiente del fichero CSV.
+
+Restricciones:
+
+- Utiliza las clases clásicas de Java (``File``, ``BufferedReader``, ``BufferedWriter``).
+
+- El separador del CSV debe ser ``;``.
+
+- Cada operación debe modificar el fichero real (lectura y escritura).
+
+- Crea las clases necesarias (por ejemplo, una clase ``Producto`` para representar los datos).
+
+<details>
+<summary>Ver Solución</summary>
+    <Tabs defaultValue="inventario" groupId="ejercicio-7" values={[
+        {label: 'Producto.java', value: 'producto',},
+        {label: 'Inventario.java', value: 'inventario',},
+        {label: 'Main.java', value: 'main',},
+        {label: 'productos.csv (ejemplo)', value: 'productoscsv',},
+    ]}>
+        <TabItem value="producto">
+```java
+public class Producto {
+    private int id;
+    private String nombre;
+    private double precio;
+    private int stock;
+
+    public Producto(int id, String nombre, double precio, int stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public String toCSV() {
+        return id + ";" + nombre + ";" + precio + ";" + stock;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + " | Nombre: " + nombre + " | Precio: " + precio + "€ | Stock: " + stock + " unidades";
+    }
+}
+```
+        </TabItem>
+        <TabItem value="inventario">
+```java
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Inventario {
+    private final String nombreFichero = "productos.csv";
+
+    public Inventario() {
+        crearFicheroInicial();
+    }
+
+    private void crearFicheroInicial() {
+        File fichero = new File(nombreFichero);
+        if (!fichero.exists()) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(fichero))) {
+                bw.write("1;Manzana;0.50;100");
+                bw.newLine();
+                bw.write("2;Leche;1.20;50");
+                bw.newLine();
+                bw.write("3;Pan;0.80;75");
+            } catch (IOException e) {
+                System.out.println("Error al crear fichero inicial: " + e.getMessage());
+            }
+        }
+    }
+
+    public List<Producto> cargarProductos() {
+        List<Producto> productos = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+                int id = Integer.parseInt(partes[0]);
+                String nombre = partes[1];
+                double precio = Double.parseDouble(partes[2]);
+                int stock = Integer.parseInt(partes[3]);
+
+                productos.add(new Producto(id, nombre, precio, stock));
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero: " + e.getMessage());
+        }
+
+        return productos;
+    }
+
+    public void mostrarProductos() {
+        List<Producto> productos = cargarProductos();
+        System.out.println("\n--- Productos en Inventario ---");
+        for (Producto p : productos) {
+            System.out.println(p);
+        }
+    }
+
+    public void añadirProducto(Producto producto) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreFichero, true))) {
+            bw.newLine();
+            bw.write(producto.toCSV());
+        } catch (IOException e) {
+            System.out.println("Error al añadir producto: " + e.getMessage());
+        }
+    }
+
+    public void modificarStock(int id, int nuevoStock) {
+        List<Producto> productos = cargarProductos();
+
+        boolean encontrado = false;
+        for (Producto p : productos) {
+            if (p.getId() == id) {
+                p.setStock(nuevoStock);
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (encontrado) {
+            guardarProductos(productos);
+            System.out.println("Stock modificado correctamente.");
+        } else {
+            System.out.println("Producto no encontrado.");
+        }
+    }
+
+    public void eliminarProducto(int id) {
+        List<Producto> productos = cargarProductos();
+
+        boolean eliminado = productos.removeIf(p -> p.getId() == id);
+
+        if (eliminado) {
+            guardarProductos(productos);
+            System.out.println("Producto eliminado correctamente.");
+        } else {
+            System.out.println("Producto no encontrado.");
+        }
+    }
+
+    private void guardarProductos(List<Producto> productos) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreFichero))) {
+            for (Producto p : productos) {
+                bw.write(p.toCSV());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar productos: " + e.getMessage());
+        }
+    }
+}
+```
+        </TabItem>
+        <TabItem value="main">
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Inventario inventario = new Inventario();
+        Scanner sc = new Scanner(System.in);
+        int opcion;
+
+        do {
+            System.out.println("\n--- Menú de Inventario ---");
+            System.out.println("1. Mostrar productos");
+            System.out.println("2. Añadir producto");
+            System.out.println("3. Modificar stock");
+            System.out.println("4. Eliminar producto");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    inventario.mostrarProductos();
+                    break;
+                case 2:
+                    System.out.print("ID del producto: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Nombre: ");
+                    String nombre = sc.nextLine();
+                    System.out.print("Precio: ");
+                    double precio = sc.nextDouble();
+                    System.out.print("Stock: ");
+                    int stock = sc.nextInt();
+
+                    Producto nuevo = new Producto(id, nombre, precio, stock);
+                    inventario.añadirProducto(nuevo);
+                    break;
+                case 3:
+                    System.out.print("ID del producto: ");
+                    int idMod = sc.nextInt();
+                    System.out.print("Nuevo stock: ");
+                    int nuevoStock = sc.nextInt();
+                    inventario.modificarStock(idMod, nuevoStock);
+                    break;
+                case 4:
+                    System.out.print("ID del producto a eliminar: ");
+                    int idElim = sc.nextInt();
+                    inventario.eliminarProducto(idElim);
+                    break;
+                case 5:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
+    }
+}
+```
+        </TabItem>
+        <TabItem value="productoscsv">
+```csv
+ID;Nombre;Precio;Stock
+1;Manzana;0.50;100
+2;Leche;1.20;50
+3;Pan;0.80;75
+4;Arroz;1.50;30
+5;Carne;5.00;20
+```
+        </TabItem>
+    </Tabs>
+</details>
+
+### Así resolvimos los ejercicios en clase:
+[Soluciones clase - PDTE]
