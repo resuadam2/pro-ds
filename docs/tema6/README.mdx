@@ -626,35 +626,35 @@ ID_TAREA | Descripción de la tarea
 
 **Requisitos:**
 
-1. Mostrar un menú con las siguientes opciones:
+**1. Mostrar un menú con las siguientes opciones:**
 
-- Añadir nueva tarea.
+    - Añadir nueva tarea.
 
-- Mostrar todas las tareas.
+    - Mostrar todas las tareas.
 
-- Eliminar una tarea específica (por ID).
+    - Eliminar una tarea específica (por ID).
 
-- Crear una copia de seguridad del fichero de tareas.
+    - Crear una copia de seguridad del fichero de tareas.
 
-- Salir del programa.
+    - Salir del programa.
 
-2. Antes de eliminar una tarea:
+**2. Antes de eliminar una tarea:**
 
-- Mostrar las tareas actuales.
+    - Mostrar las tareas actuales.
 
-- Pedir el ID de la tarea a eliminar.
+    - Pedir el ID de la tarea a eliminar.
 
-- Eliminar solo la línea correspondiente al ID introducido.
+    - Eliminar solo la línea correspondiente al ID introducido.
 
-- El resto de las tareas deben permanecer intactas.
+    - El resto de las tareas deben permanecer intactas.
 
-3. Al crear una copia de seguridad:
+**3. Al crear una copia de seguridad:**
 
-- Copiar el contenido de ``tareas.txt`` a un nuevo fichero llamado ``tareas_backup_fecha.txt``.
+    - Copiar el contenido de ``tareas.txt`` a un nuevo fichero llamado ``tareas_backup_fecha.txt``.
 
-- El nombre del backup debe incluir la fecha y hora actual (por ejemplo: ``tareas_backup_2025-04-07_18-30.txt``).
+    - El nombre del backup debe incluir la fecha y hora actual (por ejemplo: ``tareas_backup_2025-04-07_18-30.txt``).
 
-4. Si el fichero ``tareas.txt`` no existe, debe crearse automáticamente.
+**4. Si el fichero ``tareas.txt`` no existe, debe crearse automáticamente.**
 
 <details>
 <summary>Ver Solución</summary>
@@ -1041,11 +1041,11 @@ Requisitos:
 - Si se elimina un libro, debe deserializar la lista, eliminar el objeto correspondiente, y volver a serializar la lista actualizada.
 
 Estructura de Clases recomendada:
-- Libro.java → Clase que representa un libro (Serializable).
+- ``Libro.java`` → Clase que representa un libro (Serializable).
 
-- Biblioteca.java → Clase que gestiona los libros y el fichero.
+- ``Biblioteca.java`` → Clase que gestiona los libros y el fichero.
 
-- Main.java → Clase principal con menú de opciones.
+- ``Main.java`` → Clase principal con menú de opciones.
 
 <details>
 <summary>Ver Solución</summary>
@@ -1230,7 +1230,7 @@ El programa debe permitir:
 1. Crear el fichero config.properties (si no existe) con las siguientes propiedades por defecto:
 
 | Propiedad | Valor por defecto |
-|-----------|------------------|
+|-----------|:------------------:|
 | idioma | es |
 | tema | claro |
 | tamaño_fuente | 12 |
