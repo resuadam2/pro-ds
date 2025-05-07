@@ -1,0 +1,169 @@
+# Acceso a bases de datos en Java
+
+## Introducción a JDBC
+
+¿Qué es JDBC? 
+
+Java Database Connectivity (JDBC) es una API de Java que permite a las aplicaciones Java interactuar con bases de datos. Proporciona un conjunto de interfaces y clases que permiten realizar operaciones como conectar a una base de datos, ejecutar consultas SQL y procesar resultados.
+
+Podríamos pensar en JDBC como un intérprete que traduce las instrucciones de Java en comandos que la base de datos puede entender.
+
+### Pasos para conectarse a una base de datos con JDBC
+
+1. **Cargar el driver JDBC**: Antes de poder conectarse a una base de datos, es necesario cargar el driver JDBC correspondiente. Esto se hace utilizando la clase `Class.forName()`.
+
+Por ejemplo, para cargar el driver de MySQL, se utilizaría la siguiente línea de código:
+
+```Java
+// Para la mayoría de los drivers JDBC, no es necesario cargar el driver explícitamente, pero es una buena práctica hacerlo.
+Class.forName("com.mysql.cj.jdbc.Driver");
+```
+
+:::warning[**Nota**]
+Asegúrate de tener el driver JDBC correspondiente en tu classpath. Puedes descargarlo desde el sitio web del proveedor de la base de datos o utilizar un gestor de dependencias como Maven o Gradle.
+:::
+
+2. **Establecer la conexión**: Para conectarse a una base de datos, se utiliza la clase `DriverManager` y su método `getConnection()`. Este método requiere una URL de conexión, un nombre de usuario y una contraseña.
+
+```Java
+String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+String usuario = "mi_usuario";
+String contrasena = "mi_contrasena";
+
+Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+```
+
+:::tip[Almacenar credenciales]
+Es recomendable no almacenar las credenciales directamente en el código. En su lugar, puedes utilizar variables de entorno o un archivo de configuración externo para mantener la seguridad de tus datos sensibles.
+:::
+
+3. **Crear una sentencia**: Una vez establecida la conexión, puedes crear una sentencia utilizando la clase `Statement` o `PreparedStatement`. La diferencia entre ambas es que `PreparedStatement` permite ejecutar consultas SQL precompiladas y es más seguro contra ataques de inyección SQL.
+
+```Java
+Statement sentencia = conexion.createStatement();
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE id = ?");
+```
+
+4. **Ejecutar la consulta**: Utiliza el método `executeQuery()` para consultas SELECT o `executeUpdate()` para consultas de actualización (INSERT, UPDATE, DELETE).
+
+```Java
+// Consulta SELECT
+ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+
+// Consulta de actualización
+int filasAfectadas = sentencia.executeUpdate("INSERT INTO usuarios (nombre, edad) VALUES ('Juan', 30)");
+```
+
+5. **Procesar los resultados**: Si la consulta es de tipo SELECT, puedes procesar los resultados utilizando la clase `ResultSet`. Esta clase permite iterar sobre los resultados y acceder a los datos de cada fila.
+
+```Java
+ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+
+while (resultado.next()) {
+    int id = resultado.getInt("id");
+    String nombre = resultado.getString("nombre");
+    int edad = resultado.getInt("edad");
+    System.out.println("ID: " + id + ", Nombre: " + nombre + ", Edad: " + edad);
+}
+```
+
+En el ejemplo anterior, `resultado.next()` mueve el cursor a la siguiente fila del resultado y `resultado.getInt("id")` obtiene el valor de la columna "id" de la fila actual.  
+
+6. **Cerrar los recursos**: Es importante cerrar la conexión, la sentencia y el resultado después de usarlos para liberar los recursos. Esto se puede hacer utilizando los métodos `close()` de cada objeto.
+
+```Java
+resultado.close();
+sentencia.close(); 
+conexion.close();
+```
+
+:::tip[**Consejo**]
+Recuerda siempre cerrar los recursos en un bloque `finally` o utilizar la declaración `try-with-resources` para asegurarte de que se cierren incluso si ocurre una excepción.
+
+```Java
+try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+     Statement sentencia = conexion.createStatement();
+     ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios")) {
+    while (resultado.next()) {
+        // Procesar resultados
+    }
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+```
+
+:::
+
+### Ejemplo completo de conexión a una base de datos MySQL
+
+```Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class EjemploJDBC {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+        String usuario = "mi_usuario";
+        String contrasena = "mi_contrasena";
+
+        try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+             Statement sentencia = conexion.createStatement();
+             ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios")) {
+
+            while (resultado.next()) {
+                int id = resultado.getInt("id");
+                String nombre = resultado.getString("nombre");
+                int edad = resultado.getInt("edad");
+                System.out.println("ID: " + id + ", Nombre: " + nombre + ", Edad: " + edad);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## Uso de `PreparedStatement`
+
+`PreparedStatement` es una interfaz de JDBC que permite ejecutar consultas SQL precompiladas. Esto no solo mejora el rendimiento al evitar la recompilación de la consulta cada vez que se ejecuta, sino que también ayuda a prevenir ataques de inyección SQL al separar los datos de la consulta.
+
+Para utilizar `PreparedStatement`, se sigue un proceso similar al de `Statement`, pero con algunas diferencias clave:   
+
+- Primero, se crea un objeto `PreparedStatement` utilizando la conexión y la consulta SQL con marcadores de posición (`?`) para los parámetros. Luego, se establecen los valores de los parámetros utilizando métodos como `setInt()`, `setString()`, etc. Finalmente, se ejecuta la consulta.
+- Aquí tienes un ejemplo de cómo utilizar `PreparedStatement` para insertar un nuevo usuario en la base de datos:
+
+```Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class EjemploPreparedStatement {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+        String usuario = "mi_usuario";
+        String contrasena = "mi_contrasena";
+
+        try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+             PreparedStatement sentenciaPreparada = conexion.prepareStatement("INSERT INTO usuarios (nombre, edad) VALUES (?, ?)")) {
+
+            // Establecer los valores de los parámetros
+            sentenciaPreparada.setString(1, "Juan");
+            sentenciaPreparada.setInt(2, 30);
+
+            // Ejecutar la consulta
+            int filasAfectadas = sentenciaPreparada.executeUpdate();
+            System.out.println("Filas afectadas: " + filasAfectadas);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+:::warning Capturar la SQLException
+Es importante capturar la excepción `SQLException` para manejar errores relacionados con la base de datos, como problemas de conexión, errores de sintaxis SQL o violaciones de restricciones.  
+:::
