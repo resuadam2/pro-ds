@@ -8,3 +8,596 @@ En este tema veremos cómo conectar Java con bases de datos, cómo realizar cons
 
 ## Apuntes y ejemplos
 
+- [Conexión a bases de datos](./0-JDBC.mdx)
+- [Conexión con SQLite](./1-SQLite.mdx)
+
+## Ejercicio
+
+En esta ocasión vamos a realizar un único ejercicio práctico que consiste en crear una aplicación de gestión de contactos. La aplicación debe permitir al usuario realizar las siguientes operaciones:
+
+- Añadir un nuevo contacto a la base de datos.
+- Modificar un contacto existente.
+- Eliminar un contacto existente.
+- Listar todos los contactos.
+- Buscar un contacto por nombre.
+- Buscar un contacto por teléfono.
+
+La información que queremos almacenar de cada contacto es la siguiente:
+
+- Nombre
+- Apellido
+- Teléfono
+- Correo electrónico
+
+Debe ser posible realizar todas las accinoes mencionadas desde una interfaz CLI. 
+
+Es importante almacenar la información en una base de datos SQLite. Para ello, se recomienda crear una tabla con el siguiente esquema:
+
+```sql
+CREATE TABLE contactos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    apellido TEXT NOT NULL,
+    telefono TEXT NOT NULL,
+    correo TEXT NOT NULL
+);
+```
+
+Además, los datos de la conexión a la base de datos deben ser configurables desde un archivo de propiedades. El archivo de propiedades debe contener al menos los siguientes parámetros:
+
+```properties
+db.url=jdbc:sqlite:contactos.db
+db.user=usuario
+db.password=contraseña
+```
+
+El archivo de propiedades debe ser cargado al inicio de la aplicación y los parámetros deben ser utilizados para establecer la conexión a la base de datos.
+
+Es importante separar la lógica de acceso a datos de la lógica de negocio. Para ello, se recomienda crear una clase `ContactoDAO` que contenga los métodos necesarios para realizar las operaciones CRUD (Create, Read, Update, Delete) sobre la tabla de contactos.
+
+La clase `ContactoDAO` debe contener al menos los siguientes métodos:
+
+- `public void addContacto(Contacto contacto)`: Añadir un nuevo contacto a la base de datos.
+- `public void updateContacto(Contacto contacto)`: Modificar un contacto existente.
+- `public void deleteContacto(int id)`: Eliminar un contacto existente.
+- `public List<Contacto> getAllContactos()`: Listar todos los contactos.
+- `public Contacto getContactoById(int id)`: Buscar un contacto por id.
+- `public List<Contacto> getContactosByNombre(String nombre)`: Buscar un contacto por nombre.
+- `public List<Contacto> getContactosByTelefono(String telefono)`: Buscar un contacto por teléfono.
+
+Separaremos entonces nuestro ejemplo en las siguientes clases:
+
+- `Contacto`: Clase que representa un contacto.
+- `ContactoDAO`: Clase que contiene los métodos para acceder a la base de datos.
+- `ContactoService`: Clase que contiene la lógica de negocio.
+- `ContactoCLI`: Clase que contiene la lógica de la interfaz de línea de comandos.
+- `ContactoApp`: Clase principal que inicia la aplicación.
+
+<details>
+<summary>Ver solución</summary>
+  <Tabs defaultValue="contacto" groupId="ejercicio" values={[
+        {label: 'Contacto.java', value: 'contacto',},
+        {label: 'ContactoDAO.java', value: 'contactodao',},
+        {label: 'ContactoService.java', value: 'contactoservice',},
+        {label: 'ContactoCLI.java', value: 'contactocli',},
+        {label: 'ContactoApp.java', value: 'contactoapp',},
+        {label: 'Contacto.properties', value: 'contactoproperties',},
+        {label: 'Contacto.sql', value: 'contactosql',},
+    ]}>
+        <TabItem value="contacto" label="Contacto.java" default>
+
+```java
+package com.example.contactos;
+
+public class Contacto {
+    private int id;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private String correo;
+
+    public Contacto(int id, String nombre, String apellido, String telefono, String correo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.correo = correo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }   
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    @Override
+    public String toString() {
+        return "Contacto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", correo='" + correo + '\'' +
+                '}';
+    }
+
+}
+```
+        </TabItem>
+        <TabItem value="contactodao" label="ContactoDAO.java">
+
+```java
+package com.example.contactos;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ContactoDAO {
+    private Connection connection;
+
+    public ContactoDAO() {
+        try {
+            Properties properties = new Properties();
+            InputStream input = new FileInputStream("src/main/resources/contacto.properties");
+            properties.load(input);
+            String url = properties.getProperty("db.url");
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addContacto(Contacto contacto) {
+        String sql = "INSERT INTO contactos (nombre, apellido, telefono, correo) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, contacto.getNombre());
+            pstmt.setString(2, contacto.getApellido());
+            pstmt.setString(3, contacto.getTelefono());
+            pstmt.setString(4, contacto.getCorreo());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateContacto(Contacto contacto) {
+        String sql = "UPDATE contactos SET nombre = ?, apellido = ?, telefono = ?, correo = ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, contacto.getNombre());
+            pstmt.setString(2, contacto.getApellido());
+            pstmt.setString(3, contacto.getTelefono());
+            pstmt.setString(4, contacto.getCorreo());
+            pstmt.setInt(5, contacto.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteContacto(int id) {
+        String sql = "DELETE FROM contactos WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Contacto> getAllContactos() {
+        List<Contacto> contactos = new ArrayList<>();
+        String sql = "SELECT * FROM contactos";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Contacto contacto = new Contacto(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono"), rs.getString("correo"));
+                contactos.add(contacto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactos;
+    }
+
+    public Contacto getContactoById(int id) {
+        String sql = "SELECT * FROM contactos WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Contacto(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono"), rs.getString("correo"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Contacto> getContactosByNombre(String nombre) {
+        List<Contacto> contactos = new ArrayList<>();
+        String sql = "SELECT * FROM contactos WHERE nombre LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + nombre + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Contacto contacto = new Contacto(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono"), rs.getString("correo"));
+                contactos.add(contacto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactos;
+    }
+
+    public List<Contacto> getContactosByTelefono(String telefono) {
+        List<Contacto> contactos = new ArrayList<>();
+        String sql = "SELECT * FROM contactos WHERE telefono LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + telefono + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Contacto contacto = new Contacto(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("telefono"), rs.getString("correo"));
+                contactos.add(contacto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contactos;
+    }
+
+    public void close() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        ContactoDAO dao = new ContactoDAO();
+        List<Contacto> contactos = dao.getAllContactos();
+        for (Contacto contacto : contactos) {
+            System.out.println(contacto);
+        }
+        dao.close();
+    }
+
+}
+
+        </TabItem>
+        <TabItem value="contactoservice" label="ContactoService.java">
+
+```java
+package com.example.contactos;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.regex.PatternSyntaxException;
+
+public class ContactoService {
+    private ContactoDAO contactoDAO;
+    private Scanner scanner;
+
+    public ContactoService() {
+        contactoDAO = new ContactoDAO();
+        scanner = new Scanner(System.in);
+    }
+
+    public void addContacto() {
+        System.out.println("Añadir nuevo contacto:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Apellido: ");
+        String apellido = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        System.out.print("Correo electrónico: ");
+        String correo = scanner.nextLine();
+
+        Contacto contacto = new Contacto(0, nombre, apellido, telefono, correo);
+        contactoDAO.addContacto(contacto);
+        System.out.println("Contacto añadido correctamente.");
+    }
+
+    public void updateContacto() {
+        System.out.println("Modificar contacto:");
+        System.out.print("ID del contacto a modificar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+
+        Contacto contacto = contactoDAO.getContactoById(id);
+        if (contacto == null) {
+            System.out.println("Contacto no encontrado.");
+            return;
+        }
+
+        System.out.print("Nuevo nombre (actual: " + contacto.getNombre() + "): ");
+        String nombre = scanner.nextLine();
+        System.out.print("Nuevo apellido (actual: " + contacto.getApellido() + "): ");
+        String apellido = scanner.nextLine();
+        System.out.print("Nuevo teléfono (actual: " + contacto.getTelefono() + "): ");
+        String telefono = scanner.nextLine();
+        System.out.print("Nuevo correo electrónico (actual: " + contacto.getCorreo() + "): ");
+        String correo = scanner.nextLine();
+
+        contacto.setNombre(nombre);
+        contacto.setApellido(apellido);
+        contacto.setTelefono(telefono);
+        contacto.setCorreo(correo);
+
+        contactoDAO.updateContacto(contacto);
+        System.out.println("Contacto modificado correctamente.");
+    }
+
+    public void deleteContacto() {
+        System.out.println("Eliminar contacto:");
+        System.out.print("ID del contacto a eliminar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+
+        Contacto contacto = contactoDAO.getContactoById(id);
+        if (contacto == null) {
+            System.out.println("Contacto no encontrado.");
+            return;
+        }
+
+        contactoDAO.deleteContacto(id);
+        System.out.println("Contacto eliminado correctamente.");
+    }
+
+    public void listContactos() {
+        System.out.println("Lista de contactos:");
+        List<Contacto> contactos = contactoDAO.getAllContactos();
+        for (Contacto contacto : contactos) {
+            System.out.println(contacto);
+        }
+    }
+
+    public void searchContactoByNombre() {
+        System.out.println("Buscar contacto por nombre:");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        List<Contacto> contactos = contactoDAO.getContactosByNombre(nombre);
+        if (contactos.isEmpty()) {
+            System.out.println("No se encontraron contactos con ese nombre.");
+            return;
+        }
+        for (Contacto contacto : contactos) {
+            System.out.println(contacto);
+        }
+    }
+
+    public void searchContactoByTelefono() {
+        System.out.println("Buscar contacto por teléfono:");
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        List<Contacto> contactos = contactoDAO.getContactosByTelefono(telefono);
+        if (contactos.isEmpty()) {
+            System.out.println("No se encontraron contactos con ese teléfono.");
+            return;
+        }
+        for (Contacto contacto : contactos) {
+            System.out.println(contacto);
+        }
+    }
+
+    public void close() {
+        contactoDAO.close();
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        ContactoService service = new ContactoService();
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Añadir contacto");
+            System.out.println("2. Modificar contacto");
+            System.out.println("3. Eliminar contacto");
+            System.out.println("4. Listar contactos");
+            System.out.println("5. Buscar contacto por nombre");
+            System.out.println("6. Buscar contacto por teléfono");
+            System.out.println("7. Salir");
+
+            int option = service.scanner.nextInt();
+            service.scanner.nextLine(); // Limpiar el buffer
+
+            switch (option) {
+                case 1:
+                    service.addContacto();
+                    break;
+                case 2:
+                    service.updateContacto();
+                    break;
+                case 3:
+                    service.deleteContacto();
+                    break;
+                case 4:
+                    service.listContactos();
+                    break;
+                case 5:
+                    service.searchContactoByNombre();
+                    break;
+                case 6:
+                    service.searchContactoByTelefono();
+                    break;
+                case 7:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+        service.close();
+    }
+}
+```
+        </TabItem>
+        <TabItem value="contactocli" label="ContactoCLI.java">
+
+```java
+package com.example.contactos;
+
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.regex.PatternSyntaxException;
+
+public class ContactoCLI {
+    private ContactoService contactoService;
+    private Scanner scanner;
+
+    public ContactoCLI() {
+        contactoService = new ContactoService();
+        scanner = new Scanner(System.in);
+    }
+
+    public void showMenu() {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Añadir contacto");
+            System.out.println("2. Modificar contacto");
+            System.out.println("3. Eliminar contacto");
+            System.out.println("4. Listar contactos");
+            System.out.println("5. Buscar contacto por nombre");
+            System.out.println("6. Buscar contacto por teléfono");
+            System.out.println("7. Salir");
+
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer
+
+            switch (option) {
+                case 1:
+                    contactoService.addContacto();
+                    break;
+                case 2:
+                    contactoService.updateContacto();
+                    break;
+                case 3:
+                    contactoService.deleteContacto();
+                    break;
+                case 4:
+                    contactoService.listContactos();
+                    break;
+                case 5:
+                    contactoService.searchContactoByNombre();
+                    break;
+                case 6:
+                    contactoService.searchContactoByTelefono();
+                    break;
+                case 7:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+    }
+
+    public void close() {
+        contactoService.close();
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        ContactoCLI cli = new ContactoCLI();
+        cli.showMenu();
+        cli.close();
+    }
+
+}
+
+        </TabItem>
+        <TabItem value="contactoapp" label="ContactoApp.java">
+
+```java
+package com.example.contactos;
+
+public class ContactoApp {
+    public static void main(String[] args) {
+        ContactoCLI cli = new ContactoCLI();
+        cli.showMenu();
+        cli.close();
+    }
+}
+```
+        </TabItem>
+        <TabItem value="contactoproperties" label="contacto.properties">
+
+```properties
+db.url=jdbc:sqlite:contactos.db
+db.user=usuario
+db.password=contraseña
+```
+
+        </TabItem>
+        <TabItem value="contactosql" label="contacto.sql">
+
+```sql
+CREATE TABLE contactos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    apellido TEXT NOT NULL,
+    telefono TEXT NOT NULL,
+    correo TEXT NOT NULL
+);
+```
+
+        </TabItem>
+</Tabs>
+</details>
+

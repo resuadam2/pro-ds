@@ -167,3 +167,133 @@ public class EjemploPreparedStatement {
 :::warning Capturar la SQLException
 Es importante capturar la excepción `SQLException` para manejar errores relacionados con la base de datos, como problemas de conexión, errores de sintaxis SQL o violaciones de restricciones.  
 :::
+
+### Ejemplos de sentencias con `PreparedStatement`
+
+- **Consulta con un parámetro**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE id = ?");
+sentenciaPreparada.setInt(1, 1);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+- **Consulta con múltiples parámetros**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND edad = ?");   
+sentenciaPreparada.setString(1, "Juan");
+sentenciaPreparada.setInt(2, 30);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+- **Actualización con parámetros**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("UPDATE usuarios SET edad = ? WHERE nombre = ?");
+sentenciaPreparada.setInt(1, 31);
+sentenciaPreparada.setString(2, "Juan");
+int filasAfectadas = sentenciaPreparada.executeUpdate();
+```
+- **Eliminación con parámetros**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("DELETE FROM usuarios WHERE id = ?");
+sentenciaPreparada.setInt(1, 1);
+int filasAfectadas = sentenciaPreparada.executeUpdate();
+```
+- **Inserción con parámetros**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("INSERT INTO usuarios (nombre, edad) VALUES (?, ?)");
+sentenciaPreparada.setString(1, "Juan");
+sentenciaPreparada.setInt(2, 30);
+int filasAfectadas = sentenciaPreparada.executeUpdate();
+```
+- **Consulta con múltiples parámetros y ordenación**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND edad = ? ORDER BY edad DESC");    
+sentenciaPreparada.setString(1, "Juan");
+sentenciaPreparada.setInt(2, 30);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+- **Consulta con parámetros y límite de resultados**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE edad > ? LIMIT ?");
+sentenciaPreparada.setInt(1, 25);
+sentenciaPreparada.setInt(2, 10);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+
+- **Consulta con parámetros y agrupación**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT nombre, COUNT(*) FROM usuarios WHERE edad > ? GROUP BY nombre HAVING COUNT(*) > ?");
+sentenciaPreparada.setInt(1, 25);
+sentenciaPreparada.setInt(2, 1);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+- **Consulta con parámetros y unión de tablas**:
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT u.nombre, o.fecha FROM usuarios u JOIN ordenes o ON u.id = o.usuario_id WHERE u.edad > ?");
+sentenciaPreparada.setInt(1, 25);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+
+### Transacciones en JDBC
+
+Las transacciones son un conjunto de operaciones que se ejecutan como una unidad indivisible. En JDBC, puedes gestionar transacciones utilizando los métodos `setAutoCommit(false)`, `commit()` y `rollback()` de la clase `Connection`.
+Esto te permite agrupar varias operaciones en una sola transacción y asegurarte de que todas se completen correctamente o ninguna de ellas se aplique.
+
+```Java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class EjemploTransacciones {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+        String usuario = "mi_usuario";
+        String contrasena = "mi_contrasena";
+
+        try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena)) {
+            // Desactivar el autocommit
+            conexion.setAutoCommit(false);
+
+            try (PreparedStatement sentenciaPreparada1 = conexion.prepareStatement("INSERT INTO usuarios (nombre, edad) VALUES (?, ?)");
+                 PreparedStatement sentenciaPreparada2 = conexion.prepareStatement("INSERT INTO ordenes (usuario_id, fecha) VALUES (?, ?)")) {
+
+                // Establecer los valores de los parámetros
+                sentenciaPreparada1.setString(1, "Juan");
+                sentenciaPreparada1.setInt(2, 30);
+                sentenciaPreparada1.executeUpdate();
+
+                sentenciaPreparada2.setInt(1, 1); // Suponiendo que el ID del usuario es 1
+                sentenciaPreparada2.setDate(2, java.sql.Date.valueOf("2023-10-01"));
+                sentenciaPreparada2.executeUpdate();
+
+                 } catch (SQLException e) {
+                // Si ocurre un error, deshacer la transacción
+                conexion.rollback();
+                e.printStackTrace();
+            } finally {
+                // Activar el autocommit de nuevo
+                conexion.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+En el ejemplo anterior, se desactiva el autocommit antes de realizar las inserciones. Si ocurre un error en cualquiera de las operaciones, se deshacen todos los cambios realizados en la transacción utilizando `rollback()`. Si todo sale bien, se confirma la transacción automáticamente al cerrar la conexión. 
+
+Tras la ejecución de las operaciones, se vuelve a activar el autocommit para futuras transacciones. 
+
+:::info[Transacciones]
+Las transacciones son especialmente útiles en aplicaciones que requieren consistencia de datos, como sistemas bancarios o de gestión de inventario. Aseguran que todas las operaciones se realicen correctamente o ninguna de ellas se aplique, evitando así la corrupción de datos.    
+:::
+

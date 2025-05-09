@@ -1,0 +1,531 @@
+# SQLite
+
+SQLite es un sistema de gestión de bases de datos relacional (RDBMS) que utiliza un motor de base de datos SQL embebido. 
+
+Es una biblioteca en C que implementa un motor de base de datos SQL sin servidor, sin configuración y transacciones ACID. SQLite es el motor de base de datos más utilizado en el mundo, ya que es el motor de base de datos más utilizado en dispositivos móviles y aplicaciones de escritorio.
+
+En este apartado vamos a ver como trabajar con SQLite desde Java con la librería SQLite JDBC. Esta librería permite conectar Java con bases de datos SQLite y ejecutar consultas SQL desde Java.
+
+Además, vamosa a ver como utilizar esto en el entorno de IntelliJ IDEA, que es un entorno de desarrollo integrado (IDE) para Java. IntelliJ IDEA es un IDE muy potente y fácil de usar, que permite desarrollar aplicaciones Java de forma rápida y sencilla.   
+
+## Instalación de SQLite en IntelliJ IDEA
+
+Para instalar SQLite en IntelliJ IDEA, primero debemos descargar el archivo JAR de la librería SQLite JDBC. Podemos descargarlo desde el siguiente enlace:
+https://bitbucket.org/xerial/sqlite-jdbc/downloads/.
+
+Una vez descargado el archivo JAR, debemos añadirlo a nuestro proyecto de IntelliJ IDEA. Para ello, seguimos los siguientes pasos:
+1. Abrimos IntelliJ IDEA y creamos un nuevo proyecto Java.
+2. Hacemos clic derecho en la carpeta del proyecto y seleccionamos "Open Module Settings".
+3. En la ventana que se abre, seleccionamos "Libraries" en el menú de la izquierda.
+4. Hacemos clic en el botón "+" y seleccionamos "Java".
+5. Buscamos el archivo JAR que hemos descargado y lo seleccionamos.
+6. Hacemos clic en "OK" para añadir la librería al proyecto.
+7. Hacemos clic en "Apply" y luego en "OK" para cerrar la ventana de configuración del módulo.
+8. Ahora ya tenemos la librería SQLite JDBC añadida a nuestro proyecto y podemos utilizarla para conectar Java con bases de datos SQLite.
+9. Para comprobar que la librería se ha añadido correctamente, podemos crear una clase Java y añadir el siguiente código:
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class SQLiteExample {
+    public static void main(String[] args) {
+        Connection connection = null;
+        try {
+            // Cargar el driver de SQLite
+            Class.forName("org.sqlite.JDBC");
+            // Conectar a la base de datos
+            connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            System.out.println("Conectado a la base de datos SQLite.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver no encontrado: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+}
+```
+10. Si todo ha ido bien, al ejecutar el programa deberíamos ver el mensaje "Conectado a la base de datos SQLite." en la consola de IntelliJ IDEA. Esto significa que hemos conseguido conectar Java con una base de datos SQLite utilizando la librería SQLite JDBC.
+11. Si no hemos creado la base de datos test.db, SQLite la creará automáticamente al conectarse a ella. Si queremos crear una base de datos con otro nombre, simplemente cambiamos el nombre del archivo en la URL de conexión (jdbc:sqlite:nombre_base_datos.db).
+12. Si queremos crear una base de datos en una carpeta específica, simplemente añadimos la ruta de la carpeta al nombre del archivo (jdbc:sqlite:/ruta/carpeta/nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta /home/usuario/bases_datos/, la URL de conexión sería jdbc:sqlite:/home/usuario/bases_datos/test.db.
+13. Si queremos crear una base de datos en la carpeta del proyecto, simplemente añadimos el nombre del archivo a la URL de conexión (jdbc:sqlite:nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta del proyecto, la URL de conexión sería jdbc:sqlite:test.db.
+
+## Crear una base de datos SQLite desde Java
+
+Para crear una base de datos SQLite desde Java, simplemente tenemos que conectar a la base de datos y ejecutar una consulta SQL para crear la tabla. A continuación se muestra un ejemplo de cómo crear una base de datos SQLite desde Java:
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SQLiteCreateDatabase {
+    public static void main(String[] args) {
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            // Cargar el driver de SQLite
+            Class.forName("org.sqlite.JDBC");
+            // Conectar a la base de datos
+            connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            System.out.println("Conectado a la base de datos SQLite.");
+
+            // Crear una tabla
+            statement = connection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS users " +
+                         "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                         " name TEXT NOT NULL," +
+                         " age INTEGER NOT NULL)";
+            statement.executeUpdate(sql);
+            System.out.println("Tabla creada con éxito.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver no encontrado: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+}
+```
+
+En este ejemplo, hemos creado una tabla llamada users con tres columnas: id, name y age. La columna id es la clave primaria y se autoincrementa. Las columnas name y age son de tipo texto e entero, respectivamente. Si la tabla ya existe, no se creará de nuevo.
+Al ejecutar el programa, deberíamos ver el mensaje "Tabla creada con éxito." en la consola de IntelliJ IDEA. Esto significa que hemos conseguido crear una tabla en la base de datos SQLite desde Java utilizando la librería SQLite JDBC.
+
+Si queremos crear una tabla con otro nombre, simplemente cambiamos el nombre de la tabla en la consulta SQL. Por ejemplo, si queremos crear una tabla llamada products, la consulta SQL sería:
+```sql
+CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL)
+```
+
+Si queremos crear una tabla con más columnas, simplemente añadimos las columnas a la consulta SQL. Por ejemplo, si queremos crear una tabla llamada orders con cuatro columnas (id, product_id, quantity y total), la consulta SQL sería:
+```sql
+CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER NOT NULL, quantity INTEGER NOT NULL, total REAL NOT NULL)
+```
+
+Si queremos crear una tabla con una clave foránea, simplemente añadimos la clave foránea a la consulta SQL. Por ejemplo, si queremos crear una tabla llamada order_items con tres columnas (id, order_id y product_id), la consulta SQL sería:
+```sql
+CREATE TABLE IF NOT EXISTS order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER NOT NULL, product_id INTEGER NOT NULL, FOREIGN KEY(order_id) REFERENCES orders(id), FOREIGN KEY(product_id) REFERENCES products(id))
+```
+
+## Insertar datos en una base de datos SQLite desde Java
+
+Para insertar datos en una base de datos SQLite desde Java, simplemente tenemos que conectar a la base de datos y ejecutar una consulta SQL para insertar los datos. A continuación se muestra un ejemplo de cómo insertar datos en una base de datos SQLite desde Java:
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SQLiteInsertData {
+    public static void main(String[] args) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            // Cargar el driver de SQLite
+            Class.forName("org.sqlite.JDBC");
+            // Conectar a la base de datos
+            connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            System.out.println("Conectado a la base de datos SQLite.");
+
+            // Insertar datos en la tabla users
+            String sql = "INSERT INTO users (name, age) VALUES (?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "John Doe");
+            preparedStatement.setInt(2, 30);
+            preparedStatement.executeUpdate();
+            System.out.println("Datos insertados con éxito.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver no encontrado: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+}
+```
+En este ejemplo, hemos insertado un nuevo usuario en la tabla users con el nombre "John Doe" y la edad 30. Si queremos insertar más usuarios, simplemente repetimos el proceso de preparar la consulta SQL y ejecutar la inserción. Por ejemplo, si queremos insertar otro usuario con el nombre "Jane Doe" y la edad 25, el código sería:
+```java
+preparedStatement.setString(1, "Jane Doe");
+preparedStatement.setInt(2, 25);
+preparedStatement.executeUpdate();
+System.out.println("Datos insertados con éxito.");
+```
+
+## Ejemplo completo de un CRUD con SQLite y Java
+
+Vamos a ver un ejemplo completo de un CRUD (Crear, Leer, Actualizar y Borrar) con SQLite y Java. 
+
+En este ejemplo, vamos a crear una base de datos SQLite, crear una tabla, insertar datos, leer los datos, actualizar los datos y borrar los datos.
+
+Separando cada una de las operaciones en un método diferente, además, crearemos un pequeño menú para poder elegir la operación a realizar.
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class SQLiteCRUDExample {
+    private static final String DB_URL = "jdbc:sqlite:test.db";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("1. Crear tabla");
+            System.out.println("2. Insertar datos");
+            System.out.println("3. Leer datos");
+            System.out.println("4. Actualizar datos");
+            System.out.println("5. Borrar datos");
+            System.out.println("0. Salir");
+            System.out.print("Elige una opción: ");
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    createTable();
+                    break;
+                case 2:
+                    insertData(scanner);
+                    break;
+                case 3:
+                    readData();
+                    break;
+                case 4:
+                    updateData(scanner);
+                    break;
+                case 5:
+                    deleteData(scanner);
+                    break;
+                case 0:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (choice != 0);
+        scanner.close();
+    }
+
+    private static void createTable() {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             Statement statement = connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS users " +
+                         "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                         " name TEXT NOT NULL," +
+                         " age INTEGER NOT NULL)";
+            statement.executeUpdate(sql);
+            System.out.println("Tabla creada con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al crear la tabla: " + e.getMessage());
+        }
+    }
+
+    private static void insertData(Scanner scanner) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, age) VALUES (?, ?)")) {
+            System.out.print("Nombre: ");
+            String name = scanner.next();
+            System.out.print("Edad: ");
+            int age = scanner.nextInt();
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, age);
+            preparedStatement.executeUpdate();
+            System.out.println("Datos insertados con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al insertar datos: " + e.getMessage());
+        }
+    }
+
+    private static void readData() {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM users")) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                System.out.println("ID: " + id + ", Nombre: " + name + ", Edad: " + age);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al leer datos: " + e.getMessage());
+        }
+    }
+
+    private static void updateData(Scanner scanner) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name = ?, age = ? WHERE id = ?")) {
+            System.out.print("ID del usuario a actualizar: ");
+            int id = scanner.nextInt();
+            System.out.print("Nuevo nombre: ");
+            String name = scanner.next();
+            System.out.print("Nueva edad: ");
+            int age = scanner.nextInt();
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, age);
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Datos actualizados con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar datos: " + e.getMessage());
+        }
+    }
+
+    private static void deleteData(Scanner scanner) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
+            System.out.print("ID del usuario a borrar: ");
+            int id = scanner.nextInt();
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Datos borrados con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al borrar datos: " + e.getMessage());
+        }
+    }
+
+}
+```
+
+En este ejemplo, hemos creado un menú con cinco opciones: crear tabla, insertar datos, leer datos, actualizar datos y borrar datos. Cada opción llama a un método diferente que realiza la operación correspondiente en la base de datos SQLite.
+- El método createTable() crea la tabla users si no existe.
+- El método insertData() inserta un nuevo usuario en la tabla users.
+- El método readData() lee todos los usuarios de la tabla users y los muestra por consola.
+- El método updateData() actualiza los datos de un usuario en la tabla users.
+- El método deleteData() borra un usuario de la tabla users.
+
+## Definir un DAO para SQLite
+Un DAO (Data Access Object) es un patrón de diseño que se utiliza para separar la lógica de acceso a datos de la lógica de negocio. 
+
+En este caso, vamos a crear un DAO para acceder a la tabla users de la base de datos SQLite.    
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserDAO {
+    private static final String DB_URL = "jdbc:sqlite:test.db";
+
+    public void createTable() {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER NOT NULL)")) {
+            preparedStatement.executeUpdate();
+            System.out.println("Tabla creada con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al crear la tabla: " + e.getMessage());
+        }
+    }
+    public void insertUser(String name, int age) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, age) VALUES (?, ?)")) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, age);
+            preparedStatement.executeUpdate();
+            System.out.println("Usuario insertado con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al insertar usuario: " + e.getMessage());
+        }
+    }
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                users.add(new User(id, name, age));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener usuarios: " + e.getMessage());
+        }
+        return users;
+    }
+    public void updateUser(int id, String name, int age) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name = ?, age = ? WHERE id = ?")) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, age);
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Usuario actualizado con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar usuario: " + e.getMessage());
+        }
+    }
+    public void deleteUser(int id) {
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Usuario borrado con éxito.");
+        } catch (SQLException e) {
+            System.out.println("Error al borrar usuario: " + e.getMessage());
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        UserDAO userDAO = new UserDAO();
+        userDAO.createTable();
+        int choice;
+        do {
+            System.out.println("1. Insertar usuario");
+            System.out.println("2. Obtener todos los usuarios");
+            System.out.println("3. Actualizar usuario");
+            System.out.println("4. Borrar usuario");
+            System.out.println("0. Salir");
+            System.out.print("Elige una opción: ");
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Nombre: ");
+                    String name = scanner.next();
+                    System.out.print("Edad: ");
+                    int age = scanner.nextInt();
+                    userDAO.insertUser(name, age);
+                    break;
+                case 2:
+                    List<User> users = userDAO.getAllUsers();
+                    for (User user : users) {
+                        System.out.println(user);
+                    }
+                    break;
+                case 3:
+                    System.out.print("ID del usuario a actualizar: ");
+                    int id = scanner.nextInt();
+                    System.out.print("Nuevo nombre: ");
+                    String newName = scanner.next();
+                    System.out.print("Nueva edad: ");
+                    int newAge = scanner.nextInt();
+                    userDAO.updateUser(id, newName, newAge);
+                    break;
+                case 4:
+                    System.out.print("ID del usuario a borrar: ");
+                    int deleteId = scanner.nextInt();
+                    userDAO.deleteUser(deleteId);
+                    break;
+                case 0:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (choice != 0);
+        scanner.close();
+    }
+}
+```
+```java
+import java.util.Objects;
+public class User {
+    private int id;
+    private String name;
+    private int age;
+
+    public User(int id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return id == user.id && age == user.age && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age);
+    }
+
+}
+```
+
+En este ejemplo, hemos creado una clase UserDAO que contiene los métodos para acceder a la tabla users de la base de datos SQLite. La clase UserDAO tiene los siguientes métodos:
+- createTable(): crea la tabla users si no existe.
+- insertUser(String name, int age): inserta un nuevo usuario en la tabla users.
+- getAllUsers(): obtiene todos los usuarios de la tabla users y devuelve una lista de objetos User.
+- updateUser(int id, String name, int age): actualiza los datos de un usuario en la tabla users.
+- deleteUser(int id): borra un usuario de la tabla users.
+
+¿Que diferencia hay al implementar un DAO?
+
+- Separación de responsabilidades: Al implementar un DAO, separamos la lógica de acceso a datos de la lógica de negocio. Esto hace que el código sea más limpio y fácil de mantener.
+- Reutilización de código: Al tener un DAO, podemos reutilizar el código de acceso a datos en diferentes partes de la aplicación. Esto evita la duplicación de código y hace que sea más fácil realizar cambios en el acceso a datos.
+- Pruebas unitarias: Al tener un DAO, podemos realizar pruebas unitarias en la lógica de acceso a datos sin necesidad de ejecutar toda la aplicación. Esto facilita la detección de errores y mejora la calidad del código.
+- Flexibilidad: Al tener un DAO, podemos cambiar la implementación del acceso a datos sin afectar al resto de la aplicación. Esto nos permite cambiar de base de datos o de tecnología de acceso a datos sin necesidad de realizar cambios en el resto de la aplicación.
+- Escalabilidad: Al tener un DAO, podemos escalar la aplicación de forma más sencilla. Si necesitamos añadir nuevas funcionalidades o cambiar la lógica de acceso a datos, podemos hacerlo sin afectar al resto de la aplicación.
+- Mantenibilidad: Al tener un DAO, el código es más fácil de mantener. Si necesitamos realizar cambios en la lógica de acceso a datos, podemos hacerlo en un solo lugar sin afectar al resto de la aplicación.
+
