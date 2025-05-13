@@ -1,0 +1,135 @@
+# El patrón DAO (Data Access Object)
+
+El patrón DAO (Data Access Object) es un patrón de diseño que se utiliza para separar la lógica de acceso a datos de la lógica de negocio. Este patrón es especialmente útil en aplicaciones que utilizan bases de datos, ya que permite encapsular el acceso a los datos y proporciona una interfaz clara para interactuar con ellos.
+
+## ¿Qué es un DAO?
+
+Un DAO es un objeto que proporciona una interfaz para acceder a los datos de una base de datos. Este objeto se encarga de realizar las operaciones CRUD (Crear, Leer, Actualizar y Borrar) en la base de datos y de mapear los resultados a objetos de negocio.
+El patrón DAO se basa en la idea de que la lógica de acceso a datos debe estar separada de la lógica de negocio. Esto permite que el código sea más limpio y fácil de mantener, ya que los cambios en la lógica de acceso a datos no afectan a la lógica de negocio.
+
+## ¿Por qué usar un DAO?
+
+El uso de un DAO tiene varias ventajas:
+- **Separación de responsabilidades**: Al utilizar un DAO, separamos la lógica de acceso a datos de la lógica de negocio. Esto hace que el código sea más limpio y fácil de mantener.
+- **Reutilización de código**: Al tener un DAO, podemos reutilizar el código de acceso a datos en diferentes partes de la aplicación. Esto evita la duplicación de código y hace que sea más fácil realizar cambios en el acceso a datos.
+- **Pruebas unitarias**: Al tener un DAO, podemos realizar pruebas unitarias en la lógica de acceso a datos sin necesidad de ejecutar toda la aplicación. Esto facilita la detección de errores y mejora la calidad del código.
+- **Flexibilidad**: Al tener un DAO, podemos cambiar la implementación del acceso a datos sin afectar al resto de la aplicación. Esto nos permite cambiar de base de datos o de tecnología de acceso a datos sin necesidad de realizar cambios en el resto de la aplicación.
+- **Escalabilidad**: Al tener un DAO, podemos escalar la aplicación de forma más sencilla. Si necesitamos añadir nuevas funcionalidades o cambiar la lógica de acceso a datos, podemos hacerlo sin afectar al resto de la aplicación.
+- **Mantenibilidad**: Al tener un DAO, el código es más fácil de mantener. Si necesitamos realizar cambios en la lógica de acceso a datos, podemos hacerlo en un solo lugar sin afectar al resto de la aplicación.
+
+## ¿Cómo implementar un DAO?
+Para implementar un DAO, debemos seguir los siguientes pasos:
+
+1. **Definir la interfaz del DAO**: La interfaz del DAO debe definir los métodos que se utilizarán para acceder a los datos. Estos métodos deben incluir las operaciones CRUD (Crear, Leer, Actualizar y Borrar).
+2. **Implementar la interfaz del DAO**: La implementación del DAO debe contener la lógica de acceso a datos. Esto incluye la conexión a la base de datos, la ejecución de consultas y el mapeo de resultados a objetos de negocio.
+3. **Crear una clase de negocio**: La clase de negocio debe contener los atributos y métodos que se utilizarán para representar los datos. Esta clase debe ser utilizada por el DAO para mapear los resultados de las consultas a objetos de negocio.
+4. **Utilizar el DAO en la lógica de negocio**: La lógica de negocio debe utilizar el DAO para acceder a los datos. Esto incluye la creación, lectura, actualización y eliminación de datos.
+
+Y después opcionalmente, si se desea, se puede implementar un patrón de diseño adicional como el patrón Repository para encapsular aún más la lógica de acceso a datos.
+
+## Ejemplo de implementación de un DAO
+
+A continuación se muestra un ejemplo de implementación de un DAO en Java:
+
+```java
+// Interfaz del DAO
+public interface UserDAO {
+    void createUser(User user);
+    User getUser(int id);
+    void updateUser(User user);
+    void deleteUser(int id);
+}
+// Implementación del DAO
+public class UserDAOImpl implements UserDAO {
+    private Connection connection;
+
+    public UserDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void createUser(User user) {
+        String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public User getUser(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new User(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    public void updateUser(User user) {
+        String sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setInt(3, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void deleteUser(int id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+// Clase de negocio
+public class User {
+    private int id;
+    private String name;
+    private String email;
+
+    public User(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}
+```
+
+En este ejemplo, hemos definido una interfaz `UserDAO` que contiene los métodos para acceder a los datos de los usuarios. Luego, hemos implementado esta interfaz en la clase `UserDAOImpl`, que contiene la lógica de acceso a datos utilizando JDBC. Finalmente, hemos creado una clase de negocio `User` que representa los datos de un usuario.
+La clase `UserDAOImpl` utiliza la conexión a la base de datos para realizar las operaciones CRUD en la tabla `users`. La clase `User` representa los datos de un usuario y contiene los atributos y métodos necesarios para acceder a ellos.
+
+## Conclusión
+
+El patrón DAO es una forma efectiva de separar la lógica de acceso a datos de la lógica de negocio en una aplicación. Al utilizar un DAO, podemos mejorar la mantenibilidad, escalabilidad y reutilización del código. Además, este patrón facilita la realización de pruebas unitarias y permite cambiar la implementación del acceso a datos sin afectar al resto de la aplicación.
+Este patrón es ampliamente utilizado en aplicaciones que utilizan bases de datos y es una buena práctica a seguir al desarrollar aplicaciones de software.
+
+## Recursos adicionales
+
+- [Artículo sobre el patrón DAO por Óscar Blancarte](https://www.oscarblancarteblog.com/2018/12/10/data-access-object-dao-pattern/)

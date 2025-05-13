@@ -10,19 +10,37 @@ Además, vamosa a ver como utilizar esto en el entorno de IntelliJ IDEA, que es 
 
 ## Instalación de SQLite en IntelliJ IDEA
 
-Para instalar SQLite en IntelliJ IDEA, primero debemos descargar el archivo JAR de la librería SQLite JDBC. Podemos descargarlo desde el siguiente enlace:
-https://bitbucket.org/xerial/sqlite-jdbc/downloads/.
+### Añadiendo el Driver como dependencia con Maven
 
-Una vez descargado el archivo JAR, debemos añadirlo a nuestro proyecto de IntelliJ IDEA. Para ello, seguimos los siguientes pasos:
+Vamos a ver los pasos para instalar SQLite en IntelliJ IDEA utilizando Maven como gestor de dependencias:
+
 1. Abrimos IntelliJ IDEA y creamos un nuevo proyecto Java.
-2. Hacemos clic derecho en la carpeta del proyecto y seleccionamos "Open Module Settings".
-3. En la ventana que se abre, seleccionamos "Libraries" en el menú de la izquierda.
-4. Hacemos clic en el botón "+" y seleccionamos "Java".
-5. Buscamos el archivo JAR que hemos descargado y lo seleccionamos.
-6. Hacemos clic en "OK" para añadir la librería al proyecto.
-7. Hacemos clic en "Apply" y luego en "OK" para cerrar la ventana de configuración del módulo.
-8. Ahora ya tenemos la librería SQLite JDBC añadida a nuestro proyecto y podemos utilizarla para conectar Java con bases de datos SQLite.
-9. Para comprobar que la librería se ha añadido correctamente, podemos crear una clase Java y añadir el siguiente código:
+2. En la ventana de creación de proyecto, seleccionamos el tipo de proyecto que queramos y hacemos clic en "Next".
+3. Una vez creado el proyecto, hacemos clic derecho en la carpeta del proyecto y seleccionamos "Open Module Settings". (También podemos pulsar F4).
+4. Nos vamos a la pestaña "Libraries" y hacemos clic en el botón "+".
+5. Seleccionamos "From Maven".
+
+![Driver SQLite](../../static/img/driver1.png)
+
+6. En la ventana que se abre, buscamos la librería SQLite JDBC. Podemos buscarla escribiendo "org.xerial:sqlite-jdbc" en el campo de búsqueda.
+7. Seleccionamos la versión que queramos utilizar.
+
+![Driver SQLite](../../static/img/driver2.png)
+
+8. Hacemos clic en "OK" para añadir la librería al proyecto.
+
+![Driver SQLite](../../static/img/driver3.png)
+
+9. Hacemos clic en "Apply" y luego en "OK" para cerrar la ventana de configuración del módulo.
+
+![Driver SQLite](../../static/img/driver4.png)
+
+
+10. Ahora ya tenemos la librería SQLite JDBC añadida a nuestro proyecto y podemos utilizarla para conectar Java con bases de datos SQLite.
+
+![Driver SQLite](../../static/img/driver5.png)
+
+11. Para comprobar que la librería se ha añadido correctamente, podemos crear una clase Java y añadir el siguiente código:
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -53,10 +71,25 @@ public class SQLiteExample {
     }
 }
 ```
-10. Si todo ha ido bien, al ejecutar el programa deberíamos ver el mensaje "Conectado a la base de datos SQLite." en la consola de IntelliJ IDEA. Esto significa que hemos conseguido conectar Java con una base de datos SQLite utilizando la librería SQLite JDBC.
-11. Si no hemos creado la base de datos test.db, SQLite la creará automáticamente al conectarse a ella. Si queremos crear una base de datos con otro nombre, simplemente cambiamos el nombre del archivo en la URL de conexión (jdbc:sqlite:nombre_base_datos.db).
-12. Si queremos crear una base de datos en una carpeta específica, simplemente añadimos la ruta de la carpeta al nombre del archivo (jdbc:sqlite:/ruta/carpeta/nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta /home/usuario/bases_datos/, la URL de conexión sería jdbc:sqlite:/home/usuario/bases_datos/test.db.
-13. Si queremos crear una base de datos en la carpeta del proyecto, simplemente añadimos el nombre del archivo a la URL de conexión (jdbc:sqlite:nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta del proyecto, la URL de conexión sería jdbc:sqlite:test.db.
+12. Si todo ha ido bien, al ejecutar el programa deberíamos ver el mensaje "Conectado a la base de datos SQLite." en la consola de IntelliJ IDEA. Esto significa que hemos conseguido conectar Java con una base de datos SQLite utilizando la librería SQLite JDBC.
+13. Si no hemos creado la base de datos test.db, SQLite la creará automáticamente al conectarse a ella. Si queremos crear una base de datos con otro nombre, simplemente cambiamos el nombre del archivo en la URL de conexión (jdbc:sqlite:nombre_base_datos.db).
+14. Si queremos crear una base de datos en una carpeta específica, simplemente añadimos la ruta de la carpeta al nombre del archivo (jdbc:sqlite:/ruta/carpeta/nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta /home/usuario/bases_datos/, la URL de conexión sería jdbc:sqlite:/home/usuario/bases_datos/test.db.
+15. Si queremos crear una base de datos en la carpeta del proyecto, simplemente añadimos el nombre del archivo a la URL de conexión (jdbc:sqlite:nombre_base_datos.db). Por ejemplo, si queremos crear la base de datos en la carpeta del proyecto, la URL de conexión sería jdbc:sqlite:test.db.
+
+### Descargando el JAR de internet
+
+Otra opción para instalar SQLite en IntelliJ IDEA, primero debemos descargar el archivo JAR de la librería SQLite JDBC. Podemos descargarlo de internet y seguir los siguientes pasos:
+
+Una vez descargado el archivo JAR, debemos añadirlo a nuestro proyecto de IntelliJ IDEA.
+1. Abrimos IntelliJ IDEA y creamos un nuevo proyecto Java.
+2. Hacemos clic derecho en la carpeta del proyecto y seleccionamos "Open Module Settings".
+3. En la ventana que se abre, seleccionamos "Libraries" en el menú de la izquierda.
+4. Hacemos clic en el botón "+" y seleccionamos "Java".
+5. Buscamos el archivo JAR que hemos descargado y lo seleccionamos.
+6. Hacemos clic en "OK" para añadir la librería al proyecto.
+7. Hacemos clic en "Apply" y luego en "OK" para cerrar la ventana de configuración del módulo.
+8. Ahora ya tenemos la librería SQLite JDBC añadida a nuestro proyecto y podemos utilizarla para conectar Java con bases de datos SQLite.
+9. A partir de aquí, podemos seguir los mismos pasos que hemos visto anteriormente para conectar Java con SQLite y ejecutar consultas SQL desde Java.
 
 ## Crear una base de datos SQLite desde Java
 
@@ -323,209 +356,4 @@ En este ejemplo, hemos creado un menú con cinco opciones: crear tabla, insertar
 - El método readData() lee todos los usuarios de la tabla users y los muestra por consola.
 - El método updateData() actualiza los datos de un usuario en la tabla users.
 - El método deleteData() borra un usuario de la tabla users.
-
-## Definir un DAO para SQLite
-Un DAO (Data Access Object) es un patrón de diseño que se utiliza para separar la lógica de acceso a datos de la lógica de negocio. 
-
-En este caso, vamos a crear un DAO para acceder a la tabla users de la base de datos SQLite.    
-
-```java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-public class UserDAO {
-    private static final String DB_URL = "jdbc:sqlite:test.db";
-
-    public void createTable() {
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER NOT NULL)")) {
-            preparedStatement.executeUpdate();
-            System.out.println("Tabla creada con éxito.");
-        } catch (SQLException e) {
-            System.out.println("Error al crear la tabla: " + e.getMessage());
-        }
-    }
-    public void insertUser(String name, int age) {
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, age) VALUES (?, ?)")) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, age);
-            preparedStatement.executeUpdate();
-            System.out.println("Usuario insertado con éxito.");
-        } catch (SQLException e) {
-            System.out.println("Error al insertar usuario: " + e.getMessage());
-        }
-    }
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int age = resultSet.getInt("age");
-                users.add(new User(id, name, age));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener usuarios: " + e.getMessage());
-        }
-        return users;
-    }
-    public void updateUser(int id, String name, int age) {
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name = ?, age = ? WHERE id = ?")) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, age);
-            preparedStatement.setInt(3, id);
-            preparedStatement.executeUpdate();
-            System.out.println("Usuario actualizado con éxito.");
-        } catch (SQLException e) {
-            System.out.println("Error al actualizar usuario: " + e.getMessage());
-        }
-    }
-    public void deleteUser(int id) {
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-            System.out.println("Usuario borrado con éxito.");
-        } catch (SQLException e) {
-            System.out.println("Error al borrar usuario: " + e.getMessage());
-        }
-    }
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        UserDAO userDAO = new UserDAO();
-        userDAO.createTable();
-        int choice;
-        do {
-            System.out.println("1. Insertar usuario");
-            System.out.println("2. Obtener todos los usuarios");
-            System.out.println("3. Actualizar usuario");
-            System.out.println("4. Borrar usuario");
-            System.out.println("0. Salir");
-            System.out.print("Elige una opción: ");
-            choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    System.out.print("Nombre: ");
-                    String name = scanner.next();
-                    System.out.print("Edad: ");
-                    int age = scanner.nextInt();
-                    userDAO.insertUser(name, age);
-                    break;
-                case 2:
-                    List<User> users = userDAO.getAllUsers();
-                    for (User user : users) {
-                        System.out.println(user);
-                    }
-                    break;
-                case 3:
-                    System.out.print("ID del usuario a actualizar: ");
-                    int id = scanner.nextInt();
-                    System.out.print("Nuevo nombre: ");
-                    String newName = scanner.next();
-                    System.out.print("Nueva edad: ");
-                    int newAge = scanner.nextInt();
-                    userDAO.updateUser(id, newName, newAge);
-                    break;
-                case 4:
-                    System.out.print("ID del usuario a borrar: ");
-                    int deleteId = scanner.nextInt();
-                    userDAO.deleteUser(deleteId);
-                    break;
-                case 0:
-                    System.out.println("Saliendo...");
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
-            }
-        } while (choice != 0);
-        scanner.close();
-    }
-}
-```
-```java
-import java.util.Objects;
-public class User {
-    private int id;
-    private String name;
-    private int age;
-
-    public User(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return id == user.id && age == user.age && Objects.equals(name, user.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, age);
-    }
-
-}
-```
-
-En este ejemplo, hemos creado una clase UserDAO que contiene los métodos para acceder a la tabla users de la base de datos SQLite. La clase UserDAO tiene los siguientes métodos:
-- createTable(): crea la tabla users si no existe.
-- insertUser(String name, int age): inserta un nuevo usuario en la tabla users.
-- getAllUsers(): obtiene todos los usuarios de la tabla users y devuelve una lista de objetos User.
-- updateUser(int id, String name, int age): actualiza los datos de un usuario en la tabla users.
-- deleteUser(int id): borra un usuario de la tabla users.
-
-¿Que diferencia hay al implementar un DAO?
-
-- Separación de responsabilidades: Al implementar un DAO, separamos la lógica de acceso a datos de la lógica de negocio. Esto hace que el código sea más limpio y fácil de mantener.
-- Reutilización de código: Al tener un DAO, podemos reutilizar el código de acceso a datos en diferentes partes de la aplicación. Esto evita la duplicación de código y hace que sea más fácil realizar cambios en el acceso a datos.
-- Pruebas unitarias: Al tener un DAO, podemos realizar pruebas unitarias en la lógica de acceso a datos sin necesidad de ejecutar toda la aplicación. Esto facilita la detección de errores y mejora la calidad del código.
-- Flexibilidad: Al tener un DAO, podemos cambiar la implementación del acceso a datos sin afectar al resto de la aplicación. Esto nos permite cambiar de base de datos o de tecnología de acceso a datos sin necesidad de realizar cambios en el resto de la aplicación.
-- Escalabilidad: Al tener un DAO, podemos escalar la aplicación de forma más sencilla. Si necesitamos añadir nuevas funcionalidades o cambiar la lógica de acceso a datos, podemos hacerlo sin afectar al resto de la aplicación.
-- Mantenibilidad: Al tener un DAO, el código es más fácil de mantener. Si necesitamos realizar cambios en la lógica de acceso a datos, podemos hacerlo en un solo lugar sin afectar al resto de la aplicación.
 
