@@ -8,6 +8,8 @@ Java Database Connectivity (JDBC) es una API de Java que permite a las aplicacio
 
 Podríamos pensar en JDBC como un intérprete que traduce las instrucciones de Java en comandos que la base de datos puede entender.
 
+![JDBC](https://parikshapatr.com/uploads/1731914893.jpg)
+
 ### Pasos para conectarse a una base de datos con JDBC
 
 1. **Cargar el driver JDBC**: Antes de poder conectarse a una base de datos, es necesario cargar el driver JDBC correspondiente. Esto se hace utilizando la clase `Class.forName()`.
@@ -126,6 +128,253 @@ public class EjemploJDBC {
 }
 ```
 
+## Clases y características de JDBC
+
+### Connection y DriverManager
+
+- **Connection**: Representa una conexión a la base de datos. Permite crear sentencias, gestionar transacciones y obtener metadatos de la base de datos.
+
+```Java
+Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+Statement sentencia = conexion.createStatement();
+ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+```
+Métodos comunes:
+- `createStatement()`: Crea un objeto `Statement` para ejecutar consultas SQL.
+- `prepareStatement(String sql)`: Crea un objeto `PreparedStatement` para ejecutar consultas SQL precompiladas.
+- `prepareCall(String sql)`: Crea un objeto `CallableStatement` para ejecutar procedimientos almacenados.
+- `setAutoCommit(boolean autoCommit)`: Establece el modo de autocommit de la conexión.
+- `commit()`: Confirma la transacción actual.
+- `rollback()`: Deshace la transacción actual.
+- `close()`: Cierra la conexión a la base de datos.
+
+- **DriverManager**: Es la clase que gestiona los drivers JDBC. Proporciona métodos para registrar drivers y obtener conexiones a bases de datos.
+
+```Java
+Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+```
+Métodos comunes:
+- `getConnection(String url, String user, String password)`: Obtiene una conexión a la base de datos utilizando la URL, el nombre de usuario y la contraseña.
+- `getDrivers()`: Devuelve una enumeración de los drivers JDBC registrados.
+- `registerDriver(Driver driver)`: Registra un driver JDBC.
+
+En JDBC, existen diferentes tipos de sentencias que puedes utilizar para interactuar con la base de datos. Las más comunes son:
+
+### Statement
+
+- **Statement**: Se utiliza para ejecutar consultas SQL simples. No es recomendable para consultas que requieren parámetros, ya que es vulnerable a ataques de inyección SQL.
+
+```Java
+Statement sentencia = conexion.createStatement();
+ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+```
+
+Métodos comunes:
+- `executeQuery(String sql)`: Ejecuta una consulta SQL y devuelve un `ResultSet`.
+- `executeUpdate(String sql)`: Ejecuta una consulta SQL de actualización (INSERT, UPDATE, DELETE) y devuelve el número de filas afectadas.
+- `execute(String sql)`: Ejecuta una consulta SQL y devuelve un booleano que indica si el resultado es un `ResultSet` o un número de filas afectadas.
+- `addBatch(String sql)`: Agrega una consulta SQL a un lote de consultas.
+- `executeBatch()`: Ejecuta un lote de consultas SQL y devuelve un arreglo con el número de filas afectadas por cada consulta.
+- `clearBatch()`: Limpia el lote de consultas.
+- `setFetchSize(int rows)`: Establece el número de filas que se recuperan en cada llamada al método `executeQuery()`.
+- `setMaxRows(int max)`: Establece el número máximo de filas que se recuperan en una consulta.
+- `setQueryTimeout(int seconds)`: Establece el tiempo máximo de espera para la ejecución de una consulta.
+
+### PreparedStatement
+
+- **PreparedStatement**: Se utiliza para ejecutar consultas SQL precompiladas. Permite establecer parámetros y es más seguro que `Statement` porque evita la inyección SQL.
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM usuarios WHERE id = ?");
+sentenciaPreparada.setInt(1, 1);
+ResultSet resultado = sentenciaPreparada.executeQuery();
+```
+
+Métodos comunes:
+- `setInt(int parameterIndex, int x)`: Establece un parámetro de tipo entero.
+- `setString(int parameterIndex, String x)`: Establece un parámetro de tipo cadena.
+- `setDouble(int parameterIndex, double x)`: Establece un parámetro de tipo doble.
+- `setDate(int parameterIndex, java.sql.Date x)`: Establece un parámetro de tipo fecha.
+- `setTime(int parameterIndex, java.sql.Time x)`: Establece un parámetro de tipo hora.
+- `setTimestamp(int parameterIndex, java.sql.Timestamp x)`: Establece un parámetro de tipo marca de tiempo.
+- `setObject(int parameterIndex, Object x)`: Establece un parámetro de tipo objeto.
+- `setNull(int parameterIndex, int sqlType)`: Establece un parámetro como nulo.
+- `setBlob(int parameterIndex, Blob x)`: Establece un parámetro de tipo BLOB.
+- `setClob(int parameterIndex, Clob x)`: Establece un parámetro de tipo CLOB.
+- `setArray(int parameterIndex, Array x)`: Establece un parámetro de tipo array.
+- `setAsciiStream(int parameterIndex, InputStream x, int length)`: Establece un parámetro de tipo flujo de bytes ASCII.
+- `setBinaryStream(int parameterIndex, InputStream x, int length)`: Establece un parámetro de tipo flujo de bytes binarios.
+- `setCharacterStream(int parameterIndex, Reader x, int length)`: Establece un parámetro de tipo flujo de caracteres.
+- `setRef(int parameterIndex, Ref x)`: Establece un parámetro de tipo referencia.
+- `setURL(int parameterIndex, URL x)`: Establece un parámetro de tipo URL.
+- `setNString(int parameterIndex, String value)`: Establece un parámetro de tipo cadena Unicode.
+- `setNCharacterStream(int parameterIndex, Reader value, long length)`: Establece un parámetro de tipo flujo de caracteres Unicode.
+
+
+### Diferencias entre Statement y PreparedStatement
+| Característica         | Statement                          | PreparedStatement                   |
+|------------------------|------------------------------------|-------------------------------------|
+|------------------------|------------------------------------|-------------------------------------|
+| Seguridad              | Vulnerable a inyección SQL         | Protegido contra inyección SQL      |
+| Rendimiento            | Menos eficiente para consultas repetidas | Más eficiente para consultas repetidas |
+| Parámetros             | No admite parámetros               | Admite parámetros                   |
+| Recompilación          | Se recompila cada vez que se ejecuta | Se compila una vez y se reutiliza  |
+| Uso                    | Consultas simples                  | Consultas complejas y seguras       |
+| Métodos de ejecución    | `executeQuery()`, `executeUpdate()` | `executeQuery()`, `executeUpdate()` |
+| Métodos de parámetros   | No admite métodos de parámetros    | Admite métodos de parámetros        |
+| Métodos de retorno      | `execute()` devuelve un booleano   | `execute()` devuelve un booleano    |
+| Métodos de cierre       | `close()`                          | `close()`                           |
+| Métodos de manejo de errores | `SQLException`                  | `SQLException`                      |
+
+### ResultSet
+
+- **ResultSet**: Es una interfaz que representa el resultado de una consulta SQL. Permite iterar sobre los resultados y acceder a los datos de cada fila.
+
+```Java
+ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+while (resultado.next()) {
+    int id = resultado.getInt("id");
+    String nombre = resultado.getString("nombre");
+    int edad = resultado.getInt("edad");
+    System.out.println("ID: " + id + ", Nombre: " + nombre + ", Edad: " + edad);
+}
+```
+
+Métodos comunes:
+- `next()`: Mueve el cursor a la siguiente fila del resultado.
+- `getInt(int columnIndex)`: Obtiene el valor de la columna especificada como un entero.
+- `getString(int columnIndex)`: Obtiene el valor de la columna especificada como una cadena.
+- `getDouble(int columnIndex)`: Obtiene el valor de la columna especificada como un doble.
+- `getDate(int columnIndex)`: Obtiene el valor de la columna especificada como una fecha.
+- `getTime(int columnIndex)`: Obtiene el valor de la columna especificada como una hora.
+- `getTimestamp(int columnIndex)`: Obtiene el valor de la columna especificada como una marca de tiempo.
+- `getObject(int columnIndex)`: Obtiene el valor de la columna especificada como un objeto.
+- `getBlob(int columnIndex)`: Obtiene el valor de la columna especificada como un BLOB.
+- `getClob(int columnIndex)`: Obtiene el valor de la columna especificada como un CLOB.
+- `getArray(int columnIndex)`: Obtiene el valor de la columna especificada como un array.
+- `getMetaData()`: Obtiene un objeto `ResultSetMetaData` que proporciona información sobre la estructura del `ResultSet`, como el número de columnas, los nombres de las columnas y los tipos de datos.
+
+
+
+### CallableStatement
+
+- **CallableStatement**: Se utiliza para ejecutar procedimientos almacenados en la base de datos. Permite llamar a procedimientos y funciones definidas en la base de datos.
+
+```Java
+CallableStatement sentenciaLlamada = conexion.prepareCall("{call obtener_usuarios()}");
+ResultSet resultado = sentenciaLlamada.executeQuery();
+```
+
+Métodos comunes: son similares a los de `PreparedStatement`, pero también incluye métodos para registrar parámetros de salida.
+- `registerOutParameter(int parameterIndex, int sqlType)`: Registra un parámetro de salida.
+- `getInt(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo entero.
+- `getString(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo cadena.
+- `getDouble(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo doble.
+- `getDate(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo fecha.
+- `getTime(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo hora.
+- `getTimestamp(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo marca de tiempo.
+- `getObject(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo objeto.
+- `getBlob(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo BLOB.
+- `getClob(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo CLOB.
+- `getArray(int parameterIndex)`: Obtiene el valor de un parámetro de salida de tipo array.
+
+### Características avanzadas de JDBC
+
+- **Batch Processing**: Permite ejecutar múltiples sentencias SQL en una sola llamada a la base de datos. Esto es útil para mejorar el rendimiento al realizar múltiples operaciones de actualización.
+
+```Java
+Statement sentencia = conexion.createStatement();
+sentencia.addBatch("INSERT INTO usuarios (nombre, edad) VALUES ('Juan', 30)");
+sentencia.addBatch("INSERT INTO usuarios (nombre, edad) VALUES ('Maria', 25)");
+int[] filasAfectadas = sentencia.executeBatch();
+```
+
+- **Transaction Management**: JDBC permite gestionar transacciones utilizando los métodos `setAutoCommit(false)`, `commit()` y `rollback()` de la clase `Connection`. Esto es útil para agrupar múltiples operaciones en una sola transacción y asegurarse de que todas se completen correctamente o ninguna de ellas se aplique.
+
+```Java
+Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+conexion.setAutoCommit(false);
+try {
+    Statement sentencia = conexion.createStatement();
+    sentencia.executeUpdate("INSERT INTO usuarios (nombre, edad) VALUES ('Juan', 30)");
+    sentencia.executeUpdate("INSERT INTO usuarios (nombre, edad) VALUES ('Maria', 25)");
+    conexion.commit(); // Confirmar la transacción
+} catch (SQLException e) {
+    conexion.rollback(); // Deshacer la transacción en caso de error
+    e.printStackTrace();
+} finally {
+    conexion.setAutoCommit(true); // Volver a activar el autocommit
+}
+```
+
+- **ResultSetMetaData**: Proporciona información sobre la estructura de un `ResultSet`, como el número de columnas, los nombres de las columnas y los tipos de datos.
+
+```Java
+ResultSetMetaData metaData = resultado.getMetaData();
+int numeroColumnas = metaData.getColumnCount();
+for (int i = 1; i <= numeroColumnas; i++) {
+    String nombreColumna = metaData.getColumnName(i);
+    String tipoColumna = metaData.getColumnTypeName(i);
+    System.out.println("Columna: " + nombreColumna + ", Tipo: " + tipoColumna);
+}
+```
+
+Métodos comunes: son similares a los de `ResultSet`, pero también incluye métodos para obtener información sobre la estructura del `ResultSet`.
+- `getColumnCount()`: Obtiene el número de columnas en el `ResultSet`.
+- `getColumnName(int columnIndex)`: Obtiene el nombre de la columna especificada.
+- `getColumnType(int columnIndex)`: Obtiene el tipo de datos de la columna especificada.
+- `getColumnTypeName(int columnIndex)`: Obtiene el nombre del tipo de datos de la columna especificada.
+
+
+- **DatabaseMetaData**: Proporciona información sobre la base de datos, como el nombre del producto, la versión y las tablas disponibles.
+
+```Java
+DatabaseMetaData metaData = conexion.getMetaData();
+String nombreBD = metaData.getDatabaseProductName();
+String versionBD = metaData.getDatabaseProductVersion();
+System.out.println("Base de datos: " + nombreBD + ", Versión: " + versionBD);
+```
+- **SQLException**: Es la excepción que se lanza cuando ocurre un error relacionado con la base de datos. Es importante capturar esta excepción para manejar errores como problemas de conexión, errores de sintaxis SQL o violaciones de restricciones.
+
+```Java
+try {
+    Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
+    Statement sentencia = conexion.createStatement();
+    ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios");
+} catch (SQLException e) {
+    System.out.println("Error de SQL: " + e.getMessage());
+}
+```
+
+- **Clob y Blob**: Son tipos de datos que permiten almacenar grandes cantidades de datos, como texto o archivos binarios. Puedes utilizar `PreparedStatement` para establecer estos tipos de datos en una consulta.
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("INSERT INTO documentos (nombre, contenido) VALUES (?, ?)");
+sentenciaPreparada.setString(1, "documento.txt");
+FileInputStream fis = new FileInputStream("documento.txt");
+sentenciaPreparada.setBinaryStream(2, fis, (int) new File("documento.txt").length());
+int filasAfectadas = sentenciaPreparada.executeUpdate();
+fis.close();
+```
+
+Em este ejemplo, se utiliza `setBinaryStream()` para establecer un archivo binario como parámetro en la consulta. Esto es útil para almacenar archivos en la base de datos, como imágenes o documentos.
+
+- **Tipos de datos en JDBC**: JDBC proporciona una serie de tipos de datos que corresponden a los tipos de datos SQL. Algunos de los tipos más comunes son:
+  - `INTEGER`: Para enteros.
+  - `VARCHAR`: Para cadenas de texto.
+  - `DATE`: Para fechas.
+  - `TIMESTAMP`: Para marcas de tiempo.
+  - `BLOB`: Para datos binarios grandes (archivos).
+  - `CLOB`: Para caracteres grandes (texto).
+
+```Java
+PreparedStatement sentenciaPreparada = conexion.prepareStatement("INSERT INTO usuarios (nombre, fecha_nacimiento) VALUES (?, ?)");
+sentenciaPreparada.setString(1, "Juan");
+sentenciaPreparada.setDate(2, java.sql.Date.valueOf("1990-01-01"));
+int filasAfectadas = sentenciaPreparada.executeUpdate();
+```
+
+
 ## Uso de `PreparedStatement`
 
 `PreparedStatement` es una interfaz de JDBC que permite ejecutar consultas SQL precompiladas. Esto no solo mejora el rendimiento al evitar la recompilación de la consulta cada vez que se ejecuta, sino que también ayuda a prevenir ataques de inyección SQL al separar los datos de la consulta.
@@ -241,7 +490,7 @@ sentenciaPreparada.setInt(1, 25);
 ResultSet resultado = sentenciaPreparada.executeQuery();
 ```
 
-### Transacciones en JDBC
+## Transacciones en JDBC
 
 Las transacciones son un conjunto de operaciones que se ejecutan como una unidad indivisible. En JDBC, puedes gestionar transacciones utilizando los métodos `setAutoCommit(false)`, `commit()` y `rollback()` de la clase `Connection`.
 Esto te permite agrupar varias operaciones en una sola transacción y asegurarte de que todas se completen correctamente o ninguna de ellas se aplique.
