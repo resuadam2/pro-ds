@@ -1,0 +1,32 @@
+# Interfaces gráficas en Python con Tkinter
+
+Tkinter es la biblioteca estándar de Python para crear interfaces gráficas de usuario (GUI). Es fácil de usar y se integra bien con Python, lo que la convierte en una opción popular para desarrollar aplicaciones de escritorio. Tkinter proporciona una variedad de widgets (componentes de la interfaz) como botones, etiquetas, cuadros de texto, menús y más. A continuación, se presentan algunos conceptos clave y ejemplos básicos para comenzar a trabajar con Tkinter.
+
+## Instalación
+
+Tkinter viene incluido con la mayoría de las distribuciones de Python, por lo que no es necesario instalarlo por separado. Sin embargo, si estás utilizando una distribución de Python que no incluye Tkinter, puedes instalarlo utilizando el siguiente comando:
+
+```bash
+sudo apt-get install python3-tk
+```
+
+## Crear una ventana básica
+
+Para crear una ventana básica en Tkinter, puedes utilizar el siguiente código:
+
+```python
+import tkinter as tk
+from tkinter import messagebox
+
+def on_button_click():
+    messagebox.showinfo("Información", "¡Hola, mundo!")
+
+root = tk.Tk()
+root.title("Mi primera ventana")
+root.geometry("300x200")
+label = tk.Label(root, text="¡Hola, mundo!")
+label.pack(pady=20)
+button = tk.Button(root, text="Haz clic aquí", command=on_button_click) 
+button.pack(pady=10)
+root.mainloop()
+```

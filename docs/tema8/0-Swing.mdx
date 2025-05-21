@@ -1,0 +1,383 @@
+# Interfaces con Java Swing
+
+Swing es una biblioteca de Java para crear interfaces gráficas de usuario (GUI). Proporciona un conjunto de componentes gráficos que se pueden utilizar para construir aplicaciones de escritorio. Swing es parte de la plataforma Java Foundation Classes (JFC) y se basa en el modelo de programación orientado a eventos.
+
+Es algo antiguo y no se recomienda para nuevos desarrollos, pero es útil para aprender los conceptos básicos de las GUI en Java. En este tema, se presentarán ejemplos de cómo crear ventanas, botones y etiquetas utilizando Swing.
+
+## Ejemplo básico de Swing
+
+```java
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+public class SwingExample {
+    public static void main(String[] args) {
+        // Crear un marco (ventana)
+        JFrame frame = new JFrame("Ejemplo de Swing");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        // Crear un panel
+        JPanel panel = new JPanel();
+
+        // Crear una etiqueta
+        JLabel label = new JLabel("Hola, mundo!");
+
+        // Crear un botón
+        JButton button = new JButton("Haz clic aquí");
+        button.addActionListener(e -> System.out.println("Botón clicado!"));
+
+        // Agregar la etiqueta y el botón al panel
+        panel.add(label);
+        panel.add(button);
+
+        // Agregar el panel al marco
+        frame.add(panel);
+
+        // Hacer visible el marco
+        frame.setVisible(true);
+    }
+}
+```
+
+Cómo podemos observar en el ejemplo anterior, se crea un marco (ventana) y se le asigna un título. Luego, se crea un panel que contendrá los componentes gráficos. Se crean una etiqueta y un botón, y se agrega un `ActionListener` al botón para manejar el evento de clic. Finalmente, se agrega el panel al marco y se hace visible.
+
+La programación de eventos en Swing se basa en el patrón de diseño Observer, donde los componentes gráficos son los observadores y los eventos son los sujetos. Cuando un evento ocurre (por ejemplo, un clic en un botón), se notifica a todos los observadores registrados para que puedan reaccionar al evento.
+
+## Clases y métodos importantes de Swing
+
+A continuación vamos a repasar algunas de las clases y métodos más importantes de las GUI de Swing, organizados por categorías:
+
+### Componentes básicos
+
+- `JFrame`: Clase que representa una ventana.
+- `JPanel`: Clase que representa un panel donde se pueden agregar otros componentes.
+- `JLabel`: Clase que representa una etiqueta de texto.
+- `JButton`: Clase que representa un botón.
+- `JTextField`: Clase que representa un campo de texto de una sola línea.
+- `JTextArea`: Clase que representa un área de texto de varias líneas.
+- `JCheckBox`: Clase que representa una casilla de verificación.
+- `JRadioButton`: Clase que representa un botón de opción.
+- `JComboBox`: Clase que representa un cuadro combinado (lista desplegable).
+- `JList`: Clase que representa una lista de elementos.
+- `JScrollPane`: Clase que representa un panel con barras de desplazamiento.
+- `JMenuBar`: Clase que representa una barra de menú.
+- `JMenu`: Clase que representa un menú.
+- `JMenuItem`: Clase que representa un elemento de menú.
+- `JToolBar`: Clase que representa una barra de herramientas.
+- `JProgressBar`: Clase que representa una barra de progreso.
+- `JSlider`: Clase que representa un control deslizante.
+- `JSpinner`: Clase que representa un selector de valores numéricos.
+- `JTabbedPane`: Clase que representa un panel con pestañas.
+- `JToolTip`: Clase que representa un globo de ayuda.
+- `JSeparator`: Clase que representa un separador.
+- `JColorChooser`: Clase que representa un selector de color.
+- `JFileChooser`: Clase que representa un selector de archivos.
+- `JOptionPane`: Clase que representa un cuadro de diálogo de opción.
+- `JDialog`: Clase que representa un cuadro de diálogo.
+
+### Layout Managers
+
+Los Layout Managers son clases que controlan la disposición de los componentes en un contenedor. Algunos de los más comunes son:
+- `FlowLayout`: Dispone los componentes en una fila, alineándolos de izquierda a derecha.
+- `BorderLayout`: Divide el contenedor en cinco áreas (norte, sur, este, oeste y centro).
+- `GridLayout`: Dispone los componentes en una cuadrícula de filas y columnas.
+- `BoxLayout`: Dispone los componentes en una sola fila o columna.
+- `GridBagLayout`: Dispone los componentes en una cuadrícula flexible, permitiendo que ocupen varias celdas.
+- `CardLayout`: Permite mostrar un solo componente a la vez, como si fueran tarjetas.
+- `GroupLayout`: Permite crear diseños complejos utilizando grupos de componentes.
+- `OverlayLayout`: Permite superponer componentes uno encima de otro.
+- `SpringLayout`: Permite crear diseños flexibles utilizando restricciones de posición.
+- `AbsoluteLayout`: Permite colocar componentes en posiciones absolutas (no recomendado).
+- `FormLayout`: Permite crear diseños basados en formularios.
+
+### Eventos y Listeners
+
+Los eventos son acciones que ocurren en la GUI, como un clic en un botón o el movimiento del ratón. Los Listeners son interfaces que permiten manejar estos eventos. Algunos de los más comunes son:
+- `ActionListener`: Maneja eventos de acción, como clics en botones.
+- `MouseListener`: Maneja eventos del ratón, como clics y movimientos.
+- `KeyListener`: Maneja eventos de teclado, como pulsaciones de teclas.
+- `WindowListener`: Maneja eventos de ventana, como apertura y cierre.
+- `FocusListener`: Maneja eventos de enfoque, como ganar o perder el foco.
+- `ItemListener`: Maneja eventos de selección, como cambios en casillas de verificación o botones de opción.
+- `ChangeListener`: Maneja eventos de cambio, como cambios en deslizadores o barras de progreso.
+- `ListSelectionListener`: Maneja eventos de selección en listas.
+- `TableModelListener`: Maneja eventos de cambio en modelos de tabla.
+- `TreeSelectionListener`: Maneja eventos de selección en árboles.
+- `DocumentListener`: Maneja eventos de cambio en documentos de texto.
+- `HyperlinkListener`: Maneja eventos de hipervínculos.
+- `PropertyChangeListener`: Maneja eventos de cambio de propiedades.
+- `VetoableChangeListener`: Maneja eventos de cambio de propiedades con veto.
+- `CaretListener`: Maneja eventos de cambio de posición del cursor en campos de texto.
+- `TransferHandler`: Maneja eventos de transferencia de datos (drag and drop).
+- `InputMap`: Mapea eventos de entrada a acciones.
+- `ActionMap`: Mapea acciones a eventos de entrada.
+- `KeyStroke`: Representa una pulsación de tecla.
+- `KeyEvent`: Representa un evento de teclado.
+- `MouseEvent`: Representa un evento del ratón.
+- `WindowEvent`: Representa un evento de ventana.
+- `FocusEvent`: Representa un evento de enfoque.
+- `ItemEvent`: Representa un evento de selección.
+- `ChangeEvent`: Representa un evento de cambio.
+- `ListSelectionEvent`: Representa un evento de selección en listas.
+- `TableModelEvent`: Representa un evento de cambio en modelos de tabla.
+- `TreeSelectionEvent`: Representa un evento de selección en árboles.
+- `DocumentEvent`: Representa un evento de cambio en documentos de texto.
+- `HyperlinkEvent`: Representa un evento de hipervínculo.
+- `PropertyChangeEvent`: Representa un evento de cambio de propiedades.
+- `VetoableChangeEvent`: Representa un evento de cambio de propiedades con veto.
+- `CaretEvent`: Representa un evento de cambio de posición del cursor en campos de texto.
+- `TransferHandler.TransferSupport`: Representa el soporte para la transferencia de datos (drag and drop).
+- `InputEvent`: Representa un evento de entrada.
+- `ActionEvent`: Representa un evento de acción.
+- `MouseWheelEvent`: Representa un evento de rueda del ratón.
+
+## Ejemplos de componentes
+### Botones
+
+```java
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+
+public class BotonEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Botón");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        JButton button = new JButton("Haz clic aquí");
+
+        button.addActionListener(e -> System.out.println("Botón clicado!"));
+
+        panel.add(button);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un botón que imprime un mensaje en la consola cuando se hace clic en él. Se utiliza un `ActionListener` para manejar el evento de clic.
+### Etiquetas
+
+```java
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
+public class EtiquetaEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Etiqueta");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Hola, mundo!");
+
+        panel.add(label);
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+}
+```
+En este ejemplo, se crea una etiqueta que muestra el texto "Hola, mundo!". Se utiliza un `JPanel` para contener la etiqueta y se agrega al marco.
+
+### Campos de texto
+
+```java
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class CampoTextoEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Campo de Texto");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        JTextField textField = new JTextField(20);
+
+        panel.add(textField);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un campo de texto donde el usuario puede ingresar texto. Se utiliza un `JTextField` para crear el campo de texto y se agrega a un `JPanel`, que a su vez se agrega al marco.
+
+### Listas
+
+```java
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+public class ListaEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Lista");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        String[] items = {"Elemento 1", "Elemento 2", "Elemento 3"};
+        JList<String> list = new JList<>(items);
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        frame.add(scrollPane);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea una lista con tres elementos. Se utiliza un `JList` para crear la lista y un `JScrollPane` para agregar barras de desplazamiento si es necesario. La lista se agrega al marco.
+
+## Ejemplos algo más avanzados
+
+## Ejemplo de un formulario simple
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class FormularioEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Formulario de Ejemplo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+
+        JLabel nombreLabel = new JLabel("Nombre:");
+        JTextField nombreField = new JTextField();
+
+        JLabel edadLabel = new JLabel("Edad:");
+        JTextField edadField = new JTextField();
+
+        JButton enviarButton = new JButton("Enviar");
+        enviarButton.addActionListener(e -> {
+            String nombre = nombreField.getText();
+            String edad = edadField.getText();
+            System.out.println("Nombre: " + nombre + ", Edad: " + edad);
+        });
+
+        panel.add(nombreLabel);
+        panel.add(nombreField);
+        panel.add(edadLabel);
+        panel.add(edadField);
+        panel.add(enviarButton);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un formulario simple con dos campos de texto (nombre y edad) y un botón de enviar. Cuando se hace clic en el botón, se imprime el nombre y la edad ingresados en la consola.
+
+### Ejemplo de un cuadro de diálogo
+
+```java
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+public class DialogoEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Cuadro de Diálogo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JButton button = new JButton("Mostrar Diálogo");
+        button.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(frame, "¡Hola, mundo!", "Diálogo", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        frame.add(button);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un botón que muestra un cuadro de diálogo con un mensaje cuando se hace clic en él. Se utiliza `JOptionPane` para crear el cuadro de diálogo.
+
+### Ejemplo de un menú
+
+```java
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+public class MenuEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Menú");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Archivo");
+        JMenuItem menuItem = new JMenuItem("Salir");
+
+        menuItem.addActionListener((ActionEvent e) -> System.exit(0));
+
+        menu.add(menuItem);
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
+
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un menú con un elemento de menú que permite salir de la aplicación. Se utiliza `JMenuBar`, `JMenu` y `JMenuItem` para crear el menú y se agrega un `ActionListener` al elemento de menú para manejar el evento de clic.
+
+### Ejemplo de un cuadro de selección
+
+```java
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class ComboBoxEjemplo {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ejemplo de Cuadro de Selección");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        String[] items = {"Elemento 1", "Elemento 2", "Elemento 3"};
+        JComboBox<String> comboBox = new JComboBox<>(items);
+
+        JButton button = new JButton("Seleccionar");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) comboBox.getSelectedItem();
+                System.out.println("Elemento seleccionado: " + selectedItem);
+            }
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(comboBox);
+        panel.add(button);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+```
+
+En este ejemplo, se crea un cuadro de selección (JComboBox) con tres elementos. Cuando se hace clic en el botón, se imprime el elemento seleccionado en la consola.
+
+
+## Recursos adicionales
+- [Documentación oficial de Java Swing](https://docs.oracle.com/javase/tutorial/uiswing/)
+- [Tutorial de Java Swing en Oracle](https://docs.oracle.com/javase/tutorial/uiswing/index.html)
+- [Tutorial de Java Swing en W3Schools](https://www.w3schools.com/java/java_swing.asp)
