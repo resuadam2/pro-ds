@@ -5,6 +5,7 @@ sidebar_position: 10
 
 ## Índice
 
+- [Streams en Java](0-JavaStreams.mdx)
 - [Artículos de interés](#artículos-de-interés)
 - [Memes para coders](#memes-para-coders)
 

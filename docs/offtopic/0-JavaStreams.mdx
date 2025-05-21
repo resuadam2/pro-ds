@@ -1,0 +1,106 @@
+# Streams en Java
+
+Desde hace un tiempo, Java ha incluido una API de Streams que permite trabajar con colecciones de datos de manera más funcional y declarativa. Esta API se introdujo en Java 8 y ha revolucionado la forma en que los desarrolladores manejan datos en Java.
+
+La API de Streams permite realizar operaciones como filtrado, mapeo, reducción y agrupamiento de datos de manera más sencilla y legible. A continuación, se presentan algunos conceptos clave y ejemplos básicos para comenzar a trabajar con Streams en Java.
+
+## ¿Qué es un Stream?
+
+Un Stream es una secuencia de elementos que se pueden procesar de manera funcional. Los Streams no almacenan datos, sino que representan una vista de los datos en una colección. Esto significa que puedes realizar operaciones en un Stream sin modificar la colección original.
+Los Streams son inmutables, lo que significa que cada operación en un Stream devuelve un nuevo Stream en lugar de modificar el original. Esto permite encadenar múltiples operaciones de manera fluida y legible.
+
+## Creación de un Stream
+
+Para crear un Stream, puedes utilizar el método `stream()` de una colección, como una lista o un conjunto. También puedes crear un Stream a partir de un array utilizando el método `Arrays.stream()`. A continuación se presentan algunos ejemplos:
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        // Crear un Stream a partir de una lista
+        List<String> nombres = Arrays.asList("Juan", "María", "Pedro", "Ana");
+        Stream<String> streamNombres = nombres.stream();
+
+        // Crear un Stream a partir de un array
+        String[] arrayNombres = {"Juan", "María", "Pedro", "Ana"};
+        Stream<String> streamArrayNombres = Arrays.stream(arrayNombres);
+    }
+}
+```
+
+## Operaciones intermedias
+
+Las operaciones intermedias son aquellas que transforman un Stream en otro Stream. Estas operaciones son perezosas, lo que significa que no se ejecutan hasta que se realiza una operación terminal. Algunas de las operaciones intermedias más comunes son:
+- `filter()`: Filtra los elementos del Stream según un predicado.
+- `map()`: Transforma los elementos del Stream aplicando una función.
+- `distinct()`: Elimina los elementos duplicados del Stream.
+- `sorted()`: Ordena los elementos del Stream.
+- `limit()`: Limita el número de elementos del Stream.
+- `skip()`: Omite un número específico de elementos del Stream.
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<String> nombres = Arrays.asList("Juan", "María", "Pedro", "Ana", "Juan");
+
+        // Filtrar los nombres que comienzan con "J"
+        List<String> nombresFiltrados = nombres.stream()
+                .filter(nombre -> nombre.startsWith("J"))
+                .collect(Collectors.toList());
+        System.out.println(nombresFiltrados); // [Juan, Juan]
+
+        // Convertir los nombres a mayúsculas
+        List<String> nombresMayusculas = nombres.stream()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+        System.out.println(nombresMayusculas); // [JUAN, MARÍA, PEDRO, ANA, JUAN]
+    }
+}
+```
+
+## Operaciones terminales
+
+Las operaciones terminales son aquellas que producen un resultado o un efecto secundario y finalizan el procesamiento del Stream. Algunas de las operaciones terminales más comunes son:
+- `forEach()`: Realiza una acción para cada elemento del Stream.
+- `collect()`: Agrupa los elementos del Stream en una colección.
+- `reduce()`: Combina los elementos del Stream en un solo valor.
+- `count()`: Cuenta el número de elementos en el Stream.
+- `anyMatch()`: Verifica si al menos un elemento del Stream cumple con un predicado.
+- `allMatch()`: Verifica si todos los elementos del Stream cumplen con un predicado.
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.IntStream;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<String> nombres = Arrays.asList("Juan", "María", "Pedro", "Ana");
+
+        // Imprimir cada nombre en mayúsculas
+        nombres.stream()
+                .map(String::toUpperCase)
+                .forEach(System.out::println);
+
+        // Contar el número de nombres
+        long count = nombres.stream().count();
+        System.out.println("Número de nombres: " + count); // 4
+
+        // Verificar si al menos un nombre comienza con "J"
+        boolean anyStartsWithJ = nombres.stream().anyMatch(nombre -> nombre.startsWith("J"));
+        System.out.println("¿Algún nombre comienza con 'J'? " + anyStartsWithJ); // true
+    }
+}
+```
+
